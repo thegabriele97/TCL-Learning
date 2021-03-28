@@ -3,8 +3,8 @@ set library_file "CORE65LPSVT_bc_1.30V_m40C.lib"
 
 set cell_name "HS65_LS_NAND2X2"
 set inputPin "A"
-set loadCap "0.0014"
-set inputTransTime "0.005"
+set inputTransTime "0.041"
+set loadCap "0.0088"
 
 proc textlist2list {text} {
     set mylist {}
@@ -190,8 +190,92 @@ proc loadTableValues {lib_file cell pin} {
     return $table
 }
 
+# returns {{i, bool } {j, bool}} both if exists the exact (bool = 1)
+# pair passed as argument or the best result otherwise (bool = 0)
+proc searchFor {header vals} {
+
+    set mylist {{} {}}
+
+    for {set j 0} {$j < [ llength $vals ]} {incr j} {
+        set header0 [ lindex $header $j ]
+        set val [ lindex $vals $j ]
+
+        puts "# Now looking for $val in $header0 .."
+    
+        for {set i 0} {$i < [ llength $header0 ]} {incr i} {
+            if { $val >= [ lindex $header0 $i ] } {
+                set ilist {}
+                set ilist [ lappend ilist $i ]
+                
+                if { [ lindex $header0 $i ] == $val } {
+                    set ilist [ lappend ilist 1 ]
+                } else {
+                    set ilist [ lappend ilist 0 ]
+                }
+
+                set mylist [ lreplace $mylist $j $j $ilist ]
+            }
+        }
+    }
+
+    return $mylist
+}
+
+proc elementAt {matrix i j} {
+    set r [ lindex $matrix $i ]
+    return [ lindex $r $j ]
+}
+
+# x = { x0 x1 x2 } 
+# y = { y0 y1 y2 }
+# where x0 and y0 are the value of x 
+# and y we want to interpolate to found f(x, y)
+proc bilinearInterp { x y q11 q12 q21 q22 } {
+
+    set x0 [ lindex $x 0 ]
+    set x1 [ lindex $x 1 ]
+    set x2 [ lindex $x 2 ]
+
+    set y0 [ lindex $y 0 ]
+    set y1 [ lindex $y 1 ]
+    set y2 [ lindex $y 2 ]
+
+    set f_x_y1 [ expr (($x2-$x0) * $q11 + ($x0-$x1) * $q21) / ($x2-$x1) ]
+    set f_x_y2 [ expr (($x2-$x0) * $q12 + ($x0-$x1) * $q22) / ($x2-$x1) ]
+
+    return [ expr (($y2-$y0) * $f_x_y1 + ($y0-$y1) * $f_x_y2) / ($y2-$y1) ]
+}
+
 set headers [ loadTableHeader $library_file $cell_name $inputPin ]
 puts $headers
 
 set values [ loadTableValues $library_file $cell_name $inputPin ]
 puts $values
+
+set result [ searchFor $headers [ lappend {} $inputTransTime $loadCap ] ]
+puts $result
+
+if { [ elementAt $result 0 1 ] == 1 && [ elementAt $result 1 1 ] == 1 } {
+    set res [ elementAt $values [ elementAt $result 0 0 ] [ elementAt $result 1 0 ] ]
+} else {
+
+    set i [ elementAt $result 0 0 ]
+    set j [ elementAt $result 1 0 ]
+
+    set x0 $inputTransTime
+    set x1 [ lindex $headers 0 [ expr {$i + 0} ] ]
+    set x2 [ lindex $headers 0 [ expr {$i + 1} ] ]
+
+    set y0 $loadCap
+    set y1 [ lindex $headers 1 [ expr {$j + 0} ] ]
+    set y2 [ lindex $headers 1 [ expr {$j + 1} ] ]
+
+    set q11 [ elementAt $values $i $j ]
+    set q12 [ elementAt $values $i [ expr {$j + 1} ] ]
+    set q21 [ elementAt $values [ expr {$i + 1} ] $j ]
+    set q22 [ elementAt $values [ expr {$i + 1} ] [ expr {$j + 1} ] ]
+
+    set res [ bilinearInterp [ lappend lx $x0 $x1 $x2 ] [ lappend ly $y0 $y1 $y2 ] $q11 $q12 $q21 $q22 ]
+}
+
+puts "The final result is: $res"
