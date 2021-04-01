@@ -1,0 +1,357 @@
+digraph arf {
+  rankdir = LR;
+  newrank="true"
+  subgraph cluster_1 {
+    rank=same;
+    node [style=filled];
+    label = "Time 1";
+    color = blue;
+    pseudo_1 [style=invis];
+    MUL_1_0 [label=MUL_1]
+    MUL_2_0 [label=MUL_2]
+    MUL_3_0 [label=MUL_3]
+    MUL_4_0 [label=MUL_4]
+    MUL_5_0 [label=MUL_5]
+    MUL_6_0 [label=MUL_6]
+    MUL_7_0 [label=MUL_7]
+    MUL_8_0 [label=MUL_8]
+  }
+  subgraph cluster_2 {
+    rank=same;
+    node [style=filled];
+    label = "Time 2";
+    color = blue;
+    pseudo_2 [style=invis];
+    MUL_1_1 [label=MUL_1]
+    MUL_2_1 [label=MUL_2]
+    MUL_3_1 [label=MUL_3]
+    MUL_4_1 [label=MUL_4]
+    MUL_5_1 [label=MUL_5]
+    MUL_6_1 [label=MUL_6]
+    MUL_7_1 [label=MUL_7]
+    MUL_8_1 [label=MUL_8]
+  }
+  subgraph cluster_3 {
+    rank=same;
+    node [style=filled];
+    label = "Time 3";
+    color = blue;
+    pseudo_3 [style=invis];
+    MUL_1_2 [label=MUL_1]
+    MUL_2_2 [label=MUL_2]
+    MUL_3_2 [label=MUL_3]
+    MUL_4_2 [label=MUL_4]
+    MUL_5_2 [label=MUL_5]
+    MUL_6_2 [label=MUL_6]
+    MUL_7_2 [label=MUL_7]
+    MUL_8_2 [label=MUL_8]
+  }
+  subgraph cluster_4 {
+    rank=same;
+    node [style=filled];
+    label = "Time 4";
+    color = blue;
+    pseudo_4 [style=invis];
+    MUL_1_3 [label=MUL_1]
+    MUL_2_3 [label=MUL_2]
+    MUL_3_3 [label=MUL_3]
+    MUL_4_3 [label=MUL_4]
+    MUL_5_3 [label=MUL_5]
+    MUL_6_3 [label=MUL_6]
+    MUL_7_3 [label=MUL_7]
+    MUL_8_3 [label=MUL_8]
+  }
+  subgraph cluster_5 {
+    rank=same;
+    node [style=filled];
+    label = "Time 5";
+    color = blue;
+    pseudo_5 [style=invis];
+    ADD_9_0 [label=ADD_9]
+    ADD_10_0 [label=ADD_10]
+    ADD_11_0 [label=ADD_11]
+    ADD_12_0 [label=ADD_12]
+  }
+  subgraph cluster_6 {
+    rank=same;
+    node [style=filled];
+    label = "Time 6";
+    color = blue;
+    pseudo_6 [style=invis];
+    ADD_9_1 [label=ADD_9]
+    ADD_10_1 [label=ADD_10]
+    ADD_11_1 [label=ADD_11]
+    ADD_12_1 [label=ADD_12]
+  }
+  subgraph cluster_7 {
+    rank=same;
+    node [style=filled];
+    label = "Time 7";
+    color = blue;
+    pseudo_7 [style=invis];
+    ADD_13_0 [label=ADD_13]
+    ADD_14_0 [label=ADD_14]
+  }
+  subgraph cluster_8 {
+    rank=same;
+    node [style=filled];
+    label = "Time 8";
+    color = blue;
+    pseudo_8 [style=invis];
+    ADD_13_1 [label=ADD_13]
+    ADD_14_1 [label=ADD_14]
+  }
+  subgraph cluster_9 {
+    rank=same;
+    node [style=filled];
+    label = "Time 9";
+    color = blue;
+    pseudo_9 [style=invis];
+    MUL_15_0 [label=MUL_15]
+    MUL_16_0 [label=MUL_16]
+    MUL_17_0 [label=MUL_17]
+    MUL_18_0 [label=MUL_18]
+  }
+  subgraph cluster_10 {
+    rank=same;
+    node [style=filled];
+    label = "Time 10";
+    color = blue;
+    pseudo_10 [style=invis];
+    MUL_15_1 [label=MUL_15]
+    MUL_16_1 [label=MUL_16]
+    MUL_17_1 [label=MUL_17]
+    MUL_18_1 [label=MUL_18]
+  }
+  subgraph cluster_11 {
+    rank=same;
+    node [style=filled];
+    label = "Time 11";
+    color = blue;
+    pseudo_11 [style=invis];
+    MUL_15_2 [label=MUL_15]
+    MUL_16_2 [label=MUL_16]
+    MUL_17_2 [label=MUL_17]
+    MUL_18_2 [label=MUL_18]
+  }
+  subgraph cluster_12 {
+    rank=same;
+    node [style=filled];
+    label = "Time 12";
+    color = blue;
+    pseudo_12 [style=invis];
+    MUL_15_3 [label=MUL_15]
+    MUL_16_3 [label=MUL_16]
+    MUL_17_3 [label=MUL_17]
+    MUL_18_3 [label=MUL_18]
+  }
+  subgraph cluster_13 {
+    rank=same;
+    node [style=filled];
+    label = "Time 13";
+    color = blue;
+    pseudo_13 [style=invis];
+    ADD_19_0 [label=ADD_19]
+    ADD_20_0 [label=ADD_20]
+  }
+  subgraph cluster_14 {
+    rank=same;
+    node [style=filled];
+    label = "Time 14";
+    color = blue;
+    pseudo_14 [style=invis];
+    ADD_19_1 [label=ADD_19]
+    ADD_20_1 [label=ADD_20]
+  }
+  subgraph cluster_15 {
+    rank=same;
+    node [style=filled];
+    label = "Time 15";
+    color = blue;
+    pseudo_15 [style=invis];
+    MUL_21_0 [label=MUL_21]
+    MUL_22_0 [label=MUL_22]
+    MUL_23_0 [label=MUL_23]
+    MUL_24_0 [label=MUL_24]
+  }
+  subgraph cluster_16 {
+    rank=same;
+    node [style=filled];
+    label = "Time 16";
+    color = blue;
+    pseudo_16 [style=invis];
+    MUL_21_1 [label=MUL_21]
+    MUL_22_1 [label=MUL_22]
+    MUL_23_1 [label=MUL_23]
+    MUL_24_1 [label=MUL_24]
+  }
+  subgraph cluster_17 {
+    rank=same;
+    node [style=filled];
+    label = "Time 17";
+    color = blue;
+    pseudo_17 [style=invis];
+    MUL_21_2 [label=MUL_21]
+    MUL_22_2 [label=MUL_22]
+    MUL_23_2 [label=MUL_23]
+    MUL_24_2 [label=MUL_24]
+  }
+  subgraph cluster_18 {
+    rank=same;
+    node [style=filled];
+    label = "Time 18";
+    color = blue;
+    pseudo_18 [style=invis];
+    MUL_21_3 [label=MUL_21]
+    MUL_22_3 [label=MUL_22]
+    MUL_23_3 [label=MUL_23]
+    MUL_24_3 [label=MUL_24]
+  }
+  subgraph cluster_19 {
+    rank=same;
+    node [style=filled];
+    label = "Time 19";
+    color = blue;
+    pseudo_19 [style=invis];
+    ADD_25_0 [label=ADD_25]
+    ADD_26_0 [label=ADD_26]
+  }
+  subgraph cluster_20 {
+    rank=same;
+    node [style=filled];
+    label = "Time 20";
+    color = blue;
+    pseudo_20 [style=invis];
+    ADD_25_1 [label=ADD_25]
+    ADD_26_1 [label=ADD_26]
+  }
+  subgraph cluster_21 {
+    rank=same;
+    node [style=filled];
+    label = "Time 21";
+    color = blue;
+    pseudo_21 [style=invis];
+    ADD_27_0 [label=ADD_27]
+    ADD_28_0 [label=ADD_28]
+  }
+  subgraph cluster_22 {
+    rank=same;
+    node [style=filled];
+    label = "Time 22";
+    color = blue;
+    pseudo_22 [style=invis];
+    ADD_27_1 [label=ADD_27]
+    ADD_28_1 [label=ADD_28]
+  }
+    pseudo_1->pseudo_2 [style=invis];
+    pseudo_2->pseudo_3 [style=invis];
+    pseudo_3->pseudo_4 [style=invis];
+    pseudo_4->pseudo_5 [style=invis];
+    pseudo_5->pseudo_6 [style=invis];
+    pseudo_6->pseudo_7 [style=invis];
+    pseudo_7->pseudo_8 [style=invis];
+    pseudo_8->pseudo_9 [style=invis];
+    pseudo_9->pseudo_10 [style=invis];
+    pseudo_10->pseudo_11 [style=invis];
+    pseudo_11->pseudo_12 [style=invis];
+    pseudo_12->pseudo_13 [style=invis];
+    pseudo_13->pseudo_14 [style=invis];
+    pseudo_14->pseudo_15 [style=invis];
+    pseudo_15->pseudo_16 [style=invis];
+    pseudo_16->pseudo_17 [style=invis];
+    pseudo_17->pseudo_18 [style=invis];
+    pseudo_18->pseudo_19 [style=invis];
+    pseudo_19->pseudo_20 [style=invis];
+    pseudo_20->pseudo_21 [style=invis];
+    pseudo_21->pseudo_22 [style=invis];
+    MUL_1_0 -> MUL_1_1 [color=red];
+    MUL_1_1 -> MUL_1_2 [color=red];
+    MUL_1_2 -> MUL_1_3 [color=red];
+    MUL_2_0 -> MUL_2_1 [color=red];
+    MUL_2_1 -> MUL_2_2 [color=red];
+    MUL_2_2 -> MUL_2_3 [color=red];
+    MUL_3_0 -> MUL_3_1 [color=red];
+    MUL_3_1 -> MUL_3_2 [color=red];
+    MUL_3_2 -> MUL_3_3 [color=red];
+    MUL_4_0 -> MUL_4_1 [color=red];
+    MUL_4_1 -> MUL_4_2 [color=red];
+    MUL_4_2 -> MUL_4_3 [color=red];
+    MUL_5_0 -> MUL_5_1 [color=red];
+    MUL_5_1 -> MUL_5_2 [color=red];
+    MUL_5_2 -> MUL_5_3 [color=red];
+    MUL_6_0 -> MUL_6_1 [color=red];
+    MUL_6_1 -> MUL_6_2 [color=red];
+    MUL_6_2 -> MUL_6_3 [color=red];
+    MUL_7_0 -> MUL_7_1 [color=red];
+    MUL_7_1 -> MUL_7_2 [color=red];
+    MUL_7_2 -> MUL_7_3 [color=red];
+    MUL_8_0 -> MUL_8_1 [color=red];
+    MUL_8_1 -> MUL_8_2 [color=red];
+    MUL_8_2 -> MUL_8_3 [color=red];
+    ADD_9_0 -> ADD_9_1 [color=red];
+    ADD_10_0 -> ADD_10_1 [color=red];
+    ADD_11_0 -> ADD_11_1 [color=red];
+    ADD_12_0 -> ADD_12_1 [color=red];
+    ADD_13_0 -> ADD_13_1 [color=red];
+    ADD_14_0 -> ADD_14_1 [color=red];
+    MUL_15_0 -> MUL_15_1 [color=red];
+    MUL_15_1 -> MUL_15_2 [color=red];
+    MUL_15_2 -> MUL_15_3 [color=red];
+    MUL_16_0 -> MUL_16_1 [color=red];
+    MUL_16_1 -> MUL_16_2 [color=red];
+    MUL_16_2 -> MUL_16_3 [color=red];
+    MUL_17_0 -> MUL_17_1 [color=red];
+    MUL_17_1 -> MUL_17_2 [color=red];
+    MUL_17_2 -> MUL_17_3 [color=red];
+    MUL_18_0 -> MUL_18_1 [color=red];
+    MUL_18_1 -> MUL_18_2 [color=red];
+    MUL_18_2 -> MUL_18_3 [color=red];
+    ADD_19_0 -> ADD_19_1 [color=red];
+    ADD_20_0 -> ADD_20_1 [color=red];
+    MUL_21_0 -> MUL_21_1 [color=red];
+    MUL_21_1 -> MUL_21_2 [color=red];
+    MUL_21_2 -> MUL_21_3 [color=red];
+    MUL_22_0 -> MUL_22_1 [color=red];
+    MUL_22_1 -> MUL_22_2 [color=red];
+    MUL_22_2 -> MUL_22_3 [color=red];
+    MUL_23_0 -> MUL_23_1 [color=red];
+    MUL_23_1 -> MUL_23_2 [color=red];
+    MUL_23_2 -> MUL_23_3 [color=red];
+    MUL_24_0 -> MUL_24_1 [color=red];
+    MUL_24_1 -> MUL_24_2 [color=red];
+    MUL_24_2 -> MUL_24_3 [color=red];
+    ADD_25_0 -> ADD_25_1 [color=red];
+    ADD_26_0 -> ADD_26_1 [color=red];
+    ADD_27_0 -> ADD_27_1 [color=red];
+    ADD_28_0 -> ADD_28_1 [color=red];
+    MUL_1_3 -> ADD_9_0 [ name = 0 ];
+    MUL_2_3 -> ADD_9_0 [ name = 1 ];
+    MUL_3_3 -> ADD_10_0 [ name = 2 ];
+    MUL_4_3 -> ADD_10_0 [ name = 3 ];
+    MUL_5_3 -> ADD_11_0 [ name = 4 ];
+    MUL_6_3 -> ADD_11_0 [ name = 5 ];
+    MUL_7_3 -> ADD_12_0 [ name = 6 ];
+    MUL_8_3 -> ADD_12_0 [ name = 7 ];
+    ADD_9_1 -> ADD_27_0 [ name = 8 ];
+    ADD_10_1 -> ADD_13_0 [ name = 9 ];
+    ADD_11_1 -> ADD_14_0 [ name = 10 ];
+    ADD_12_1 -> ADD_28_0 [ name = 11 ];
+    ADD_13_1 -> MUL_15_0 [ name = 12 ];
+    ADD_13_1 -> MUL_17_0 [ name = 13 ];
+    ADD_14_1 -> MUL_16_0 [ name = 14 ];
+    ADD_14_1 -> MUL_18_0 [ name = 15 ];
+    MUL_15_3 -> ADD_19_0 [ name = 16 ];
+    MUL_16_3 -> ADD_19_0 [ name = 17 ];
+    MUL_17_3 -> ADD_20_0 [ name = 18 ];
+    MUL_18_3 -> ADD_20_0 [ name = 19 ];
+    ADD_19_1 -> MUL_21_0 [ name = 20 ];
+    ADD_19_1 -> MUL_23_0 [ name = 21 ];
+    ADD_20_1 -> MUL_22_0 [ name = 22 ];
+    ADD_20_1 -> MUL_24_0 [ name = 23 ];
+    MUL_21_3 -> ADD_25_0 [ name = 24 ];
+    MUL_22_3 -> ADD_25_0 [ name = 25 ];
+    MUL_23_3 -> ADD_26_0 [ name = 26 ];
+    MUL_24_3 -> ADD_26_0 [ name = 27 ];
+    ADD_25_1 -> ADD_27_0 [ name = 28 ];
+    ADD_26_1 -> ADD_28_0 [ name = 29 ];
+}
