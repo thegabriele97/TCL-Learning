@@ -1,6 +1,7 @@
 source ./tcl_scripts/setenv.tcl
 
 read_design ./data/DFGs/fir.dot
+read_library ./data/RTL_libraries/RTL_lib_2.txt
 
 proc hu_scheduler {n_resources} {
 
@@ -69,17 +70,20 @@ proc hu_scheduler {n_resources} {
 
     }
 
-    return $result
+    return [lappend lasagna $result $l]
 }
 
-set result [hu_scheduler 3] 
+set hu_result [hu_scheduler 3]
+set schedule [lindex $hu_result 0]
+set latency [lindex $hu_result 1]
 
-puts $result
-#foreach schedule $result {
-#    puts -nonewline "\{[get_attribute [lindex $schedule 0] label] [lindex $schedule 1]\} "
-#}
+foreach pair $schedule {
+    set node_id [lindex $pair 0]
+    set start_time [lindex $pair 1]
+    puts "Node: $node_id starts @ $start_time"
+}
 
-puts ""
+puts "Latency $latency"
 
 #print_dfg ./data/out/fir.dot
-print_scheduled_dfg $result ./data/out/fir_scheduled_hu.dot
+print_scheduled_dfg $schedule ./data/out/fir_scheduled_hu.dot
