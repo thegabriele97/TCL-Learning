@@ -1,6 +1,10 @@
 source ./tcl_scripts/setenv.tcl
 
-read_design ./data/DFGs/fir.dot
+puts -nonewline "File name for ./data/DFGs/*.dot: "
+flush stdout
+gets stdin filename
+
+read_design ./data/DFGs/${filename}.dot
 read_library ./data/RTL_libraries/RTL_lib_1.txt
 
 proc asap {} {
@@ -66,4 +70,4 @@ foreach schedule $result {
 puts ""
 
 print_dfg ./data/out/fir.dot
-print_scheduled_dfg $result ./data/out/fir_scheduled.dot
+print_scheduled_dfg $result ./data/out/${filename}_scheduled_asap.dot

@@ -1,6 +1,10 @@
 source ./tcl_scripts/setenv.tcl
 
-read_design ./data/DFGs/fir.dot
+puts -nonewline "File name for ./data/DFGs/*.dot: "
+flush stdout
+gets stdin filename
+
+read_design ./data/DFGs/${filename}.dot
 read_library ./data/RTL_libraries/RTL_lib_2.txt
 
 proc hu_scheduler {n_resources} {
@@ -86,4 +90,4 @@ foreach pair $schedule {
 puts "Latency $latency"
 
 #print_dfg ./data/out/fir.dot
-print_scheduled_dfg $schedule ./data/out/fir_scheduled_hu.dot
+print_scheduled_dfg $schedule ./data/out/${filename}_scheduled_hu.dot
