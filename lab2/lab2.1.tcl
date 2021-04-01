@@ -11,25 +11,21 @@ proc alap {lambda} {
         set ldummy {}
         set op_delay [ get_attribute [ get_lib_fu_from_op [ get_attribute $node operation ] ] delay ]
 
-        if {[ get_attribute $node n_children ] == 0} {
-            set result [ lappend result [ lappend ldummy $node [ expr $lambda - $op_delay ] ] ]
-        } else {
-
-            set minval $lambda
-            foreach child [ get_attribute $node children ] {
-                set searchr [ lindex $result [ lsearch -index 0 $result $child ]]
-                if {[ lindex $searchr 1 ] < $minval } {
-                    set minval [ lindex $searchr 1 ]
-                }
+        set minval $lambda
+        # all nodes with 0 children will be scheduled at the end [$lambda - $op_delay]
+        # so this for will be skipped because they have 0 children
+        foreach child [ get_attribute $node children ] {
+            set searchr [ lindex $result [ lsearch -index 0 $result $child ]]
+            if {[ lindex $searchr 1 ] < $minval } {
+                set minval [ lindex $searchr 1 ]
             }
-
-            set result [ lappend result [ lappend ldummy $node [ expr $minval - $op_delay ] ] ]
-
         }
+
+        set result [ lappend result [ lappend ldummy $node [ expr $minval - $op_delay ] ] ]
 
     }
 
-    return $result
+    return [ lreverse $result ]
 }
 
 set result [alap 31] 
