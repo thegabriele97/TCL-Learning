@@ -1,0 +1,54 @@
+digraph miine {
+  rankdir = LR;
+  newrank="true"
+  subgraph cluster_1 {
+    rank=same;
+    node [style=filled];
+    label = "Time 1";
+    color = blue;
+    pseudo_1 [style=invis];
+    MUL_1
+    MUL_2
+  }
+  subgraph cluster_2 {
+    rank=same;
+    node [style=filled];
+    label = "Time 2";
+    color = blue;
+    pseudo_2 [style=invis];
+    MUL_3
+    MUL_6
+  }
+  subgraph cluster_3 {
+    rank=same;
+    node [style=filled];
+    label = "Time 3";
+    color = blue;
+    pseudo_3 [style=invis];
+    MUL_7
+    MUL_8
+    ADD_10
+    ADD_4
+  }
+  subgraph cluster_4 {
+    rank=same;
+    node [style=filled];
+    label = "Time 4";
+    color = blue;
+    pseudo_4 [style=invis];
+    ADD_9
+    ADD_11
+    ADD_5
+  }
+    pseudo_1->pseudo_2 [style=invis];
+    pseudo_2->pseudo_3 [style=invis];
+    pseudo_3->pseudo_4 [style=invis];
+    MUL_1 -> MUL_3 [ name = 0 ];
+    MUL_2 -> MUL_3 [ name = 1 ];
+    MUL_3 -> ADD_4 [ name = 2 ];
+    ADD_4 -> ADD_5 [ name = 3 ];
+    MUL_7 -> ADD_5 [ name = 4 ];
+    MUL_6 -> MUL_7 [ name = 5 ];
+    MUL_8 -> ADD_9 [ name = 6 ];
+    ADD_10 -> ADD_11 [ name = 7 ];
+}

@@ -1,0 +1,22 @@
+digraph miine {
+    node [fontcolor=white,style=filled,color=blue2];
+    MUL_1 [label = MUL ];
+    MUL_2 [label = MUL ];
+    MUL_3 [label = MUL ];
+    MUL_6 [label = MUL ];
+    MUL_7 [label = MUL ];
+    MUL_8 [label = MUL ];
+    ADD_9 [label = ADD ];
+    ADD_10 [label = ADD ];
+    ADD_11 [label = ADD ];
+    ADD_4 [label = ADD ];
+    ADD_5 [label = ADD ];
+    MUL_1 -> MUL_3 [ name = 0 ];
+    MUL_2 -> MUL_3 [ name = 1 ];
+    MUL_3 -> ADD_4 [ name = 2 ];
+    ADD_4 -> ADD_5 [ name = 3 ];
+    MUL_7 -> ADD_5 [ name = 4 ];
+    MUL_6 -> MUL_7 [ name = 5 ];
+    MUL_8 -> ADD_9 [ name = 6 ];
+    ADD_10 -> ADD_11 [name = 7 ];
+}

@@ -125,4 +125,4 @@ set list_malc_result [list_mlac_scheduler $res_info]
 
 
 print_dfg ./data/out/${filename}.dot
-print_scheduled_dfg $list_malc_result ./data/out/${filename}_scheduled_list_malc_area.dot
+print_scheduled_dfg $list_malc_result ./data/out/${filename}_scheduled_list_mlac_area.dot
