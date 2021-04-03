@@ -2,8 +2,8 @@ source ./tcl_scripts/setenv.tcl
 
 puts -nonewline "File name for ./data/DFGs/*.dot: "
 flush stdout
-#gets stdin filename
-set filename "fir"
+gets stdin filename
+#set filename "fir"
 
 read_design ./data/DFGs/${filename}.dot
 read_library ./data/RTL_libraries/RTL_lib_1.txt
