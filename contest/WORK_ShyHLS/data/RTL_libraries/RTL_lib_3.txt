@@ -1,0 +1,4 @@
+2
+ALU Area=21 Delay=1 Power=23
+MUL Area=30 Delay=2 Power=30
+
