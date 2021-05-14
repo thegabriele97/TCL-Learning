@@ -1,6 +1,34 @@
 source ./tcl_scripts/setenv.tcl
 source ./tcl_scripts/braveOpt.tcl
 
+
+proc validate_solution {result} {
+  # save the scheduled nodes
+  set node_list [lindex $result 0]
+  foreach node_pair $node_list {
+    set node [lindex $node_pair 0]
+    set node_start_time [lindex $node_pair 1]
+    set min_child_start_time -1
+    foreach child [ get_attribute $node children ] {
+      set child_start_time [ lindex [ lsearch -index 0 -inline $node_list $child ] 1]
+          # get min starting time of child nodes
+      if { ($min_child_start_time == -1) || ($child_start_time < $min_child_start_time) } {
+          set min_child_start_time $child_start_time
+      }
+    }
+
+    if {$min_child_start_time > 0} {
+      set node_fu_unit [lindex [ lsearch -index 0 -inline [lindex $result 1] $node ] 1 ]
+      set delay_node [get_attribute $node_fu_unit delay]
+      # check that the output of the node is generated before the start of the
+      # first child (first in time)
+      if {$delay_node + $node_start_time > $min_child_start_time} {
+        return 1
+      }
+    }
+  }
+  return 0
+}
 # puts -nonewline "File name for ./data/DFGs/*.dot: "
 # flush stdout
 # gets stdin filename
@@ -53,28 +81,32 @@ set start [clock millisec]
 set result [brave_opt -total_area 1000]
 set end [clock millisec]
 set time [expr {$end - $start}]
-set node_start_time [asap]
-set last_node [lindex $node_start_time end 0]
-set op [get_attribute $last_node operation]
-set fu [get_lib_fu_from_op $op]
-set delay [get_attribute $fu delay]
-set last_node_start_time [lindex $node_start_time end 1]
-#puts $node_start_time
-#puts $delay
 
-#TODO: aggiungere un controllo sulla validità dello scheduling
-#TODO: spostare nelle funzioni i calcoli dell'asap e della latency
+set is_valid [validate_solution $result]
 
-set latency_min [expr {$delay + $last_node_start_time}]
-set last_node_starting_time [lindex [lindex $result 0 end] 1]
-set last_node_name [lindex [lindex $result 0 end] 0]
-set op_last_node [lindex [lsearch -index 0 -inline [lindex $result 1] $last_node_name] 1]
-set delay_last_node [get_attribute $op_last_node delay]
-set latency [expr {$last_node_starting_time + $delay_last_node}]
-puts "latency: $latency"
-puts "time: $time"
-set score [expr {100 * (1-($time/(900*1000))) * $latency_min/$latency}]
-puts "score $score"
+if { $is_valid == 0 } {
+  set node_start_time [asap]
+  set last_node [lindex $node_start_time end 0]
+  set op [get_attribute $last_node operation]
+  set fu [get_lib_fu_from_op $op]
+  set delay [get_attribute $fu delay]
+  set last_node_start_time [lindex $node_start_time end 1]
+  #puts $node_start_time
+  #puts $delay
 
+  #TODO: spostare nelle funzioni i calcoli dell'asap e della latency
 
+  set latency_min [expr {$delay + $last_node_start_time}]
+  set last_node_starting_time [lindex [lindex $result 0 end] 1]
+  set last_node_name [lindex [lindex $result 0 end] 0]
+  set op_last_node [lindex [lsearch -index 0 -inline [lindex $result 1] $last_node_name] 1]
+  set delay_last_node [get_attribute $op_last_node delay]
+  set latency [expr {$last_node_starting_time + $delay_last_node}]
 
+  puts "latency: $latency"
+  puts "time: $time"
+  set score [expr {100 * (1-($time/(900*1000))) * $latency_min/$latency}]
+  puts "score $score"
+} else {
+  puts "THE SCHEDULED DFG IS WRONG!"
+}
