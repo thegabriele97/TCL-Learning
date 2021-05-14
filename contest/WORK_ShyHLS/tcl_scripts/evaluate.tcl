@@ -50,20 +50,27 @@ read_design ./data/DFGs/${filename}.dot
 read_library ./data/RTL_libraries/RTL_library_multi-resources.txt
 
 set start [clock millisec]
-brave_opt -total_area 1000
+set result [brave_opt -total_area 1000]
 set end [clock millisec]
 set time [expr {$end - $start}]
 set node_start_time [asap]
-set last_node [lindex $node_start_time end-1 0]
+set last_node [lindex $node_start_time end 0]
 set op [get_attribute $last_node operation]
 set fu [get_lib_fu_from_op $op]
 set delay [get_attribute $fu delay]
-set last_node_start_time [lindex $node_start_time end-1 1]
-puts $node_start_time
-puts $delay
-set latency [expr {$delay + $last_node_start_time}]
-set score [expr {100 * (1-($time/900)) * $latency/20}]
-puts $score
+set last_node_start_time [lindex $node_start_time end 1]
+#puts $node_start_time
+#puts $delay
+set latency_min [expr {$delay + $last_node_start_time}]
+set last_node_starting_time [lindex [lindex $result 0 end] 1]
+set last_node_name [lindex [lindex $result 0 end] 0]
+set op_last_node [lindex [lsearch -index 0 -inline [lindex $result 1] $last_node_name] 1]
+set delay_last_node [get_attribute $op_last_node delay]
+set latency [expr {$last_node_starting_time + $delay_last_node}]
+puts "latency: $latency"
+puts "time: $time"
+set score [expr {100 * (1-($time/(900*1000))) * $latency_min/$latency}]
+puts "score $score"
 
 
 

@@ -5,7 +5,21 @@
 
 # {{MUL0 3} {ADD2 1 1 1}}       constraints_l
 
-proc list_mlac_scheduler {constraints nodes_op} {
+
+proc compute_delay {nodes_op mapping_op parent} {
+    set op_delay 0
+    foreach node_list $nodes_op {
+        if {[lindex $node_list 0] == $parent} {
+            set index [lindex $node_list 1]
+            set op_delay [lindex $mapping_op $index 1]
+            break
+
+        }
+    }
+    return $op_delay
+}
+
+proc list_mlac_scheduler {constraints nodes_op mapping_op} {
 
     set constraints_l {}
     set result {}
@@ -39,34 +53,38 @@ proc list_mlac_scheduler {constraints nodes_op} {
 
         set constraints_l [lappend constraints_l [ lappend dummyl [lindex $val 0] $myl ]]
     }
-    puts $constraints_l
-    gets stdin
+    #puts $constraints_l
+    #gets stdin
 
-    foreach node [get_nodes] {
+    #### Ok till here ###
 
-        set op [get_attribute $node operation]
-        set opidx [ lsearch -index 0 $constraints_l $op ]
-        set l_list [lindex [lindex $constraints_l $opidx ] 1]
+    # foreach node [get_nodes] {
 
-        if {[ lsearch -index 0 $constraints $op ] < 0} {
-            set l_list [linsert $l_list end-1 1]
-        }
+    #     set op [get_attribute $node operation]
+    #     set opidx [ lsearch -index 0 $constraints_l $op ]
+    #     set l_list [lindex [lindex $constraints_l $opidx ] 1]
 
-        set dummyl {}
-        set constraints_l [ lreplace $constraints_l $opidx $opidx [ lappend dummyl $op $l_list ] ]
-    }
+    #     if {[ lsearch -index 0 $constraints $op ] < 0} {
+    #         set l_list [linsert $l_list end-1 1]
+    #     }
+
+    #     set dummyl {}
+    #     set constraints_l [ lreplace $constraints_l $opidx $opidx [ lappend dummyl $op $l_list ] ]
+    # }
 
     while {[llength $result] != [llength [get_sorted_nodes]]} {
 
-        puts "\n\n"
+        #puts "\n\n"
         foreach node $v {
 
             set ready 1
             foreach parent [get_attribute $node parents] {
 
                 set op [get_attribute $parent operation]
-                set op_delay [get_attribute [get_lib_fu_from_op $op ] delay ]
-
+                # set op_delay [get_attribute [get_lib_fu_from_op $op ] delay ]
+                
+                set op_delay [compute_delay $nodes_op $mapping_op $parent]
+                
                 if {[lsearch -index 0 -all -inline $result $parent] < 0} {
                     set ready 0
                     break
@@ -80,19 +98,29 @@ proc list_mlac_scheduler {constraints nodes_op} {
                 continue
             }
 
+            #u: list of node to be scheduled
             set u [lappend u $node]
+
+            #v: list of not ready nodes 
             set v [lsearch -all -inline -not $v $node]
         }
 
-        puts "(l=$l)u: $u"
+        #puts "(l=$l)u: $u"
+        #gets stdin
 
         foreach node $u {
             set dummyl {}
 
             set op [get_attribute $node operation]
-            set op_delay [get_attribute [get_lib_fu_from_op $op ] delay ]
-            set opidx [ lsearch -index 0 $constraints_l $op ]
+            #set op_delay [get_attribute [get_lib_fu_from_op $op ] delay ]
+            set op_delay [compute_delay $nodes_op $mapping_op $parent]
+            #set opidx [ lsearch -index 0 $constraints_l $op ]
+
+            set op_name [lindex $constraints [lindex [lsearch -index 0 -inline $nodes_op $node] 1] 0]
+            # contains the index of the operation in constraints_l
+            set opidx [lsearch -index 0 $constraints_l $op_name]
             set l_list [lindex [lindex $constraints_l $opidx ] 1]
+
 
             for {set i 0} {$i < [llength $l_list]} {incr i} {
                 set dummyl {}
@@ -102,19 +130,20 @@ proc list_mlac_scheduler {constraints nodes_op} {
                     set result [ lappend result [ lappend dummyl $node $l ] ]
                     set u [ lsearch -all -inline -not $u $node ]
 
-                    puts "  result: $result"
+                    #puts "  result: $result"
                     break
                 }
             }
 
             set dummyl {}
-            set constraints_l [ lreplace $constraints_l $opidx $opidx [ lappend dummyl $op $l_list ] ]
-            puts "  constraints: $constraints_l"
+            set constraints_l [ lreplace $constraints_l $opidx $opidx [ lappend dummyl $op_name $l_list ] ]
+            #puts "  constraints: $constraints_l"
         }
 
         incr l
-        #gets stdin
+        ###gets stdin
     }
+
 
     return $result
 }
@@ -122,18 +151,23 @@ proc list_mlac_scheduler {constraints nodes_op} {
 proc start area {
     set constraints {}
     set nodes_op {}
+    set mapping_op {}
+    set node_fu_id {}
+    set fu_id_allocated {}
     set tot_area 0
     foreach node [get_nodes] {
         set node_op [get_attribute $node operation]
         if {[lsearch -index 0 $constraints "${node_op}0"] < 0} {
-            set i 0
             set min_area [get_attribute [lindex [get_lib_fus_from_op $node_op] 0] area]
+            set i 0
             set min_index 0
             foreach op [get_lib_fus_from_op $node_op] {
                 set area [get_attribute $op area]
-                # set delay [get_attribute $op delay]
+                set id [get_attribute $op id]
+                set delay [get_attribute $op delay]
                 set operation [get_attribute $op operation]
                 set constraints [lappend constraints [list "${operation}$i" 0]]
+                set mapping_op [lappend mapping_op [list $area $delay $id]]
                 if {$area <$min_area} {
                     set min_index [expr {[llength $constraints] -1 }]
                     set min_area $area
@@ -151,12 +185,27 @@ proc start area {
                 }
             }
         }
-        
     }
-    puts $constraints
-    puts $nodes_op
-    puts $tot_area
-    gets stdin
+
+    #puts "constraints $constraints"
+    #puts "mapping_op $mapping_op"
+    #puts "nodes_op $nodes_op"
+    #puts "area: $tot_area"
+    #gets stdin
+
+    set result [list_mlac_scheduler $constraints $nodes_op $mapping_op]
+    foreach node_list $nodes_op {
+        set index [lindex $node_list 1]
+        set fu_id [lindex $mapping_op $index 2]
+        set node_fu_id [lappend node_fu_id [list [lindex $node_list 0] $fu_id]]
+    }
+
+    set i 0
+    foreach constraint $constraints {
+        set fu_id_allocated [lappend fu_id_allocated [list [lindex $mapping_op $i 2] [lindex $constraint 1]]]
+        incr i
+    }
+    return [list $result $node_fu_id $fu_id_allocated]
 }
 
 proc brave_opt args {
@@ -172,12 +221,12 @@ proc brave_opt args {
     }
     set total_area $options(-total_area)
 
-    puts $total_area
+    #puts $total_area
 
     #################################
     ### INSERT YOUR COMMANDS HERE ###
-    start $total_area
+    set result [start $total_area]
     #################################
 
-    return
+    return $result
 }
