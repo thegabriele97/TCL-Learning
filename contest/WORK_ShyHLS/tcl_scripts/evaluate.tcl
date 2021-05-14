@@ -61,6 +61,10 @@ set delay [get_attribute $fu delay]
 set last_node_start_time [lindex $node_start_time end 1]
 #puts $node_start_time
 #puts $delay
+
+#TODO: aggiungere un controllo sulla validità dello scheduling
+#TODO: spostare nelle funzioni i calcoli dell'asap e della latency
+
 set latency_min [expr {$delay + $last_node_start_time}]
 set last_node_starting_time [lindex [lindex $result 0 end] 1]
 set last_node_name [lindex [lindex $result 0 end] 0]
