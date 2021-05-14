@@ -1,5 +1,5 @@
 # {{MUL0 1} {ADD2 3} {MUL1 1}}       constraints
-# {operazione indice_del_tipo_di_operazione num_risorse}
+# {operazione/indice_del_tipo_di_operazione num_risorse}
 # {{OP0 0} {OP1 1} ...allnodes... {}}   nodes_op
 # {nodo indice_della_lista_sopra}
 
@@ -122,6 +122,7 @@ proc list_mlac_scheduler {constraints nodes_op} {
 proc start area {
     set constraints {}
     set nodes_op {}
+    set tot_area 0
     foreach node [get_nodes] {
         set node_op [get_attribute $node operation]
         if {[lsearch -index 0 $constraints "${node_op}0"] < 0} {
@@ -130,7 +131,7 @@ proc start area {
             set min_index 0
             foreach op [get_lib_fus_from_op $node_op] {
                 set area [get_attribute $op area]
-                set delay [get_attribute $op delay]
+                # set delay [get_attribute $op delay]
                 set operation [get_attribute $op operation]
                 set constraints [lappend constraints [list "${operation}$i" 0]]
                 if {$area <$min_area} {
@@ -140,14 +141,21 @@ proc start area {
                 incr i
             }
             set constraints [lreplace $constraints $min_index $min_index [list [lindex $constraints $min_index 0] 1]]
-            set nodes_op [lappend nodes_op [list $node_op $min_index] ]
+            set tot_area [expr {$tot_area + $min_area}]
+            set nodes_op [lappend nodes_op [list $node $min_index] ]
         } else {
-            set nodes_op [lappend nodes_op [list $node_op [lsearch -index 0 $nodes_op ]]]
+            foreach node_list $nodes_op {
+                if {[get_attribute [lindex $node_list 0]  operation] == $node_op} {
+                    set nodes_op [lappend nodes_op [list $node [lindex $node_list 1]] ]
+                    break
+                }
+            }
         }
         
     }
     puts $constraints
     puts $nodes_op
+    puts $tot_area
     gets stdin
 }
 
