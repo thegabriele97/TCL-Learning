@@ -213,13 +213,9 @@ proc start area {
                 set functional_unit_op [get_attribute $functional_unit operation]
                 set functional_unit_op_number [lindex [lsearch -index 0 -inline $op_number $functional_unit_op] 1]
                 set num_op_to_add [expr {int(($area - $tot_area) * (double($functional_unit_op_number) / $total_op_number) / $area_op_element)}]
-                puts $num_op_to_add
                 if {$num_op_to_add > 0} {
                     set at_least_one 1
                     set constraints [lreplace $constraints $i $i [list [lindex $constraints $i 0] [expr {[lindex $constraints $i 1] + $num_op_to_add}]]]
-                    puts $constraints
-                    gets stdin
-
                 }
                 set area_used [expr {$area_used + ($num_op_to_add * $area_op_element)}]
             }
@@ -237,7 +233,7 @@ proc start area {
     #puts "nodes_op $nodes_op"
     #puts "area: $tot_area"
     # puts "op_number $op_number"
-    gets stdin
+    #gets stdin
 
 
     set result [list_mlac_scheduler $constraints $nodes_op $mapping_op]
