@@ -227,8 +227,7 @@ proc start area {
         set tot_area [expr {$tot_area + $area_used}]
     }
 
-
-    #TODO: Aggiungere il controllo che se il circuito ha 10 load è inutile metterne 20. Piuttosto si dedicano le risorse ad altro
+    # Do I have still memory available? Substitute slow with fast!
 
 
     puts "constraints $constraints"
