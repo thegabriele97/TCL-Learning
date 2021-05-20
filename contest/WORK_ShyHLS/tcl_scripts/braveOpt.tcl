@@ -82,9 +82,9 @@ proc list_mlac_scheduler {constraints nodes_op mapping_op} {
 
                 set op [get_attribute $parent operation]
                 # set op_delay [get_attribute [get_lib_fu_from_op $op ] delay ]
-                
+
                 set op_delay [compute_delay $nodes_op $mapping_op $parent]
-                
+
                 if {[lsearch -index 0 -all -inline $result $parent] < 0} {
                     set ready 0
                     break
@@ -101,7 +101,7 @@ proc list_mlac_scheduler {constraints nodes_op mapping_op} {
             #u: list of node to be scheduled
             set u [lappend u $node]
 
-            #v: list of not ready nodes 
+            #v: list of not ready nodes
             set v [lsearch -all -inline -not $v $node]
         }
 
@@ -154,23 +154,25 @@ proc start area {
     set mapping_op {}
     set node_fu_id {}
     set fu_id_allocated {}
+    set op_number {}
     set tot_area 0
     foreach node [get_nodes] {
         set node_op [get_attribute $node operation]
         if {[lsearch -index 0 $constraints "${node_op}0"] < 0} {
             set min_area [get_attribute [lindex [get_lib_fus_from_op $node_op] 0] area]
+            set op_number [lappend op_number [list [get_attribute $node operation] 1]]
             set i 0
             set min_index 0
             foreach op [get_lib_fus_from_op $node_op] {
-                set area [get_attribute $op area]
+                set area2 [get_attribute $op area]
                 set id [get_attribute $op id]
                 set delay [get_attribute $op delay]
                 set operation [get_attribute $op operation]
                 set constraints [lappend constraints [list "${operation}$i" 0]]
-                set mapping_op [lappend mapping_op [list $area $delay $id]]
-                if {$area <$min_area} {
+                set mapping_op [lappend mapping_op [list $area2 $delay $id]]
+                if {$area2 <$min_area} {
                     set min_index [expr {[llength $constraints] -1 }]
-                    set min_area $area
+                    set min_area $area2
                 }
                 incr i
             }
@@ -178,6 +180,10 @@ proc start area {
             set tot_area [expr {$tot_area + $min_area}]
             set nodes_op [lappend nodes_op [list $node $min_index] ]
         } else {
+            set op_number_index [lsearch -index 0 $op_number [get_attribute $node operation]]
+            set op_number_of_element [lindex $op_number $op_number_index 1]
+            set op_number_of_element [expr {$op_number_of_element + 1}]
+            set op_number [lreplace $op_number $op_number_index $op_number_index [list [get_attribute $node operation] $op_number_of_element]]
             foreach node_list $nodes_op {
                 if {[get_attribute [lindex $node_list 0]  operation] == $node_op} {
                     set nodes_op [lappend nodes_op [list $node [lindex $node_list 1]] ]
@@ -187,11 +193,49 @@ proc start area {
         }
     }
 
-    #puts "constraints $constraints"
-    #puts "mapping_op $mapping_op"
+    # Calcolo il totale delle operazioni
+    set total_op_number 0
+    foreach op $op_number {
+        set total_op_number [expr {$total_op_number + [lindex $op 1]}]
+    }
+
+    set i 0
+    set area_used 0
+    set at_least_one 1
+    while {$at_least_one == 1} {
+        set at_least_one 0
+        foreach constraint $constraints {
+            if {[lindex $constraint 1] > 0} {
+                set mapping_op_element [lindex $mapping_op $i]
+                set area_op_element [lindex $mapping_op_element 0]
+                set functional_unit [lindex $mapping_op_element 2]
+                set functional_unit_op [get_attribute $functional_unit operation]
+                set functional_unit_op_number [lindex [lsearch -index 0 -inline $op_number $functional_unit_op] 1]
+                set num_op_to_add [expr {int(($area - $tot_area) * (double($functional_unit_op_number) / $total_op_number) / $area_op_element)}]
+                if {$num_op_to_add > 0} {
+                    set at_least_one 1
+                    set constraints [lreplace $constraints $i $i [list [lindex $constraints $i 0] [expr {[lindex $constraints $i 1] + $num_op_to_add}]]]
+                    puts $constraints
+                    gets stdin
+                }
+                set area_used [expr {$area_used + ($num_op_to_add * $area_op_element)}]
+            }
+            incr i
+        }
+        set tot_area [expr {$tot_area - $area_used}]
+    }
+
+
+    #TODO: Aggiungere il controllo che se il circuito ha 10 load è inutile metterne 20. Piuttosto si dedicano le risorse ad altro
+
+
+    puts "constraints $constraints"
+    puts "mapping_op $mapping_op"
     #puts "nodes_op $nodes_op"
     #puts "area: $tot_area"
-    #gets stdin
+    # puts "op_number $op_number"
+    gets stdin
+
 
     set result [list_mlac_scheduler $constraints $nodes_op $mapping_op]
     foreach node_list $nodes_op {
