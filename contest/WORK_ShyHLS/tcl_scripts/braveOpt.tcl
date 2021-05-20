@@ -199,7 +199,7 @@ proc start area {
         set total_op_number [expr {$total_op_number + [lindex $op 1]}]
     }
 
-
+    puts $op_number
     set at_least_one 1
     while {$at_least_one == 1} {
         set i 0
@@ -213,9 +213,12 @@ proc start area {
                 set functional_unit_op [get_attribute $functional_unit operation]
                 set functional_unit_op_number [lindex [lsearch -index 0 -inline $op_number $functional_unit_op] 1]
                 set num_op_to_add [expr {int(($area - $tot_area) * (double($functional_unit_op_number) / $total_op_number) / $area_op_element)}]
-                if {$num_op_to_add > 0} {
+
+                set alredy_present_fu [lindex $constraints $i 1]
+                set num_op_to_add [ expr { min($functional_unit_op_number - $alredy_present_fu, $num_op_to_add ) } ]
+                if { $num_op_to_add > 0 } {
                     set at_least_one 1
-                    set constraints [lreplace $constraints $i $i [list [lindex $constraints $i 0] [expr {[lindex $constraints $i 1] + $num_op_to_add}]]]
+                    set constraints [lreplace $constraints $i $i [list [lindex $constraints $i 0] [expr {$alredy_present_fu + $num_op_to_add}]]]
                 }
                 set area_used [expr {$area_used + ($num_op_to_add * $area_op_element)}]
             }
