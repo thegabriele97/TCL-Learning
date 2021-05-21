@@ -19,6 +19,16 @@ proc compute_delay {nodes_op mapping_op parent} {
     return $op_delay
 }
 
+proc compute_area {constraints mapping_op} {
+    set area 0
+    for {set i 0} {$i < [llength $constraints]} {incr i} {
+        set area [expr {$area + ([lindex $constraints $i 1] * [lindex $mapping_op $i 0])}]
+    }
+    puts "area: $area"
+    gets stdin
+    return $area
+}
+
 proc list_mlac_scheduler {constraints nodes_op mapping_op} {
 
     set constraints_l {}
@@ -74,7 +84,7 @@ proc list_mlac_scheduler {constraints nodes_op mapping_op} {
 
     while {[llength $result] != [llength [get_sorted_nodes]]} {
 
-        #puts "\n\n"
+        # puts "\n\n"
         foreach node $v {
 
             set ready 1
@@ -105,7 +115,7 @@ proc list_mlac_scheduler {constraints nodes_op mapping_op} {
             set v [lsearch -all -inline -not $v $node]
         }
 
-        #puts "(l=$l)u: $u"
+        # puts "(l=$l)u: $u"
         #gets stdin
 
         foreach node $u {
@@ -130,23 +140,39 @@ proc list_mlac_scheduler {constraints nodes_op mapping_op} {
                     set result [ lappend result [ lappend dummyl $node $l ] ]
                     set u [ lsearch -all -inline -not $u $node ]
 
-                    #puts "  result: $result"
+                    # puts "  result: $result"
                     break
                 }
             }
 
             set dummyl {}
             set constraints_l [ lreplace $constraints_l $opidx $opidx [ lappend dummyl $op_name $l_list ] ]
-            #puts "  constraints: $constraints_l"
+            # puts "  constraints_l: $constraints_l"
         }
 
         incr l
-        ###gets stdin
+        #gets stdin
     }
 
+    set used_unit_count {}
+    foreach constraint_l $constraints_l {
+        set list_op_end_time [lindex $constraint_l 1]
+        set cnt 0
+        for {set i [expr {[llength $list_op_end_time] - 1}]} {$i >= 0} {incr i -1} {
+            if {[lindex $list_op_end_time $i] > 1} {
+                break
+            }
+            incr cnt
+        }
+        set used_unit_count [lappend used_unit_count [list [lindex $constraint_l 0] [expr {[llength $list_op_end_time] - $cnt}]]]
+    }
 
-    return $result
+    # puts "used_unit_count: $used_unit_count"
+    # gets stdin
+
+    return [list $result $used_unit_count]
 }
+
 
 proc start area {
     set constraints {}
@@ -162,7 +188,7 @@ proc start area {
             set min_area [get_attribute [lindex [get_lib_fus_from_op $node_op] 0] area]
             set op_number [lappend op_number [list [get_attribute $node operation] 1]]
             set i 0
-            set min_index 0
+            set min_index [expr {[llength $constraints] }]
             foreach op [get_lib_fus_from_op $node_op] {
                 set area2 [get_attribute $op area]
                 set id [get_attribute $op id]
@@ -170,8 +196,8 @@ proc start area {
                 set operation [get_attribute $op operation]
                 set constraints [lappend constraints [list "${operation}$i" 0]]
                 set mapping_op [lappend mapping_op [list $area2 $delay $id]]
-                if {$area2 <$min_area} {
-                    set min_index [expr {[llength $constraints] -1 }]
+                if {$area2 < $min_area} {
+                    set min_index [expr {[llength $constraints] - 1}]
                     set min_area $area2
                 }
                 incr i
@@ -231,25 +257,40 @@ proc start area {
 
 
     puts "constraints $constraints"
+    puts ""
     puts "mapping_op $mapping_op"
-    #puts "nodes_op $nodes_op"
+    puts ""
+    puts "nodes_op $nodes_op"
+    puts ""
+
     #puts "area: $tot_area"
     # puts "op_number $op_number"
     #gets stdin
 
 
-    set result [list_mlac_scheduler $constraints $nodes_op $mapping_op]
+    set result_total [list_mlac_scheduler $constraints $nodes_op $mapping_op]
+    set result [lindex $result_total 0]
+    set constraints [lindex $result_total 1]
+    set used_area [compute_area $constraints $mapping_op]
+
     foreach node_list $nodes_op {
         set index [lindex $node_list 1]
         set fu_id [lindex $mapping_op $index 2]
         set node_fu_id [lappend node_fu_id [list [lindex $node_list 0] $fu_id]]
     }
 
+    puts "node_fu_id $node_fu_id"
+    puts ""
+    #gets stdin
+
     set i 0
     foreach constraint $constraints {
         set fu_id_allocated [lappend fu_id_allocated [list [lindex $mapping_op $i 2] [lindex $constraint 1]]]
         incr i
     }
+
+
+
     return [list $result $node_fu_id $fu_id_allocated]
 }
 

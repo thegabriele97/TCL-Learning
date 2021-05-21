@@ -110,9 +110,22 @@ if { $is_valid == 0 } {
     set latency_min [compute_latency_min $result]
     set latency [compute_latency $result]
 
+    puts "result: [lindex $result 0]"
+    puts "time: $time"
+    puts "latency/latency_min: $latency/$latency_min"
+    
     set score [expr {100 * (1-($time/(900*1000))) * $latency_min/$latency}]
     puts "score $score"
 
 } else {
     puts "THE SCHEDULED DFG IS WRONG!"
 }
+
+
+
+
+
+
+
+
+
