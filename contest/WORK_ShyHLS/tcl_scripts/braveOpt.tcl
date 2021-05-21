@@ -29,6 +29,26 @@ proc compute_area {constraints mapping_op} {
     return $area
 }
 
+proc compute_priority {} {
+    set priority {}
+
+    foreach node [lreverse [ get_sorted_nodes ]] {
+
+        set max_child_priority 0
+        foreach child [get_attribute $node children] {
+            set searchr [ lindex $priority [ lsearch -index 0 $priority $child ] ]
+            set child_priority [ lindex $searchr 1 ]
+            if {$child_priority > $max_child_priority} {
+                set max_child_priority $child_priority
+            }
+        }
+
+        set priority [ lappend priority [list $node [ expr $max_child_priority + 1 ] ] ]
+    }
+    set priority [lsort -index 1 -integer -decreasing $priority] 
+    return $priority
+}
+
 proc list_mlac_scheduler {constraints nodes_op mapping_op} {
 
     set constraints_l {}
@@ -182,6 +202,7 @@ proc start area {
     set fu_id_allocated {}
     set op_number {}
     set tot_area 0
+    set priority [compute_priority]
     foreach node [get_nodes] {
         set node_op [get_attribute $node operation]
         if {[lsearch -index 0 $constraints "${node_op}0"] < 0} {
