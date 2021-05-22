@@ -96,7 +96,9 @@ proc compute_latency {result} {
 }
 
 
-set filename "fir"
+#set filename "fir"
+set filename "arf"
+#set filename "invert_matrix_general_dfg__3"
 read_design ./data/DFGs/${filename}.dot
 read_library ./data/RTL_libraries/RTL_library_multi-resources.txt
 
