@@ -1,0 +1,141 @@
+digraph horner_bezier_surf_dfg__12 {
+  rankdir = LR;
+  newrank="true"
+  subgraph cluster_1 {
+    rank=same;
+    node [style=filled];
+    label = "Time 1";
+    color = blue;
+    pseudo_1 [style=invis];
+    MUL_0_0 [label=MUL_0]
+    MUL_10_0 [label=MUL_10]
+    MUL_11_0 [label=MUL_11]
+    MUL_19_0 [label=MUL_19]
+    ADD_29
+  }
+  subgraph cluster_2 {
+    rank=same;
+    node [style=filled];
+    label = "Time 2";
+    color = blue;
+    pseudo_2 [style=invis];
+    MUL_0_1 [label=MUL_0]
+    MUL_10_1 [label=MUL_10]
+    MUL_11_1 [label=MUL_11]
+    MUL_19_1 [label=MUL_19]
+  }
+  subgraph cluster_3 {
+    rank=same;
+    node [style=filled];
+    label = "Time 3";
+    color = blue;
+    pseudo_3 [style=invis];
+    ADD_1
+    ADD_14
+    ADD_20
+  }
+  subgraph cluster_4 {
+    rank=same;
+    node [style=filled];
+    label = "Time 4";
+    color = blue;
+    pseudo_4 [style=invis];
+    MUL_2_0 [label=MUL_2]
+    LOD_15
+    MUL_21_0 [label=MUL_21]
+  }
+  subgraph cluster_5 {
+    rank=same;
+    node [style=filled];
+    label = "Time 5";
+    color = blue;
+    pseudo_5 [style=invis];
+    MUL_2_1 [label=MUL_2]
+    MUL_17_0 [label=MUL_17]
+    MUL_21_1 [label=MUL_21]
+  }
+  subgraph cluster_6 {
+    rank=same;
+    node [style=filled];
+    label = "Time 6";
+    color = blue;
+    pseudo_6 [style=invis];
+    ADD_5
+    MUL_17_1 [label=MUL_17]
+    ADD_24
+  }
+  subgraph cluster_7 {
+    rank=same;
+    node [style=filled];
+    label = "Time 7";
+    color = blue;
+    pseudo_7 [style=invis];
+    LOD_6
+  }
+  subgraph cluster_8 {
+    rank=same;
+    node [style=filled];
+    label = "Time 8";
+    color = blue;
+    pseudo_8 [style=invis];
+    MUL_8_0 [label=MUL_8]
+  }
+  subgraph cluster_9 {
+    rank=same;
+    node [style=filled];
+    label = "Time 9";
+    color = blue;
+    pseudo_9 [style=invis];
+    MUL_8_1 [label=MUL_8]
+  }
+  subgraph cluster_10 {
+    rank=same;
+    node [style=filled];
+    label = "Time 10";
+    color = blue;
+    pseudo_10 [style=invis];
+    ADD_18
+  }
+  subgraph cluster_11 {
+    rank=same;
+    node [style=filled];
+    label = "Time 11";
+    color = blue;
+    pseudo_11 [style=invis];
+    STR_25
+  }
+    pseudo_1->pseudo_2 [style=invis];
+    pseudo_2->pseudo_3 [style=invis];
+    pseudo_3->pseudo_4 [style=invis];
+    pseudo_4->pseudo_5 [style=invis];
+    pseudo_5->pseudo_6 [style=invis];
+    pseudo_6->pseudo_7 [style=invis];
+    pseudo_7->pseudo_8 [style=invis];
+    pseudo_8->pseudo_9 [style=invis];
+    pseudo_9->pseudo_10 [style=invis];
+    pseudo_10->pseudo_11 [style=invis];
+    MUL_0_0 -> MUL_0_1 [color=red];
+    MUL_2_0 -> MUL_2_1 [color=red];
+    MUL_8_0 -> MUL_8_1 [color=red];
+    MUL_10_0 -> MUL_10_1 [color=red];
+    MUL_11_0 -> MUL_11_1 [color=red];
+    MUL_17_0 -> MUL_17_1 [color=red];
+    MUL_19_0 -> MUL_19_1 [color=red];
+    MUL_21_0 -> MUL_21_1 [color=red];
+    MUL_0_1 -> ADD_1 [ name = 0 ];
+    ADD_1 -> MUL_2_0 [ name = 1 ];
+    MUL_2_1 -> ADD_5 [ name = 2 ];
+    ADD_5 -> LOD_6 [ name = 3 ];
+    LOD_6 -> MUL_8_0 [ name = 4 ];
+    MUL_8_1 -> ADD_18 [ name = 5 ];
+    MUL_10_1 -> MUL_17_0 [ name = 6 ];
+    MUL_11_1 -> ADD_14 [ name = 7 ];
+    ADD_14 -> LOD_15 [ name = 8 ];
+    LOD_15 -> MUL_17_0 [ name = 9 ];
+    MUL_17_1 -> ADD_18 [ name = 10 ];
+    ADD_18 -> STR_25 [ name = 11 ];
+    MUL_19_1 -> ADD_20 [ name = 12 ];
+    ADD_20 -> MUL_21_0 [ name = 13 ];
+    MUL_21_1 -> ADD_24 [ name = 14 ];
+    ADD_24 -> STR_25 [ name = 15 ];
+}

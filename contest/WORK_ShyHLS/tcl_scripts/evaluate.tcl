@@ -72,7 +72,7 @@ proc asap {} {
 }
 
 
-proc compute_latency_min {result} {
+proc compute_latency_min {result filename} {
     set node_start_time [asap]
     set last_node [lindex $node_start_time end 0]
     set op [get_attribute $last_node operation]
@@ -80,6 +80,9 @@ proc compute_latency_min {result} {
     set delay [get_attribute $fu delay]
     set last_node_start_time [lindex $node_start_time end 1]
     set latency_min [expr {$delay + $last_node_start_time}]
+
+    puts "\[evaluate] ASAP result: $node_start_time"
+    print_scheduled_dfg $node_start_time ./data/out/asap_contest_${filename}.dot
 
     return $latency_min
 }
@@ -97,27 +100,30 @@ proc compute_latency {result} {
 
 
 #set filename "fir"
-set filename "arf"
-#set filename "invert_matrix_general_dfg__3"
+set filename "jpeg_fdct_islow_dfg__6"
+# set filename "invert_matrix_general_dfg__3"
 read_design ./data/DFGs/${filename}.dot
 read_library ./data/RTL_libraries/RTL_library_multi-resources.txt
 
 set start [clock millisec]
 set result [brave_opt -total_area 1000]
 set end [clock millisec]
+
 set time [expr {$end - $start}]
 set is_valid [validate_solution $result]
 
 if { $is_valid == 0 } {
-    set latency_min [compute_latency_min $result]
+    set latency_min [compute_latency_min $result $filename]
     set latency [compute_latency $result]
 
-    puts "result: [lindex $result 0]"
-    puts "time: $time"
-    puts "latency/latency_min: $latency/$latency_min"
+    puts "\[evaluate] result: [lindex $result 0]"
+    puts "\[evaluate] time: $time"
+    puts "\[evaluate] latency/latency_min: $latency/$latency_min"
     
-    set score [expr {100 * (1-($time/(900*1000))) * $latency_min/$latency}]
-    puts "score $score"
+    set score [expr {100 * (1-($time/double((900*1000)))) * $latency_min/double($latency)}]
+    puts "\[evaluate] score $score"
+
+    print_scheduled_dfg [lindex $result 0] ./data/out/contest_${filename}.dot
 
 } else {
     puts "THE SCHEDULED DFG IS WRONG!"

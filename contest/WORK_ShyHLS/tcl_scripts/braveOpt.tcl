@@ -68,25 +68,26 @@ proc change_children_fu {node nodes_op index} {
     while {1} {
         set min_fan_in 0
         set min_fan_in_node -1
-        puts "node: $node [get_attribute $node label]"
-        gets stdin
+        # puts "node: $node [get_attribute $node label]"
+        # gets stdin
         foreach child [get_attribute $node children] {
             if {[get_attribute $child operation] == $node_base_op} {
                 if {($min_fan_in == 0 || [get_attribute $child n_parents] < $min_fan_in) && [lindex [lsearch -index 0 -inline $nodes_op $child] 1] != $index} {
                     set min_fan_in [get_attribute $child n_parents]
                     set min_fan_in_node $child
-                    puts "min_fan_in_node_inside_if: $min_fan_in_node"
-                    gets stdin
+                    # puts "min_fan_in_node_inside_if: $min_fan_in_node"
+                    # gets stdin
                 }
             }
         }
 
-        puts "min_fan_in_node: $min_fan_in_node"
-        gets stdin
+        # puts "min_fan_in_node: $min_fan_in_node"
+        # gets stdin
 
         if {[get_attribute $node n_children] == 0} {
             break
         }
+
         if {$min_fan_in_node != -1} {
             set node_index [lsearch -index 0 $nodes_op $min_fan_in_node]
             set nodes_op [lreplace $nodes_op $node_index $node_index [list $min_fan_in_node $index]]
@@ -102,8 +103,8 @@ proc change_children_fu {node nodes_op index} {
             }
         }
         
-        puts "nodes_op: $nodes_op"
-        gets stdin
+        #puts "nodes_op: $nodes_op"
+        #gets stdin
     }
     
     # puts "nodes_op: $nodes_op"
@@ -131,49 +132,70 @@ proc heuristic {constraints used_area area nodes_op priority mapping_op} {
             }
         }
         set list_node_fu [lsort -index 0 -integer -increasing $list_node_fu]
-        puts "list_node_fu: $list_node_fu"
-        puts "actual_fu: $actual_fu"
-        puts "node: $node [get_attribute $node label]"
-        gets stdin
+        # puts "list_node_fu: $list_node_fu"
+        # puts "actual_fu: $actual_fu"
+        # puts "node: $node [get_attribute $node label]"
+        # gets stdin
 
         set index_actual_fu [lsearch -index 2 $list_node_fu $actual_fu]
-        puts "index_actual_fu: $index_actual_fu"
-        gets stdin
+        # puts "index_actual_fu: $index_actual_fu"
+        # gets stdin
         if {$index_actual_fu != [expr {[llength $list_node_fu] - 1}]} {
             set index_new_fu [expr {$index_actual_fu + 1}]
             set new_fu [lindex $list_node_fu $index_new_fu]
-            puts "used_area: $used_area"
-            puts "area_actual_fu: [lindex $list_node_fu $index_actual_fu 0]"
-            puts "area_new_fu: [lindex $list_node_fu $index_new_fu 0]"
-            puts "remaining_area: [expr {$area - ($used_area - [lindex $list_node_fu $index_actual_fu 0] + [lindex $list_node_fu $index_new_fu 0])}]"
+            # puts "used_area: $used_area"
+            # puts "area_actual_fu: [lindex $list_node_fu $index_actual_fu 0]"
+            # puts "area_new_fu: [lindex $list_node_fu $index_new_fu 0]"
+            # puts "remaining_area: [expr {$area - ($used_area - [lindex $list_node_fu $index_actual_fu 0] + [lindex $list_node_fu $index_new_fu 0])}]"
 
             if {[expr {$area - ($used_area - [lindex $list_node_fu $index_actual_fu 0] + [lindex $list_node_fu $index_new_fu 0])}] >= 0} {
-                puts "constraints: $constraints"
-                gets stdin
+                # puts "constraints: $constraints"
+                # gets stdin
                 set actual_fu $new_fu
                 set actual_constraints [lindex $constraints $node_index]
-                set constraints [lreplace $constraints $node_index $node_index [list [lindex $actual_constraints 0] [expr {[lindex $actual_constraints 1] - 1}]]]
-                puts "constraints: $constraints"
-                gets stdin
-                puts "nodes_op: $nodes_op"
-                gets stdin
+
+                set skip 1
+                if {[expr {[lindex $actual_constraints 1] - 1}] >= 0} {
+                    set constraints [lreplace $constraints $node_index $node_index [list [lindex $actual_constraints 0] [expr {[lindex $actual_constraints 1] - 1}]]]
+                    set skip 0
+                }
+
+                # puts "constraints: $constraints"
+                # gets stdin
+                # puts "nodes_op: $nodes_op"
+                # gets stdin
                 set result_change_children_fu [change_children_fu $node $nodes_op [lsearch $mapping_op $new_fu]]
-                set nodes_op [lindex result_change_children_fu 0]
-                set priority_list_to_remove [concat $priority_list_to_remove [lindex result_change_children_fu 1]]
-                puts "nodes_op: $nodes_op"
-                gets stdin
+                set nodes_op [lindex $result_change_children_fu 0]
+                set priority_list_to_remove [concat $priority_list_to_remove [lindex $result_change_children_fu 1]]
+                # puts "nodes_op: $nodes_op"
+                # puts "touched nodes: [lindex $result_change_children_fu 1]"
+                # puts "total touched nodes: $priority_list_to_remove"
+                # gets stdin
                 set node_op_index [lsearch -index 0 -inline $nodes_op $node]
                 set node_index [lindex $node_op_index 1]
                 set actual_constraints [lindex $constraints $node_index]
-                set constraints [lreplace $constraints $node_index $node_index [list [lindex $actual_constraints 0] [expr {[lindex $actual_constraints 1] + 1}]]]
-                puts "constraints: $constraints"
-                gets stdin
-                set used_area [expr {$used_area + [lindex $list_node_fu $index_new_fu 0] - [lindex $list_node_fu $index_actual_fu 0]}]
-                puts "used_area: $used_area"
-                gets stdin
+                
+                if {$skip == 0} {
+                    set constraints [lreplace $constraints $node_index $node_index [list [lindex $actual_constraints 0] [expr {[lindex $actual_constraints 1] + 1}]]]
+                    set used_area [expr {$used_area + [lindex $list_node_fu $index_new_fu 0] - [lindex $list_node_fu $index_actual_fu 0]}]
+                }
+
+                # puts "constraints: $constraints"
+                # gets stdin
+                # puts "used_area: $used_area"
+                # gets stdin
+            } elseif {[lindex $constraints [lsearch $mapping_op $new_fu] 1] > 0} {
+                set result_change_children_fu [change_children_fu $node $nodes_op [lsearch $mapping_op $new_fu]]
+                set nodes_op [lindex $result_change_children_fu 0]
+                set priority_list_to_remove [concat $priority_list_to_remove [lindex $result_change_children_fu 1]]
             }
         }
     }
+
+    # puts "new constraints: $constraints"
+    # puts "new nodes_op: $nodes_op"
+    # gets stdin
+
     return [list $constraints $nodes_op $used_area]
 }
 
@@ -418,24 +440,59 @@ proc start area {
     #gets stdin
 
 
+    set min_last_schedule -1
     while {1} {
         set result_total [list_mlac_scheduler $constraints $nodes_op $mapping_op]
-        set result [lindex $result_total 0]
-        puts "result_scheduling $result"
-        gets stdin
+        set result_new [lindex $result_total 0]
+        puts "\n\n-------> result_scheduling $result_new"
+        puts "\n#########> constraints: $constraints"
+        puts "\n*********> nodes_op: $nodes_op"
+
+
+        ### PROBLEM HERE ######
+        # We do the scheduling with constraints 
+        # {MUL0 0} {MUL1 7} {MUL2 0} {ADD0 0} {ADD1 7} {ADD2 0} {LOD0 0} {LOD1 7} {LOD2 0} {SUB0 0} {SUB1 2} {SUB2 0} {ASR0 2} {STR0 0} {STR1 2} {STR2 0}
+        #
+        # And the output after the sharing is
+        # {MUL0 0} {MUL1 7} {MUL2 0} {ADD0 0} {ADD1 7} {ADD2 0} {LOD0 0} {LOD1 7} {LOD2 0} {SUB0 0} {SUB1 2} {SUB2 0} {ASR0 2} {STR0 0} {STR1 2} {STR2 0}
+        #
+        # Now we do another try and we obtain these constraints:
+        # {MUL0 4} {MUL1 3} {MUL2 0} {ADD0 1} {ADD1 6} {ADD2 0} {LOD0 0} {LOD1 7} {LOD2 0} {SUB0 0} {SUB1 2} {SUB2 0} {ASR0 2} {STR0 0} {STR1 2} {STR2 0}
+        # and we have always 7 MUL as before but 4 are faster
+        # Now the result after sharing is
+        # {MUL0 4} {MUL1 0} {MUL2 0} {ADD0 1} {ADD1 0} {ADD2 0} {LOD0 0} {LOD1 1} {LOD2 0} {SUB0 0} {SUB1 1} {SUB2 0} {ASR0 1} {STR0 0} {STR1 1} {STR2 0}
+        # The slower MUL are never used anymore!!
+        #
+        # So we are not entirely using our area budget!
+        # this is caused by nodes_op, there are no nodes that useses constraints[1]
+
+
+        if {$min_last_schedule == -1 || [lindex $result_new end 1] < $min_last_schedule} {
+            set min_last_schedule [lindex $result_new end 1]
+            set result $result_new
+        }
+
         set constraints [lindex $result_total 1]
         set used_area [compute_area $constraints $mapping_op]
+        puts "\nscheduling: [lindex $result end] - computed area on scheduling: $used_area - constraints: $constraints"
+        #gets stdin
+
         set heuristic_result [heuristic $constraints $used_area $area $nodes_op $priority $mapping_op]
         set constraints_new [lindex $heuristic_result 0]
         set nodes_op_new [lindex $heuristic_result 1]
         set used_area_new [lindex $heuristic_result 2]
+
         if {$nodes_op == $nodes_op_new} {
             break
         }
+        
         set constraints $constraints_new
         set nodes_op $nodes_op_new
         set used_area $used_area_new
     }
+
+    puts "\n\n>> So the used area is: $used_area (computed is [compute_area $constraints $mapping_op])"
+    puts ">> So the final constrains are $constraints\n\n"
 
     foreach node_list $nodes_op {
         set index [lindex $node_list 1]
@@ -443,17 +500,11 @@ proc start area {
         set node_fu_id [lappend node_fu_id [list [lindex $node_list 0] $fu_id]]
     }
 
-    puts "node_fu_id $node_fu_id"
-    puts ""
-    #gets stdin
-
     set i 0
     foreach constraint $constraints {
         set fu_id_allocated [lappend fu_id_allocated [list [lindex $mapping_op $i 2] [lindex $constraint 1]]]
         incr i
     }
-
-
 
     return [list $result $node_fu_id $fu_id_allocated]
 }
