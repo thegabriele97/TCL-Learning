@@ -184,7 +184,8 @@ proc heuristic {constraints used_area area nodes_op priority mapping_op} {
                 # gets stdin
                 # puts "used_area: $used_area"
                 # gets stdin
-            } elseif {[lindex $constraints [lsearch $mapping_op $new_fu] 1] > 0} {
+            } elseif {[lindex $constraints $node_index 1] == 0} {
+                # [lindex $constraints [lsearch $mapping_op $new_fu] 1] > 0
                 set result_change_children_fu [change_children_fu $node $nodes_op [lsearch $mapping_op $new_fu]]
                 set nodes_op [lindex $result_change_children_fu 0]
                 set priority_list_to_remove [concat $priority_list_to_remove [lindex $result_change_children_fu 1]]
@@ -466,15 +467,21 @@ proc start area {
         # So we are not entirely using our area budget!
         # this is caused by nodes_op, there are no nodes that useses constraints[1]
 
+        set latency 0
+        foreach schedule $result_new {
+            if {[lindex $schedule 1] > $latency} {
+                set latency [lindex $schedule 1]
+            }
+        }
 
-        if {$min_last_schedule == -1 || [lindex $result_new end 1] < $min_last_schedule} {
-            set min_last_schedule [lindex $result_new end 1]
+        if {$min_last_schedule == -1 || $latency < $min_last_schedule} {
+            set min_last_schedule $latency
             set result $result_new
         }
 
         set constraints [lindex $result_total 1]
         set used_area [compute_area $constraints $mapping_op]
-        puts "\nscheduling: [lindex $result end] - computed area on scheduling: $used_area - constraints: $constraints"
+        puts "\nlatency: $latency (vs min $min_last_schedule) - computed area on scheduling: $used_area - constraints: $constraints"
         #gets stdin
 
         set heuristic_result [heuristic $constraints $used_area $area $nodes_op $priority $mapping_op]
