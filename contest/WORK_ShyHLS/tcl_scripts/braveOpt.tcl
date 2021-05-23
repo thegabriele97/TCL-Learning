@@ -29,19 +29,6 @@ proc compute_area {constraints mapping_op} {
     return $area
 }
 
-proc compute_latency_from_schedule {schedules mapping_op nodes_op} {
-    set latency 0
-
-    foreach schedule $schedules {
-        set computed_latency [ expr {[lindex $schedule 1] + [lindex $mapping_op [lindex [lsearch -index 0 -inline $nodes_op [lindex $schedule 0]] 1] 1]}]
-        if {$computed_latency > $latency} {
-            set latency $computed_latency
-        }
-    }
-
-    return $latency
-}
-
 proc compute_priority {} {
     set priority {}
     set result {}
@@ -125,7 +112,7 @@ proc change_children_fu {node nodes_op index} {
     return [list $nodes_op $touched_nodes]
 }
 
-proc heuristic {constraints used_area area nodes_op priority mapping_op use_mixture} {
+proc heuristic {constraints used_area area nodes_op priority mapping_op} {
     
     set priority_list_to_remove {}
 
@@ -204,7 +191,7 @@ proc heuristic {constraints used_area area nodes_op priority mapping_op use_mixt
                 # gets stdin
                 # puts "used_area: $used_area"
                 # gets stdin
-            } elseif {($use_mixture == 1 && [lindex $constraints $node_index 1] == 0) || ($use_mixture == 0 && [lindex $constraints [lsearch $mapping_op $new_fu] 1] > 0)} {
+            } elseif {[lindex $constraints [lsearch $mapping_op $new_fu] 1] > 0} {
                 # [lindex $constraints [lsearch $mapping_op $new_fu] 1] > 0
                 # [lindex $constraints $node_index 1] == 0
 
@@ -220,66 +207,6 @@ proc heuristic {constraints used_area area nodes_op priority mapping_op use_mixt
     # gets stdin
 
     return [list $constraints $nodes_op $used_area]
-}
-
-proc opt_loop {constraints mapping_op nodes_op area priority use_mixture} {
-    set result {}
-    set min_last_schedule -1
-    
-    while {1} {
-
-        set result_total [list_mlac_scheduler $constraints $nodes_op $mapping_op]
-        set result_new [lindex $result_total 0]
-        
-        puts "\n\n-------> result_scheduling $result_new"
-        puts "\n#########> constraints: $constraints"
-        puts "\n*********> nodes_op: $nodes_op"
-
-
-        ### PROBLEM HERE ######
-        # We do the scheduling with constraints 
-        # {MUL0 0} {MUL1 7} {MUL2 0} {ADD0 0} {ADD1 7} {ADD2 0} {LOD0 0} {LOD1 7} {LOD2 0} {SUB0 0} {SUB1 2} {SUB2 0} {ASR0 2} {STR0 0} {STR1 2} {STR2 0}
-        #
-        # And the output after the sharing is
-        # {MUL0 0} {MUL1 7} {MUL2 0} {ADD0 0} {ADD1 7} {ADD2 0} {LOD0 0} {LOD1 7} {LOD2 0} {SUB0 0} {SUB1 2} {SUB2 0} {ASR0 2} {STR0 0} {STR1 2} {STR2 0}
-        #
-        # Now we do another try and we obtain these constraints:
-        # {MUL0 4} {MUL1 3} {MUL2 0} {ADD0 1} {ADD1 6} {ADD2 0} {LOD0 0} {LOD1 7} {LOD2 0} {SUB0 0} {SUB1 2} {SUB2 0} {ASR0 2} {STR0 0} {STR1 2} {STR2 0}
-        # and we have always 7 MUL as before but 4 are faster
-        # Now the result after sharing is
-        # {MUL0 4} {MUL1 0} {MUL2 0} {ADD0 1} {ADD1 0} {ADD2 0} {LOD0 0} {LOD1 1} {LOD2 0} {SUB0 0} {SUB1 1} {SUB2 0} {ASR0 1} {STR0 0} {STR1 1} {STR2 0}
-        # The slower MUL are never used anymore!!
-        #
-        # So we are not entirely using our area budget!
-        # this is caused by nodes_op, there are no nodes that useses constraints[1]
-
-        set latency [compute_latency_from_schedule $result_new $mapping_op $nodes_op]
-
-        if {$min_last_schedule == -1 || $latency < $min_last_schedule} {
-            set min_last_schedule $latency
-            set result $result_new
-        }
-
-        set constraints [lindex $result_total 1]
-        set used_area [compute_area $constraints $mapping_op]
-        puts "\nlatency: $latency (vs min $min_last_schedule) - computed area on scheduling: $used_area - constraints: $constraints"
-        #gets stdin
-
-        set heuristic_result [heuristic $constraints $used_area $area $nodes_op $priority $mapping_op $use_mixture]
-        set constraints_new [lindex $heuristic_result 0]
-        set nodes_op_new [lindex $heuristic_result 1]
-        set used_area_new [lindex $heuristic_result 2]
-
-        if {$nodes_op == $nodes_op_new} {
-            break
-        }
-        
-        set constraints $constraints_new
-        set nodes_op $nodes_op_new
-        set used_area $used_area_new
-    }
-
-    return [list $constraints $nodes_op $used_area $result $min_last_schedule]
 }
 
 
@@ -522,30 +449,66 @@ proc start area {
     # puts "op_number $op_number"
     #gets stdin
 
-    set obtained_latency -1
-    set best_latency_idx 0
-    set all_results {}
-    for {set i 0} { $i < 2 } { incr i } {
 
-        puts "\n\n\n\t\t ################### >> LOOPING WITH MIXTURE: $i << ###################\n\n\n" 
-    
-        set result_opt_loop [opt_loop $constraints $mapping_op $nodes_op $area $priority $i]
-        
-        if {$obtained_latency == -1 || [lindex $result_opt_loop 4] < $obtained_latency} {
-            set obtained_latency [lindex $result_opt_loop 4]
-            set best_latency_idx $i
+    set min_last_schedule -1
+    while {1} {
+        set result_total [list_mlac_scheduler $constraints $nodes_op $mapping_op]
+        set result_new [lindex $result_total 0]
+        puts "\n\n-------> result_scheduling $result_new"
+        puts "\n#########> constraints: $constraints"
+        puts "\n*********> nodes_op: $nodes_op"
+
+
+        ### PROBLEM HERE ######
+        # We do the scheduling with constraints 
+        # {MUL0 0} {MUL1 7} {MUL2 0} {ADD0 0} {ADD1 7} {ADD2 0} {LOD0 0} {LOD1 7} {LOD2 0} {SUB0 0} {SUB1 2} {SUB2 0} {ASR0 2} {STR0 0} {STR1 2} {STR2 0}
+        #
+        # And the output after the sharing is
+        # {MUL0 0} {MUL1 7} {MUL2 0} {ADD0 0} {ADD1 7} {ADD2 0} {LOD0 0} {LOD1 7} {LOD2 0} {SUB0 0} {SUB1 2} {SUB2 0} {ASR0 2} {STR0 0} {STR1 2} {STR2 0}
+        #
+        # Now we do another try and we obtain these constraints:
+        # {MUL0 4} {MUL1 3} {MUL2 0} {ADD0 1} {ADD1 6} {ADD2 0} {LOD0 0} {LOD1 7} {LOD2 0} {SUB0 0} {SUB1 2} {SUB2 0} {ASR0 2} {STR0 0} {STR1 2} {STR2 0}
+        # and we have always 7 MUL as before but 4 are faster
+        # Now the result after sharing is
+        # {MUL0 4} {MUL1 0} {MUL2 0} {ADD0 1} {ADD1 0} {ADD2 0} {LOD0 0} {LOD1 1} {LOD2 0} {SUB0 0} {SUB1 1} {SUB2 0} {ASR0 1} {STR0 0} {STR1 1} {STR2 0}
+        # The slower MUL are never used anymore!!
+        #
+        # So we are not entirely using our area budget!
+        # this is caused by nodes_op, there are no nodes that useses constraints[1]
+
+        set latency 0
+        foreach schedule $result_new {
+            if {[lindex $schedule 1] > $latency} {
+                set latency [lindex $schedule 1]
+            }
         }
 
-        set all_results [lappend all_results $result_opt_loop]
+        if {$min_last_schedule == -1 || $latency < $min_last_schedule} {
+            set min_last_schedule $latency
+            set result $result_new
+        }
+
+        set constraints [lindex $result_total 1]
+        set used_area [compute_area $constraints $mapping_op]
+        puts "\nlatency: $latency (vs min $min_last_schedule) - computed area on scheduling: $used_area - constraints: $constraints"
+        #gets stdin
+
+        set heuristic_result [heuristic $constraints $used_area $area $nodes_op $priority $mapping_op]
+        set constraints_new [lindex $heuristic_result 0]
+        set nodes_op_new [lindex $heuristic_result 1]
+        set used_area_new [lindex $heuristic_result 2]
+
+        if {$nodes_op == $nodes_op_new} {
+            break
+        }
+        
+        set constraints $constraints_new
+        set nodes_op $nodes_op_new
+        set used_area $used_area_new
     }
-    
-    set constraints [lindex $all_results $best_latency_idx 0] 
-    set nodes_op [lindex $all_results $best_latency_idx 1] 
-    set used_area [lindex $all_results $best_latency_idx 2] 
-    set result [lindex $all_results $best_latency_idx 3] 
 
     puts "\n\n>> So the used area is: $used_area (computed is [compute_area $constraints $mapping_op])"
-    puts ">> So the final constrains (with mixture $best_latency_idx) are $constraints\n\n"
+    puts ">> So the final constrains are $constraints\n\n"
 
     foreach node_list $nodes_op {
         set index [lindex $node_list 1]
