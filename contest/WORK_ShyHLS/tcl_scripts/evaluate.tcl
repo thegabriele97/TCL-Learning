@@ -92,7 +92,7 @@ read_design ./data/DFGs/${filename}.dot
 read_library ./data/RTL_libraries/RTL_library_multi-resources.txt
 
 set start [clock millisec]
-set result [brave_opt -total_area 2000]
+set result [brave_opt -total_area 1000]
 set end [clock millisec]
 
 set time [expr {$end - $start}]

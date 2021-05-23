@@ -113,24 +113,31 @@ proc change_children_fu {node nodes_op index} {
 }
 
 proc heuristic {constraints used_area area nodes_op priority mapping_op} {
+    
     set priority_list_to_remove {}
+
     foreach priority_list $priority {
+        
         set node [lindex $priority_list 0]
+        
         if {[lsearch $priority_list_to_remove $node] >= 0} {
             continue
         }
+
         set node_op [get_attribute $node operation]
         set node_op_index [lsearch -index 0 -inline $nodes_op $node]
         set node_index [lindex $node_op_index 1]
         set actual_fu [lindex $mapping_op $node_index 2]
         set node_op_fu [get_lib_fus_from_op $node_op]
         set list_node_fu {}
+
         foreach fu $node_op_fu {
             set index [lsearch -index 2 $mapping_op $fu]
             if {$index >= 0} {
                 set list_node_fu [lappend list_node_fu [lindex $mapping_op $index]]
             }
         }
+        
         set list_node_fu [lsort -index 0 -integer -increasing $list_node_fu]
         # puts "list_node_fu: $list_node_fu"
         # puts "actual_fu: $actual_fu"
@@ -184,8 +191,10 @@ proc heuristic {constraints used_area area nodes_op priority mapping_op} {
                 # gets stdin
                 # puts "used_area: $used_area"
                 # gets stdin
-            } elseif {[lindex $constraints $node_index 1] == 0} {
+            } elseif {[lindex $constraints [lsearch $mapping_op $new_fu] 1] > 0} {
                 # [lindex $constraints [lsearch $mapping_op $new_fu] 1] > 0
+                # [lindex $constraints $node_index 1] == 0
+
                 set result_change_children_fu [change_children_fu $node $nodes_op [lsearch $mapping_op $new_fu]]
                 set nodes_op [lindex $result_change_children_fu 0]
                 set priority_list_to_remove [concat $priority_list_to_remove [lindex $result_change_children_fu 1]]
