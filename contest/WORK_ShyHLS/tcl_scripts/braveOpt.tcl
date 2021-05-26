@@ -538,11 +538,100 @@ proc start area {
 
         set all_results [lappend all_results $result_opt_loop]
     }
-    
+
+
     set constraints [lindex $all_results $best_latency_idx 0] 
     set nodes_op [lindex $all_results $best_latency_idx 1] 
     set used_area [lindex $all_results $best_latency_idx 2] 
     set result [lindex $all_results $best_latency_idx 3] 
+
+
+    set starting_idx 0
+    while {$starting_idx < [llength $constraints]} {
+
+        set loop_constraints [concat [lrange $constraints $starting_idx end] [lrange $constraints 0 [expr {$starting_idx -1}]]]
+
+        puts "working on: $loop_constraints"
+        #gets stdin
+
+        set last_constraints {}
+        set working_constraints $constraints
+
+        while {1} {
+
+            for {set i 0} {$i < [llength $loop_constraints]} {incr i} {
+                
+                if {[lindex $loop_constraints $i 1] == 0} {
+                    continue
+                }
+
+                set idx [lsearch -index 0 $working_constraints [lindex $loop_constraints $i 0]]
+
+                if {[expr {$area - $used_area - [lindex $mapping_op $idx 0]}] >= 0} {
+                    
+                    set working_constraints [\
+                        lreplace $working_constraints $idx $idx [\
+                            list [lindex $working_constraints $idx 0] [expr { [lindex $working_constraints $idx 1] + 1 }] \
+                        ]\
+                    ]
+
+                    set used_area [expr {$used_area + [lindex $mapping_op $idx 0]}]
+                }
+
+            }
+
+            if {$last_constraints == $working_constraints} {
+                break
+            }
+
+            set last_constraints $working_constraints
+
+            puts "\n\ninput constraints: $working_constraints \n\n"
+            # gets stdin
+
+            set result_total [list_mlac_scheduler $working_constraints $nodes_op $mapping_op]
+            puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [lindex $result_total 0]"
+            puts "\n\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [lindex $result_total 1]"
+            
+            puts "latency: [compute_latency_from_schedule [lindex $result_total 0] $mapping_op $nodes_op]"
+            set working_constraints [lindex $result_total 1]
+            puts "\n\n>> So the used area is: - (computed is [compute_area $working_constraints $mapping_op])"
+            puts "output constraints: $working_constraints"
+            set working_result [lindex $result_total 0]
+
+            # gets stdin
+
+            set used_area [compute_area $working_constraints $mapping_op]
+            puts "new area now is > $used_area"
+            # gets stdin
+
+        }
+
+        incr starting_idx
+
+        if {[compute_latency_from_schedule $working_result $mapping_op $nodes_op] < [lindex $all_results $best_latency_idx 4]} {
+            set constraints $working_constraints
+            set result $working_result
+            puts "**************************************"
+        } 
+
+    }
+
+
+
+    # set constraints [lreplace $constraints 0 0 [list "MUL0" 24]]
+    # set constraints [lreplace $constraints 3 3 [list "ADD0" 40]]
+    #set constraints [lreplace $constraints 6 6 [list "LOD0" 30]]
+    # puts "\n\ninput constraints: $constraints \n\n"
+    # set result_total [list_mlac_scheduler $constraints $nodes_op $mapping_op]
+    # puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [lindex $result_total 0]"
+    # puts "\n\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [lindex $result_total 1]"
+    
+    # puts "latency: [compute_latency_from_schedule [lindex $result_total 0] $mapping_op $nodes_op]"
+    # set constraints [lindex $result_total 1]
+    # puts "\n\n>> So the used area is: - (computed is [compute_area $constraints $mapping_op])"
+    # set result [lindex $result_total 0]
+
 
     puts "\n\n>> So the used area is: $used_area (computed is [compute_area $constraints $mapping_op])"
     puts ">> So the final constrains (with mixture $best_latency_idx) are $constraints\n\n"
