@@ -7,18 +7,6 @@ digraph fir {
     label = "Time 1";
     color = blue;
     pseudo_1 [style=invis];
-    IN_12
-    COF_13
-    IN_14
-    COF_15
-    IN_16
-    COF_17
-    IN_18
-    COF_19
-    IN_20
-    COF_21
-    IN_22
-    COF_23
     IN_24
     COF_25
     IN_26
@@ -36,17 +24,19 @@ digraph fir {
     label = "Time 2";
     color = blue;
     pseudo_2 [style=invis];
-    MUL_0_0 [label=MUL_0]
-    MUL_1_0 [label=MUL_1]
-    MUL_2_0 [label=MUL_2]
-    MUL_3_0 [label=MUL_3]
-    MUL_4_0 [label=MUL_4]
-    MUL_5_0 [label=MUL_5]
-    MUL_6_0 [label=MUL_6]
-    MUL_7_0 [label=MUL_7]
     MUL_8_0 [label=MUL_8]
     MUL_9_0 [label=MUL_9]
     MUL_10_0 [label=MUL_10]
+    IN_14
+    COF_15
+    IN_16
+    COF_17
+    IN_18
+    COF_19
+    IN_20
+    COF_21
+    IN_22
+    COF_23
   }
   subgraph cluster_3 {
     rank=same;
@@ -54,17 +44,14 @@ digraph fir {
     label = "Time 3";
     color = blue;
     pseudo_3 [style=invis];
-    MUL_0_1 [label=MUL_0]
-    MUL_1_1 [label=MUL_1]
-    MUL_2_1 [label=MUL_2]
-    MUL_3_1 [label=MUL_3]
-    MUL_4_1 [label=MUL_4]
-    MUL_5_1 [label=MUL_5]
-    MUL_6_1 [label=MUL_6]
-    MUL_7_1 [label=MUL_7]
+    MUL_5_0 [label=MUL_5]
+    MUL_6_0 [label=MUL_6]
+    MUL_7_0 [label=MUL_7]
     MUL_8_1 [label=MUL_8]
     MUL_9_1 [label=MUL_9]
     MUL_10_1 [label=MUL_10]
+    IN_12
+    COF_13
   }
   subgraph cluster_4 {
     rank=same;
@@ -72,9 +59,12 @@ digraph fir {
     label = "Time 4";
     color = blue;
     pseudo_4 [style=invis];
-    ADD_11
-    ADD_13
-    ADD_17
+    MUL_2_0 [label=MUL_2]
+    MUL_3_0 [label=MUL_3]
+    MUL_4_0 [label=MUL_4]
+    MUL_5_1 [label=MUL_5]
+    MUL_6_1 [label=MUL_6]
+    MUL_7_1 [label=MUL_7]
   }
   subgraph cluster_5 {
     rank=same;
@@ -82,7 +72,12 @@ digraph fir {
     label = "Time 5";
     color = blue;
     pseudo_5 [style=invis];
-    ADD_12
+    MUL_0_0 [label=MUL_0]
+    MUL_1_0 [label=MUL_1]
+    MUL_2_1 [label=MUL_2]
+    MUL_3_1 [label=MUL_3]
+    MUL_4_1 [label=MUL_4]
+    ADD_17
   }
   subgraph cluster_6 {
     rank=same;
@@ -90,7 +85,9 @@ digraph fir {
     label = "Time 6";
     color = blue;
     pseudo_6 [style=invis];
-    ADD_14
+    MUL_0_1 [label=MUL_0]
+    MUL_1_1 [label=MUL_1]
+    ADD_13
   }
   subgraph cluster_7 {
     rank=same;
@@ -98,7 +95,7 @@ digraph fir {
     label = "Time 7";
     color = blue;
     pseudo_7 [style=invis];
-    ADD_15
+    ADD_11
   }
   subgraph cluster_8 {
     rank=same;
@@ -106,7 +103,7 @@ digraph fir {
     label = "Time 8";
     color = blue;
     pseudo_8 [style=invis];
-    ADD_16
+    ADD_12
   }
   subgraph cluster_9 {
     rank=same;
@@ -114,7 +111,7 @@ digraph fir {
     label = "Time 9";
     color = blue;
     pseudo_9 [style=invis];
-    ADD_18
+    ADD_14
   }
   subgraph cluster_10 {
     rank=same;
@@ -122,7 +119,7 @@ digraph fir {
     label = "Time 10";
     color = blue;
     pseudo_10 [style=invis];
-    ADD_19
+    ADD_15
   }
   subgraph cluster_11 {
     rank=same;
@@ -130,7 +127,7 @@ digraph fir {
     label = "Time 11";
     color = blue;
     pseudo_11 [style=invis];
-    ADD_20
+    ADD_16
   }
   subgraph cluster_12 {
     rank=same;
@@ -138,6 +135,30 @@ digraph fir {
     label = "Time 12";
     color = blue;
     pseudo_12 [style=invis];
+    ADD_18
+  }
+  subgraph cluster_13 {
+    rank=same;
+    node [style=filled];
+    label = "Time 13";
+    color = blue;
+    pseudo_13 [style=invis];
+    ADD_19
+  }
+  subgraph cluster_14 {
+    rank=same;
+    node [style=filled];
+    label = "Time 14";
+    color = blue;
+    pseudo_14 [style=invis];
+    ADD_20
+  }
+  subgraph cluster_15 {
+    rank=same;
+    node [style=filled];
+    label = "Time 15";
+    color = blue;
+    pseudo_15 [style=invis];
     OUT_1
   }
     pseudo_1->pseudo_2 [style=invis];
@@ -151,6 +172,9 @@ digraph fir {
     pseudo_9->pseudo_10 [style=invis];
     pseudo_10->pseudo_11 [style=invis];
     pseudo_11->pseudo_12 [style=invis];
+    pseudo_12->pseudo_13 [style=invis];
+    pseudo_13->pseudo_14 [style=invis];
+    pseudo_14->pseudo_15 [style=invis];
     MUL_0_0 -> MUL_0_1 [color=red];
     MUL_1_0 -> MUL_1_1 [color=red];
     MUL_2_0 -> MUL_2_1 [color=red];
