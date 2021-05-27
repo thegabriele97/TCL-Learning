@@ -7,9 +7,6 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 1";
     color = blue;
     pseudo_1 [style=invis];
-    MUL_163_0 [label=MUL_163]
-    MUL_181_0 [label=MUL_181]
-    MUL_195_0 [label=MUL_195]
     MUL_250_0 [label=MUL_250]
     MUL_263_0 [label=MUL_263]
     MUL_276_0 [label=MUL_276]
@@ -23,16 +20,10 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 2";
     color = blue;
     pseudo_2 [style=invis];
-    MUL_86_0 [label=MUL_86]
-    MUL_93_0 [label=MUL_93]
-    MUL_103_0 [label=MUL_103]
-    MUL_110_0 [label=MUL_110]
-    MUL_120_0 [label=MUL_120]
-    MUL_127_0 [label=MUL_127]
     MUL_151_0 [label=MUL_151]
-    MUL_163_1 [label=MUL_163]
-    MUL_181_1 [label=MUL_181]
-    MUL_195_1 [label=MUL_195]
+    MUL_163_0 [label=MUL_163]
+    MUL_181_0 [label=MUL_181]
+    MUL_195_0 [label=MUL_195]
     MUL_250_1 [label=MUL_250]
     MUL_263_1 [label=MUL_263]
     MUL_276_1 [label=MUL_276]
@@ -44,20 +35,15 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 3";
     color = blue;
     pseudo_3 [style=invis];
-    MUL_25_0 [label=MUL_25]
-    MUL_35_0 [label=MUL_35]
-    MUL_42_0 [label=MUL_42]
-    MUL_52_0 [label=MUL_52]
-    MUL_59_0 [label=MUL_59]
-    MUL_69_0 [label=MUL_69]
-    MUL_76_0 [label=MUL_76]
-    MUL_86_1 [label=MUL_86]
-    MUL_93_1 [label=MUL_93]
-    MUL_103_1 [label=MUL_103]
-    MUL_110_1 [label=MUL_110]
-    MUL_120_1 [label=MUL_120]
-    MUL_127_1 [label=MUL_127]
+    MUL_103_0 [label=MUL_103]
+    MUL_110_0 [label=MUL_110]
+    MUL_120_0 [label=MUL_120]
+    MUL_127_0 [label=MUL_127]
     MUL_151_1 [label=MUL_151]
+    MUL_163_1 [label=MUL_163]
+    MUL_181_1 [label=MUL_181]
+    MUL_195_1 [label=MUL_195]
+    ADD_253
     ADD_266
     ADD_279
     ADD_292
@@ -68,19 +54,18 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 4";
     color = blue;
     pseudo_4 [style=invis];
-    MUL_1_0 [label=MUL_1]
-    MUL_8_0 [label=MUL_8]
-    MUL_18_0 [label=MUL_18]
-    MUL_25_1 [label=MUL_25]
-    MUL_35_1 [label=MUL_35]
-    MUL_42_1 [label=MUL_42]
-    MUL_52_1 [label=MUL_52]
-    MUL_59_1 [label=MUL_59]
-    MUL_69_1 [label=MUL_69]
-    MUL_76_1 [label=MUL_76]
+    MUL_69_0 [label=MUL_69]
+    MUL_76_0 [label=MUL_76]
+    MUL_86_0 [label=MUL_86]
+    MUL_93_0 [label=MUL_93]
+    MUL_103_1 [label=MUL_103]
+    MUL_110_1 [label=MUL_110]
+    MUL_120_1 [label=MUL_120]
+    MUL_127_1 [label=MUL_127]
+    ADD_154
+    ADD_166
     ADD_184
     ADD_198
-    ADD_253
   }
   subgraph cluster_5 {
     rank=same;
@@ -88,12 +73,18 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 5";
     color = blue;
     pseudo_5 [style=invis];
-    MUL_1_1 [label=MUL_1]
-    MUL_8_1 [label=MUL_8]
-    MUL_18_1 [label=MUL_18]
+    MUL_35_0 [label=MUL_35]
+    MUL_42_0 [label=MUL_42]
+    MUL_52_0 [label=MUL_52]
+    MUL_59_0 [label=MUL_59]
+    MUL_69_1 [label=MUL_69]
+    MUL_76_1 [label=MUL_76]
+    MUL_86_1 [label=MUL_86]
+    MUL_93_1 [label=MUL_93]
+    ADD_106
+    ADD_113
+    ADD_123
     ADD_130
-    ADD_154
-    ADD_166
   }
   subgraph cluster_6 {
     rank=same;
@@ -101,11 +92,22 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 6";
     color = blue;
     pseudo_6 [style=invis];
-    ADD_4
-    ADD_11
-    ADD_106
-    ADD_113
-    ADD_123
+    MUL_1_0 [label=MUL_1]
+    MUL_8_0 [label=MUL_8]
+    MUL_18_0 [label=MUL_18]
+    MUL_25_0 [label=MUL_25]
+    MUL_35_1 [label=MUL_35]
+    MUL_42_1 [label=MUL_42]
+    MUL_52_1 [label=MUL_52]
+    MUL_59_1 [label=MUL_59]
+    ADD_72
+    ADD_79
+    ADD_89
+    ADD_96
+    LOD_107
+    LOD_114
+    LOD_124
+    LOD_131
   }
   subgraph cluster_7 {
     rank=same;
@@ -113,12 +115,19 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 7";
     color = blue;
     pseudo_7 [style=invis];
-    LOD_5
-    LOD_12
-    ADD_79
-    ADD_89
-    ADD_96
-    LOD_131
+    MUL_1_1 [label=MUL_1]
+    MUL_8_1 [label=MUL_8]
+    MUL_18_1 [label=MUL_18]
+    MUL_25_1 [label=MUL_25]
+    ADD_45
+    ADD_55
+    ADD_62
+    LOD_73
+    LOD_80
+    LOD_90
+    LOD_97
+    ADD_116
+    SUB_133
   }
   subgraph cluster_8 {
     rank=same;
@@ -126,12 +135,15 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 8";
     color = blue;
     pseudo_8 [style=invis];
-    ADD_55
-    ADD_62
-    ADD_72
-    LOD_107
-    LOD_114
-    LOD_124
+    ADD_21
+    ADD_28
+    ADD_38
+    LOD_46
+    LOD_56
+    LOD_63
+    ADD_82
+    SUB_99
+    MUL_213_0 [label=MUL_213]
   }
   subgraph cluster_9 {
     rank=same;
@@ -139,13 +151,14 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 9";
     color = blue;
     pseudo_9 [style=invis];
-    ADD_14
-    ADD_28
-    ADD_38
-    ADD_45
-    LOD_80
-    LOD_90
-    LOD_97
+    ADD_4
+    ADD_11
+    LOD_22
+    LOD_29
+    LOD_39
+    SUB_65
+    MUL_213_1 [label=MUL_213]
+    MUL_216_0 [label=MUL_216]
   }
   subgraph cluster_10 {
     rank=same;
@@ -153,12 +166,14 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 10";
     color = blue;
     pseudo_10 [style=invis];
-    ADD_21
-    LOD_56
-    LOD_63
-    LOD_73
-    ADD_116
-    SUB_133
+    LOD_5
+    LOD_12
+    SUB_31
+    ADD_48
+    ADD_202
+    ADD_204
+    MUL_216_1 [label=MUL_216]
+    MUL_219_0 [label=MUL_219]
   }
   subgraph cluster_11 {
     rank=same;
@@ -166,10 +181,15 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 11";
     color = blue;
     pseudo_11 [style=invis];
-    LOD_29
-    LOD_39
-    LOD_46
-    SUB_99
+    ADD_14
+    ADD_140
+    SUB_142
+    ADD_200
+    ADD_206
+    MUL_219_1 [label=MUL_219]
+    MUL_222_0 [label=MUL_222]
+    MUL_228_0 [label=MUL_228]
+    MUL_231_0 [label=MUL_231]
   }
   subgraph cluster_12 {
     rank=same;
@@ -177,12 +197,14 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 12";
     color = blue;
     pseudo_12 [style=invis];
-    LOD_22
-    SUB_65
-    ADD_82
     ADD_136
     SUB_138
-    MUL_213_0 [label=MUL_213]
+    MUL_187_0 [label=MUL_187]
+    ADD_208
+    MUL_222_1 [label=MUL_222]
+    MUL_228_1 [label=MUL_228]
+    MUL_231_1 [label=MUL_231]
+    MUL_234_0 [label=MUL_234]
   }
   subgraph cluster_13 {
     rank=same;
@@ -190,9 +212,15 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 13";
     color = blue;
     pseudo_13 [style=invis];
-    ADD_48
-    MUL_213_1 [label=MUL_213]
-    MUL_216_0 [label=MUL_216]
+    ADD_144
+    SUB_156
+    ADD_168
+    MUL_173_0 [label=MUL_173]
+    MUL_187_1 [label=MUL_187]
+    MUL_210_0 [label=MUL_210]
+    MUL_234_1 [label=MUL_234]
+    ADD_255
+    ADD_268
   }
   subgraph cluster_14 {
     rank=same;
@@ -200,12 +228,11 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 14";
     color = blue;
     pseudo_14 [style=invis];
-    SUB_31
-    MUL_173_0 [label=MUL_173]
-    ADD_202
-    ADD_204
-    MUL_216_1 [label=MUL_216]
-    MUL_219_0 [label=MUL_219]
+    ADD_146
+    ADD_158
+    MUL_170_0 [label=MUL_170]
+    MUL_173_1 [label=MUL_173]
+    MUL_210_1 [label=MUL_210]
   }
   subgraph cluster_15 {
     rank=same;
@@ -213,10 +240,11 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 15";
     color = blue;
     pseudo_15 [style=invis];
-    ADD_140
-    SUB_142
-    MUL_173_1 [label=MUL_173]
-    MUL_219_1 [label=MUL_219]
+    ASR_148
+    ASR_160
+    MUL_170_1 [label=MUL_170]
+    ADD_236
+    ADD_239
   }
   subgraph cluster_16 {
     rank=same;
@@ -224,11 +252,13 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 16";
     color = blue;
     pseudo_16 [style=invis];
-    ADD_200
-    ADD_206
-    MUL_222_0 [label=MUL_222]
-    MUL_228_0 [label=MUL_228]
-    MUL_231_0 [label=MUL_231]
+    STR_155
+    STR_167
+    ADD_174
+    ADD_188
+    MUL_225_0 [label=MUL_225]
+    ADD_256
+    ADD_269
   }
   subgraph cluster_17 {
     rank=same;
@@ -236,13 +266,11 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 17";
     color = blue;
     pseudo_17 [style=invis];
-    ADD_144
-    SUB_156
-    ADD_168
-    MUL_187_0 [label=MUL_187]
-    MUL_222_1 [label=MUL_222]
-    MUL_228_1 [label=MUL_228]
-    MUL_231_1 [label=MUL_231]
+    ADD_176
+    ADD_190
+    MUL_225_1 [label=MUL_225]
+    ADD_258
+    ADD_271
   }
   subgraph cluster_18 {
     rank=same;
@@ -250,13 +278,11 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 18";
     color = blue;
     pseudo_18 [style=invis];
-    ADD_146
-    MUL_170_0 [label=MUL_170]
-    MUL_187_1 [label=MUL_187]
-    ADD_208
-    MUL_234_0 [label=MUL_234]
-    ADD_255
-    ADD_268
+    ASR_192
+    ADD_242
+    ASR_260
+    ASR_273
+    ADD_281
   }
   subgraph cluster_19 {
     rank=same;
@@ -264,10 +290,11 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 19";
     color = blue;
     pseudo_19 [style=invis];
-    ASR_148
-    ADD_158
-    MUL_170_1 [label=MUL_170]
-    MUL_234_1 [label=MUL_234]
+    ASR_178
+    ADD_243
+    STR_267
+    STR_280
+    ADD_282
   }
   subgraph cluster_20 {
     rank=same;
@@ -275,11 +302,10 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 20";
     color = blue;
     pseudo_20 [style=invis];
-    STR_155
-    ADD_174
-    ADD_188
-    MUL_210_0 [label=MUL_210]
-    MUL_225_0 [label=MUL_225]
+    STR_185
+    STR_199
+    ADD_245
+    ADD_284
   }
   subgraph cluster_21 {
     rank=same;
@@ -287,10 +313,8 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 21";
     color = blue;
     pseudo_21 [style=invis];
-    ASR_160
-    ADD_176
-    MUL_210_1 [label=MUL_210]
-    MUL_225_1 [label=MUL_225]
+    ASR_247
+    ASR_286
   }
   subgraph cluster_22 {
     rank=same;
@@ -298,95 +322,8 @@ digraph jpeg_fdct_islow_dfg__6 {
     label = "Time 22";
     color = blue;
     pseudo_22 [style=invis];
-    STR_167
-    ASR_178
-    ADD_236
-    ADD_239
-    ADD_281
-  }
-  subgraph cluster_23 {
-    rank=same;
-    node [style=filled];
-    label = "Time 23";
-    color = blue;
-    pseudo_23 [style=invis];
-    STR_185
-  }
-  subgraph cluster_24 {
-    rank=same;
-    node [style=filled];
-    label = "Time 24";
-    color = blue;
-    pseudo_24 [style=invis];
-    ADD_190
-    ADD_242
-    ADD_256
-  }
-  subgraph cluster_25 {
-    rank=same;
-    node [style=filled];
-    label = "Time 25";
-    color = blue;
-    pseudo_25 [style=invis];
-    ADD_269
-    ADD_282
-  }
-  subgraph cluster_26 {
-    rank=same;
-    node [style=filled];
-    label = "Time 26";
-    color = blue;
-    pseudo_26 [style=invis];
-    ASR_192
-    ADD_243
-    ADD_258
-  }
-  subgraph cluster_27 {
-    rank=same;
-    node [style=filled];
-    label = "Time 27";
-    color = blue;
-    pseudo_27 [style=invis];
-    STR_199
-    ADD_271
-    ADD_284
-  }
-  subgraph cluster_28 {
-    rank=same;
-    node [style=filled];
-    label = "Time 28";
-    color = blue;
-    pseudo_28 [style=invis];
-    ADD_245
-    ASR_260
-  }
-  subgraph cluster_29 {
-    rank=same;
-    node [style=filled];
-    label = "Time 29";
-    color = blue;
-    pseudo_29 [style=invis];
-    STR_267
-    ASR_273
-    ASR_286
-  }
-  subgraph cluster_30 {
-    rank=same;
-    node [style=filled];
-    label = "Time 30";
-    color = blue;
-    pseudo_30 [style=invis];
-    ASR_247
-    STR_280
-    STR_293
-  }
-  subgraph cluster_31 {
-    rank=same;
-    node [style=filled];
-    label = "Time 31";
-    color = blue;
-    pseudo_31 [style=invis];
     STR_254
+    STR_293
   }
     pseudo_1->pseudo_2 [style=invis];
     pseudo_2->pseudo_3 [style=invis];
@@ -409,15 +346,6 @@ digraph jpeg_fdct_islow_dfg__6 {
     pseudo_19->pseudo_20 [style=invis];
     pseudo_20->pseudo_21 [style=invis];
     pseudo_21->pseudo_22 [style=invis];
-    pseudo_22->pseudo_23 [style=invis];
-    pseudo_23->pseudo_24 [style=invis];
-    pseudo_24->pseudo_25 [style=invis];
-    pseudo_25->pseudo_26 [style=invis];
-    pseudo_26->pseudo_27 [style=invis];
-    pseudo_27->pseudo_28 [style=invis];
-    pseudo_28->pseudo_29 [style=invis];
-    pseudo_29->pseudo_30 [style=invis];
-    pseudo_30->pseudo_31 [style=invis];
     MUL_1_0 -> MUL_1_1 [color=red];
     MUL_8_0 -> MUL_8_1 [color=red];
     MUL_18_0 -> MUL_18_1 [color=red];

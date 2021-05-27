@@ -90,14 +90,14 @@ proc compute_latency {result} {
 
 
 #set filename "fir"
-#set filename "jpeg_fdct_islow_dfg__6"
+set filename "jpeg_fdct_islow_dfg__6"
 #set filename "idctcol_dfg__3"
-set filename "invert_matrix_general_dfg__3"
+#set filename "dup_invert_matrix_general_dfg__3"
 read_design ./data/DFGs/${filename}.dot
 read_library ./data/RTL_libraries/RTL_library_multi-resources.txt
 
 set start [clock millisec]
-set result [brave_opt -total_area 1800]
+set result [brave_opt -total_area 900]
 set end [clock millisec]
 
 set time [expr {$end - $start}]

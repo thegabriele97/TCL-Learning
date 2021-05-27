@@ -233,9 +233,9 @@ proc opt_loop {constraints mapping_op nodes_op area priority use_mixture} {
         set result_total [list_mlac_scheduler $constraints $nodes_op $mapping_op]
         set result_new [lindex $result_total 0]
         
-        puts "\n\n-------> result_scheduling $result_new"
-        puts "\n#########> constraints: $constraints"
-        puts "\n*********> nodes_op: $nodes_op"
+        # puts "\n\n-------> result_scheduling $result_new"
+        # puts "\n#########> constraints: $constraints"
+        # puts "\n*********> nodes_op: $nodes_op"
 
 
         ### PROBLEM HERE ######
@@ -264,7 +264,7 @@ proc opt_loop {constraints mapping_op nodes_op area priority use_mixture} {
 
         set constraints [lindex $result_total 1]
         set used_area [compute_area $constraints $mapping_op]
-        puts "\nlatency: $latency (vs min $min_last_schedule) - computed area on scheduling: $used_area - constraints: $constraints"
+        # puts "\nlatency: $latency (vs min $min_last_schedule) - computed area on scheduling: $used_area - constraints: $constraints"
         #gets stdin
 
         set heuristic_result [heuristic $constraints $used_area $area $nodes_op $priority $mapping_op $use_mixture]
@@ -481,49 +481,73 @@ proc start area {
         return [list {} {} {}]
     }
 
+    # set tot_delta $tot_area
+    # while {[expr {$tot_area + $tot_delta}] <= $area} {
+
+    #     break
+
+    #     foreach constraint $constraints {
+    #         if {[lindex $constraint 1] > 0} {
+
+    #             set idx [lsearch -index 0 $constraints [lindex $constraint 0]]
+
+    #             set constraints [\
+    #                 lreplace $constraints $idx $idx [\
+    #                     list [lindex $constraints $idx 0] [expr { [lindex $constraints $idx 1] + 1 }] \
+    #                 ]\
+    #             ]
+    #         }
+    #     }
+
+    #     set tot_area [expr {$tot_area + $tot_delta}]
+
+    #     puts "constraints: $constraints"
+    # }
+
+
     # Calcolo il totale delle operazioni
-    set total_op_number 0
-    foreach op $op_number {
-        set total_op_number [expr {$total_op_number + [lindex $op 1]}]
-    }
+    # set total_op_number 0
+    # foreach op $op_number {
+    #     set total_op_number [expr {$total_op_number + [lindex $op 1]}]
+    # }
 
-    puts $op_number
-    set at_least_one 1
-    while {$at_least_one == 1} {
-        set i 0
-        set area_used 0
-        set at_least_one 0
-        foreach constraint $constraints {
-            if {[lindex $constraint 1] > 0} {
-                set mapping_op_element [lindex $mapping_op $i]
-                set area_op_element [lindex $mapping_op_element 0]
-                set functional_unit [lindex $mapping_op_element 2]
-                set functional_unit_op [get_attribute $functional_unit operation]
-                set functional_unit_op_number [lindex [lsearch -index 0 -inline $op_number $functional_unit_op] 1]
-                set num_op_to_add [expr {int(($area - $tot_area) * (double($functional_unit_op_number) / $total_op_number) / $area_op_element)}]
+    # puts $op_number
+    # set at_least_one 1
+    # while {$at_least_one == 1} {
+    #     set i 0
+    #     set area_used 0
+    #     set at_least_one 0
+    #     foreach constraint $constraints {
+    #         if {[lindex $constraint 1] > 0} {
+    #             set mapping_op_element [lindex $mapping_op $i]
+    #             set area_op_element [lindex $mapping_op_element 0]
+    #             set functional_unit [lindex $mapping_op_element 2]
+    #             set functional_unit_op [get_attribute $functional_unit operation]
+    #             set functional_unit_op_number [lindex [lsearch -index 0 -inline $op_number $functional_unit_op] 1]
+    #             set num_op_to_add [expr {int(($area - $tot_area) * (double($functional_unit_op_number) / $total_op_number) / $area_op_element)}]
 
-                set alredy_present_fu [lindex $constraints $i 1]
-                set num_op_to_add [ expr { min($functional_unit_op_number - $alredy_present_fu, $num_op_to_add ) } ]
-                if { $num_op_to_add > 0 } {
-                    set at_least_one 1
-                    set constraints [lreplace $constraints $i $i [list [lindex $constraints $i 0] [expr {$alredy_present_fu + $num_op_to_add}]]]
-                }
-                set area_used [expr {$area_used + ($num_op_to_add * $area_op_element)}]
-            }
-            incr i
-        }
-        set tot_area [expr {$tot_area + $area_used}]
-    }
+    #             set alredy_present_fu [lindex $constraints $i 1]
+    #             set num_op_to_add [ expr { min($functional_unit_op_number - $alredy_present_fu, $num_op_to_add ) } ]
+    #             if { $num_op_to_add > 0 } {
+    #                 set at_least_one 1
+    #                 set constraints [lreplace $constraints $i $i [list [lindex $constraints $i 0] [expr {$alredy_present_fu + $num_op_to_add}]]]
+    #             }
+    #             set area_used [expr {$area_used + ($num_op_to_add * $area_op_element)}]
+    #         }
+    #         incr i
+    #     }
+    #     set tot_area [expr {$tot_area + $area_used}]
+    # }
     # Do I have still memory available? Substitute slow with fast!
 
 
-    puts "constraints $constraints"
-    puts ""
-    puts "mapping_op $mapping_op"
-    puts ""
-    puts "nodes_op $nodes_op"
-    puts ""
-
+    #puts "constraints $constraints"
+    #puts ""
+    #puts "mapping_op $mapping_op"
+    #puts ""
+    #puts "nodes_op $nodes_op"
+    #puts ""
+    
     #puts "area: $tot_area"
     # puts "op_number $op_number"
     #gets stdin
@@ -559,11 +583,17 @@ proc start area {
     set best_constraints {}
     set best_result {}
     set best_used_area {}
+    set loop_cnt 0
     while {$starting_idx < [llength $constraints]} {
+
+        if {[lindex $constraints $starting_idx 1] == 0} {
+            incr starting_idx
+            continue
+        }
 
         set loop_constraints [concat [lrange $constraints $starting_idx end] [lrange $constraints 0 [expr {$starting_idx -1}]]]
 
-        puts "working on: $loop_constraints"
+        # puts "working on: $loop_constraints"
         #gets stdin
 
         set last_constraints {}
@@ -573,6 +603,8 @@ proc start area {
         while {1} {
 
             for {set i 0} {$i < [llength $loop_constraints]} {incr i} {
+
+                incr loop_cnt
                 
                 if {[lindex $loop_constraints $i 1] == 0} {
                     continue
@@ -580,15 +612,20 @@ proc start area {
 
                 set idx [lsearch -index 0 $working_constraints [lindex $loop_constraints $i 0]]
 
-                if {[expr {$area - $working_used_area - [lindex $mapping_op $idx 0]}] >= 0} {
+                set multiplier 1
+                if { [ expr { $working_used_area + 10*300 } ] < $area } {
+                    set multiplier 2
+                }
+
+                if {[expr {$area - $working_used_area - $multiplier * [lindex $mapping_op $idx 0]}] >= 0} {
                     
                     set working_constraints [\
                         lreplace $working_constraints $idx $idx [\
-                            list [lindex $working_constraints $idx 0] [expr { [lindex $working_constraints $idx 1] + 1 }] \
+                            list [lindex $working_constraints $idx 0] [expr { [lindex $working_constraints $idx 1] + $multiplier }] \
                         ]\
                     ]
 
-                    set working_used_area [expr {$working_used_area + [lindex $mapping_op $idx 0]}]
+                    set working_used_area [expr {$working_used_area + $multiplier * [lindex $mapping_op $idx 0]}]
                 }
 
             }
@@ -599,23 +636,23 @@ proc start area {
 
             set last_constraints $working_constraints
 
-            puts "\n\ninput constraints: $working_constraints \n\n"
+            # puts "\n\ninput constraints: $working_constraints \n\n"
             # gets stdin
 
             set result_total [list_mlac_scheduler $working_constraints $nodes_op $mapping_op]
-            puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [lindex $result_total 0]"
-            puts "\n\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [lindex $result_total 1]"
+            # puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [lindex $result_total 0]"
+            # puts "\n\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [lindex $result_total 1]"
             
             puts "latency: [compute_latency_from_schedule [lindex $result_total 0] $mapping_op $nodes_op] (best: $best_latency)"
             set working_constraints [lindex $result_total 1]
-            puts "\n\n>> So the used area is: - (computed is [compute_area $working_constraints $mapping_op])"
-            puts "output constraints: $working_constraints"
+            # puts "\n\n>> So the used area is: - (computed is [compute_area $working_constraints $mapping_op])"
+            # puts "output constraints: $working_constraints"
             set working_result [lindex $result_total 0]
 
             # gets stdin
 
             set working_used_area [compute_area $working_constraints $mapping_op]
-            puts "new area now is > $working_used_area"
+            # puts "new area now is > $working_used_area"
             # gets stdin
 
             set curr_latency [compute_latency_from_schedule $working_result $mapping_op $nodes_op]
@@ -624,7 +661,7 @@ proc start area {
                 set best_result $working_result
                 set best_latency $curr_latency 
                 set best_used_area $working_used_area
-                puts "**************************************"
+                # puts "**************************************"
             } 
 
         }
@@ -639,7 +676,7 @@ proc start area {
         set used_area $best_used_area
     }
 
-
+    puts "# loops: $loop_cnt"
 
     # set constraints [lreplace $constraints 0 0 [list "MUL0" 24]]
     # set constraints [lreplace $constraints 3 3 [list "ADD0" 40]]
