@@ -19,6 +19,8 @@ proc compute_delay {nodes_op mapping_op parent} {
     return $op_delay
 }
 
+
+
 proc compute_area {constraints mapping_op} {
     set area 0
     for {set i 0} {$i < [llength $constraints]} {incr i} {
@@ -474,6 +476,11 @@ proc start area {
         }
     }
 
+    # check if the area given is feasible
+    if { $area < $tot_area } {
+        return [list {} {} {}]
+    }
+
     # Calcolo il totale delle operazioni
     set total_op_number 0
     foreach op $op_number {
@@ -507,7 +514,6 @@ proc start area {
         }
         set tot_area [expr {$tot_area + $area_used}]
     }
-
     # Do I have still memory available? Substitute slow with fast!
 
 
@@ -545,8 +551,14 @@ proc start area {
     set used_area [lindex $all_results $best_latency_idx 2] 
     set result [lindex $all_results $best_latency_idx 3] 
 
+    puts "Best result with best_latency_idx $best_latency_idx ([lindex $all_results $best_latency_idx 4])"
+
 
     set starting_idx 0
+    set best_latency [lindex $all_results $best_latency_idx 4]
+    set best_constraints {}
+    set best_result {}
+    set best_used_area {}
     while {$starting_idx < [llength $constraints]} {
 
         set loop_constraints [concat [lrange $constraints $starting_idx end] [lrange $constraints 0 [expr {$starting_idx -1}]]]
@@ -556,6 +568,7 @@ proc start area {
 
         set last_constraints {}
         set working_constraints $constraints
+        set working_used_area $used_area
 
         while {1} {
 
@@ -567,7 +580,7 @@ proc start area {
 
                 set idx [lsearch -index 0 $working_constraints [lindex $loop_constraints $i 0]]
 
-                if {[expr {$area - $used_area - [lindex $mapping_op $idx 0]}] >= 0} {
+                if {[expr {$area - $working_used_area - [lindex $mapping_op $idx 0]}] >= 0} {
                     
                     set working_constraints [\
                         lreplace $working_constraints $idx $idx [\
@@ -575,7 +588,7 @@ proc start area {
                         ]\
                     ]
 
-                    set used_area [expr {$used_area + [lindex $mapping_op $idx 0]}]
+                    set working_used_area [expr {$working_used_area + [lindex $mapping_op $idx 0]}]
                 }
 
             }
@@ -593,7 +606,7 @@ proc start area {
             puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [lindex $result_total 0]"
             puts "\n\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [lindex $result_total 1]"
             
-            puts "latency: [compute_latency_from_schedule [lindex $result_total 0] $mapping_op $nodes_op]"
+            puts "latency: [compute_latency_from_schedule [lindex $result_total 0] $mapping_op $nodes_op] (best: $best_latency)"
             set working_constraints [lindex $result_total 1]
             puts "\n\n>> So the used area is: - (computed is [compute_area $working_constraints $mapping_op])"
             puts "output constraints: $working_constraints"
@@ -601,20 +614,29 @@ proc start area {
 
             # gets stdin
 
-            set used_area [compute_area $working_constraints $mapping_op]
-            puts "new area now is > $used_area"
+            set working_used_area [compute_area $working_constraints $mapping_op]
+            puts "new area now is > $working_used_area"
             # gets stdin
+
+            set curr_latency [compute_latency_from_schedule $working_result $mapping_op $nodes_op]
+            if {$curr_latency < $best_latency} {
+                set best_constraints $working_constraints
+                set best_result $working_result
+                set best_latency $curr_latency 
+                set best_used_area $working_used_area
+                puts "**************************************"
+            } 
 
         }
 
         incr starting_idx
 
-        if {[compute_latency_from_schedule $working_result $mapping_op $nodes_op] < [lindex $all_results $best_latency_idx 4]} {
-            set constraints $working_constraints
-            set result $working_result
-            puts "**************************************"
-        } 
+    }
 
+    if {$best_latency < [lindex $all_results $best_latency_idx 4]} {
+        set constraints $best_constraints
+        set result $best_result
+        set used_area $best_used_area
     }
 
 

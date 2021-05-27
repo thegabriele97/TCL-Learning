@@ -4,6 +4,10 @@ source ./tcl_scripts/braveOpt.tcl
 
 proc validate_solution {result} {
     # save the scheduled nodes
+    if { [ llength [lindex $result 0 ] ] == 0 } {
+      return 1;
+    }
+
     set node_list [lindex $result 0]
     foreach node_pair $node_list {
         set node [lindex $node_pair 0]
@@ -85,15 +89,15 @@ proc compute_latency {result} {
 }
 
 
-set filename "fir"
+#set filename "fir"
 #set filename "jpeg_fdct_islow_dfg__6"
 #set filename "idctcol_dfg__3"
-#set filename "invert_matrix_general_dfg__3"
+set filename "invert_matrix_general_dfg__3"
 read_design ./data/DFGs/${filename}.dot
 read_library ./data/RTL_libraries/RTL_library_multi-resources.txt
 
 set start [clock millisec]
-set result [brave_opt -total_area 2140]
+set result [brave_opt -total_area 1800]
 set end [clock millisec]
 
 set time [expr {$end - $start}]
