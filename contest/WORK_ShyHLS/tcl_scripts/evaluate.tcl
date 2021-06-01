@@ -79,25 +79,44 @@ proc compute_latency_min {result filename} {
 
 proc compute_latency {result} {
 
-    set last_node_starting_time [lindex [lindex $result 0 end] 1]
-    set last_node_name [lindex [lindex $result 0 end] 0]
-    set op_last_node [lindex [lsearch -index 0 -inline [lindex $result 1] $last_node_name] 1]
-    set delay_last_node [get_attribute $op_last_node delay]
-    set latency [expr {$last_node_starting_time + $delay_last_node}]
+  	set latency 0
+
+	  set schedules [lindex $result 0]
+    foreach schedule $schedules {
+		set op_last_node [lindex [lsearch -index 0 -inline [lindex $result 1] [lindex $schedule 0]] 1]
+		set delay_last_node [get_attribute $op_last_node delay]
+
+        set computed_latency [ expr {[lindex $schedule 1] + $delay_last_node}]
+        if {$computed_latency > $latency} {
+            set latency $computed_latency
+        }
+
+    }
 
     return $latency
+
+    # set last_node_starting_time [lindex [lindex $result 0 end] 1]
+    # set last_node_name [lindex [lindex $result 0 end] 0]
+    # set op_last_node [lindex [lsearch -index 0 -inline [lindex $result 1] $last_node_name] 1]
+    # set delay_last_node [get_attribute $op_last_node delay]
+
+    # set latency [expr {$last_node_starting_time + $delay_last_node}]
+
+    # return $latency
 }
 
 
 #set filename "fir"
-set filename "jpeg_fdct_islow_dfg__6"
+set filename "motion_vectors_dfg__7"
+# set filename "jpeg_fdct_islow_dfg__6"
 #set filename "idctcol_dfg__3"
-#set filename "dup_invert_matrix_general_dfg__3"
+# set filename "invert_matrix_general_dfg__3"
 read_design ./data/DFGs/${filename}.dot
 read_library ./data/RTL_libraries/RTL_library_multi-resources.txt
+# read_library ./data/RTL_libraries/RTL_library_multi-resources-added.txt
 
 set start [clock millisec]
-set result [brave_opt -total_area 900]
+set result [brave_opt -total_area 1000]
 set end [clock millisec]
 
 set time [expr {$end - $start}]
@@ -107,8 +126,9 @@ if { $is_valid == 0 } {
     set latency_min [compute_latency_min $result $filename]
     set latency [compute_latency $result]
 
-    puts "\[evaluate] result: [lindex $result 0]"
-    puts "\[evaluate] time: $time"
+    puts "\[evaluate] result 0: [lindex $result 0]"
+    puts "\[evaluate] result 2: [lindex $result 2]"
+    puts "\[evaluate] time: $time ms"
     puts "\[evaluate] latency/latency_min: $latency/$latency_min"
 
     set score [expr {100 * (1-($time/double((900*1000)))) * $latency_min/double($latency)}]

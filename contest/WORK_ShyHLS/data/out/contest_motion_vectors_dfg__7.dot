@@ -7,10 +7,11 @@ digraph motion_vectors_dfg__7 {
     label = "Time 1";
     color = blue;
     pseudo_1 [style=invis];
+    MUL_13_0 [label=MUL_13]
+    MUL_15_0 [label=MUL_15]
+    MUL_29_0 [label=MUL_29]
+    MUL_40_0 [label=MUL_40]
     MUL_42_0 [label=MUL_42]
-    MUL_53_0 [label=MUL_53]
-    MUL_54_0 [label=MUL_54]
-    MUL_56_0 [label=MUL_56]
   }
   subgraph cluster_2 {
     rank=same;
@@ -18,10 +19,11 @@ digraph motion_vectors_dfg__7 {
     label = "Time 2";
     color = blue;
     pseudo_2 [style=invis];
+    MUL_13_1 [label=MUL_13]
+    MUL_15_1 [label=MUL_15]
+    MUL_29_1 [label=MUL_29]
+    MUL_40_1 [label=MUL_40]
     MUL_42_1 [label=MUL_42]
-    MUL_53_1 [label=MUL_53]
-    MUL_54_1 [label=MUL_54]
-    MUL_56_1 [label=MUL_56]
   }
   subgraph cluster_3 {
     rank=same;
@@ -29,12 +31,14 @@ digraph motion_vectors_dfg__7 {
     label = "Time 3";
     color = blue;
     pseudo_3 [style=invis];
+    MUL_12_0 [label=MUL_12]
+    ADD_18
     MUL_27_0 [label=MUL_27]
-    MUL_29_0 [label=MUL_29]
+    ADD_32
     MUL_39_0 [label=MUL_39]
-    MUL_40_0 [label=MUL_40]
     ADD_45
-    ADD_59
+    MUL_54_0 [label=MUL_54]
+    MUL_56_0 [label=MUL_56]
   }
   subgraph cluster_4 {
     rank=same;
@@ -42,11 +46,13 @@ digraph motion_vectors_dfg__7 {
     label = "Time 4";
     color = blue;
     pseudo_4 [style=invis];
+    MUL_12_1 [label=MUL_12]
+    ADD_20
     MUL_27_1 [label=MUL_27]
-    MUL_29_1 [label=MUL_29]
     MUL_39_1 [label=MUL_39]
-    MUL_40_1 [label=MUL_40]
-    ADD_61
+    ADD_47
+    MUL_54_1 [label=MUL_54]
+    MUL_56_1 [label=MUL_56]
   }
   subgraph cluster_5 {
     rank=same;
@@ -54,12 +60,14 @@ digraph motion_vectors_dfg__7 {
     label = "Time 5";
     color = blue;
     pseudo_5 [style=invis];
-    MUL_12_0 [label=MUL_12]
-    MUL_13_0 [label=MUL_13]
-    MUL_15_0 [label=MUL_15]
+    MUL_1_0 [label=MUL_1]
+    MUL_3_0 [label=MUL_3]
+    ADD_22
     MUL_26_0 [label=MUL_26]
-    ADD_47
-    ADD_63
+    ADD_34
+    ADD_49
+    MUL_53_0 [label=MUL_53]
+    ADD_59
   }
   subgraph cluster_6 {
     rank=same;
@@ -67,11 +75,13 @@ digraph motion_vectors_dfg__7 {
     label = "Time 6";
     color = blue;
     pseudo_6 [style=invis];
-    MUL_12_1 [label=MUL_12]
-    MUL_13_1 [label=MUL_13]
-    MUL_15_1 [label=MUL_15]
+    MUL_1_1 [label=MUL_1]
+    MUL_3_1 [label=MUL_3]
+    LOD_23
     MUL_26_1 [label=MUL_26]
-    ADD_32
+    LOD_50
+    MUL_53_1 [label=MUL_53]
+    ADD_61
   }
   subgraph cluster_7 {
     rank=same;
@@ -79,10 +89,9 @@ digraph motion_vectors_dfg__7 {
     label = "Time 7";
     color = blue;
     pseudo_7 [style=invis];
-    MUL_1_0 [label=MUL_1]
-    MUL_3_0 [label=MUL_3]
-    ADD_34
-    ADD_49
+    ADD_6
+    ADD_36
+    ADD_63
   }
   subgraph cluster_8 {
     rank=same;
@@ -90,46 +99,9 @@ digraph motion_vectors_dfg__7 {
     label = "Time 8";
     color = blue;
     pseudo_8 [style=invis];
-    MUL_1_1 [label=MUL_1]
-    MUL_3_1 [label=MUL_3]
-    ADD_18
-    LOD_50
-  }
-  subgraph cluster_9 {
-    rank=same;
-    node [style=filled];
-    label = "Time 9";
-    color = blue;
-    pseudo_9 [style=invis];
-    ADD_20
-    ADD_36
-    STR_64
-  }
-  subgraph cluster_10 {
-    rank=same;
-    node [style=filled];
-    label = "Time 10";
-    color = blue;
-    pseudo_10 [style=invis];
-    ADD_6
-    ADD_22
-  }
-  subgraph cluster_11 {
-    rank=same;
-    node [style=filled];
-    label = "Time 11";
-    color = blue;
-    pseudo_11 [style=invis];
     ADD_8
-    LOD_23
-  }
-  subgraph cluster_12 {
-    rank=same;
-    node [style=filled];
-    label = "Time 12";
-    color = blue;
-    pseudo_12 [style=invis];
     STR_37
+    STR_64
   }
     pseudo_1->pseudo_2 [style=invis];
     pseudo_2->pseudo_3 [style=invis];
@@ -138,10 +110,6 @@ digraph motion_vectors_dfg__7 {
     pseudo_5->pseudo_6 [style=invis];
     pseudo_6->pseudo_7 [style=invis];
     pseudo_7->pseudo_8 [style=invis];
-    pseudo_8->pseudo_9 [style=invis];
-    pseudo_9->pseudo_10 [style=invis];
-    pseudo_10->pseudo_11 [style=invis];
-    pseudo_11->pseudo_12 [style=invis];
     MUL_1_0 -> MUL_1_1 [color=red];
     MUL_3_0 -> MUL_3_1 [color=red];
     MUL_12_0 -> MUL_12_1 [color=red];
