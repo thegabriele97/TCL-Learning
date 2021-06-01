@@ -1,0 +1,63 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{titling} % package per il titolo
+\usepackage{graphicx}
+\usepackage{hyperref} % package per i collegamenti cliccabili
+\usepackage{listings} % package per inserire il codice
+\usepackage{xcolor} % package per i colori
+\usepackage{float} % usato per le immagini \begin{figure}[H] per mettere la H che evita che le immagini vadano in pagine successive
+\usepackage{amsmath}
+\usepackage{parskip}
+% \usepackage[inner=1cm,outer=1cm,bottom=1cm,top=1cm]{geometry}
+\usepackage{geometry}
+
+\title{\Huge Report}
+\author{
+\large \textbf{Matteo Battilana} Numero Matricola \\
+\large \textbf{Salvatore Gabriele La Greca} s281589 \\
+\large \textbf{Giovanni Pollo} s290136}
+\date{}
+\renewcommand\maketitlehooka{
+  \begin{center}
+    \includegraphics[width=0.8 \textwidth]{Immagini/polito_logo_2021_blu.jpg} % Dimensioni per l'immagine
+  \end{center}
+}
+
+\begin{document}
+\begin{titlepage}
+    \centering
+    \vspace{2px}
+  \end{titlepage}
+  \maketitle
+  \thispagestyle{empty}
+
+  \newpage
+
+  \thispagestyle{empty}
+
+  \section{Explanation}
+  The idea of the code is to start by inserting one functional unit per type, and the chosen one is the slowest and the smallest. 
+  After that we start the while loop in order to explore some possibilities and find the best one. The used logic is based on these steps:
+  \begin{enumerate}
+      \item Filling the area
+      \item Executing minimum latency area constrained algorithm
+      \item Computing latency
+      \item Saving the latency if it is the best
+  \end{enumerate}
+
+  This while loop stops when we iterate with two constraints that are the exactly the same. In fact, when we reach that condition, it means that our algorithm has reached it's best state. 
+
+  The trick we used is to perform a sharing inside the minimum latency area constrained algorithm. In fact, every time we check the maximum number of unit needed ir order to obtain that scheduling. For example if we launch the scheduling with 30 MUL but we can only run 15 MUL in parallel, we are wasting area. By doing this, every loop of the while we are able to save some area that can be invested in changing a unit with a faster one (if needed) or in adding a unit of antoher kind.
+
+  An important decision was taken in order to sastify the tradeoff precision-speed. When we execute the step of filling the area we used a multiplier. When we have a lot of free are (SCRIVERLO MEGLIO) we set the multiplier to 2. By doing this we increment the number of unit by 2. When we are reaching the area limit we start incrementing by 1. This allows to improve performance but not loosing much in granularity of the algorithm. The value of the multiplier can be changed based on the precision-speed ratio we would like to obtain. This allows the alogithm to be reusable and suitable for different use cases. 
+
+  The minimum latency area constrained algorithm is taken from the laboratory exercises with little adaptation for managing the presence of different speed and area units. 
+
+  The algorithm to compute the latency uses the last scheduled node time. 
+
+  The score is then computed and printed (the minimum latency is computed using the ASAP algorithm of the laboratory).
+
+  
+\end{document}
+
+
