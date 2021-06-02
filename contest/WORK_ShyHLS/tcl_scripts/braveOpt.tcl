@@ -601,6 +601,7 @@ proc start area {
 
 
     set starting_idx 0
+    set constraints_lut {}
     set best_latency [lindex $all_results $best_latency_idx 4]
     set best_constraints {}
     set best_result {}
@@ -613,7 +614,7 @@ proc start area {
             continue
         }
 
-        puts "\n\n\n\t\t ################### >> OPT LOOP #$starting_idx << ###################\n\n\n" 
+        puts "\n\n\n\t ################### >> OPT LOOP #$starting_idx << ###################\n\n" 
 
         set loop_constraints [concat [lrange $constraints $starting_idx end] [lrange $constraints 0 [expr {$starting_idx -1}]]]
 
@@ -673,7 +674,18 @@ proc start area {
             # puts "\n\ninput constraints: $working_constraints \n\n"
             # gets stdin
 
-            set result_total [list_mlac_scheduler $working_constraints $nodes_op $mapping_op $priority]
+            # set result_total [list_mlac_scheduler $working_constraints $nodes_op $mapping_op $priority]
+            # set lut_result -1
+
+            set lut_result [lsearch -index 2 -inline $constraints_lut $last_constraints ]
+
+            if {$lut_result < 0} {
+                set result_total [list_mlac_scheduler $working_constraints $nodes_op $mapping_op $priority]
+                set constraints_lut [lappend constraints_lut [list [lindex $result_total 0] [lindex $result_total 1] $working_constraints ]]
+            } else {
+                set result_total [lrange $lut_result 0 1]
+            }
+
             # puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [lindex $result_total 0]"
             # puts "\n\n\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [lindex $result_total 1]"
             
@@ -701,7 +713,13 @@ proc start area {
             # puts "new area now is > $working_used_area"
             # gets stdin
 
-            puts "\tarea: $working_used_area\tlatency: [compute_latency_from_schedule [lindex $result_total 0] $mapping_op $nodes_op]\t(best: $best_latency)"
+            puts -nonewline "\tarea: $working_used_area"
+            puts -nonewline "\tlatency: [compute_latency_from_schedule [lindex $result_total 0] $mapping_op $nodes_op]\tbest: $best_latency"
+            if {$lut_result < 0} {
+                puts ""
+            } else {
+                puts "\t*"
+            }
 
             set curr_latency [compute_latency_from_schedule $working_result $mapping_op $nodes_op]
             if {$curr_latency < $best_latency} {

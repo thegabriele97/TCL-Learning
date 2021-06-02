@@ -7,15 +7,14 @@ digraph idctcol_dfg__3 {
     label = "Time 1";
     color = blue;
     pseudo_1 [style=invis];
+    MUL_2_0 [label=MUL_2]
     ADD_15
+    MUL_21_0 [label=MUL_21]
+    MUL_27_0 [label=MUL_27]
     ADD_33
+    MUL_39_0 [label=MUL_39]
+    MUL_45_0 [label=MUL_45]
     ADD_56
-    MUL_149_0 [label=MUL_149]
-    MUL_164_0 [label=MUL_164]
-    MUL_179_0 [label=MUL_179]
-    MUL_194_0 [label=MUL_194]
-    MUL_209_0 [label=MUL_209]
-    MUL_224_0 [label=MUL_224]
   }
   subgraph cluster_2 {
     rank=same;
@@ -23,18 +22,11 @@ digraph idctcol_dfg__3 {
     label = "Time 2";
     color = blue;
     pseudo_2 [style=invis];
-    MUL_39_0 [label=MUL_39]
-    MUL_45_0 [label=MUL_45]
-    MUL_62_0 [label=MUL_62]
-    MUL_68_0 [label=MUL_68]
-    MUL_119_0 [label=MUL_119]
-    MUL_134_0 [label=MUL_134]
-    MUL_149_1 [label=MUL_149]
-    MUL_164_1 [label=MUL_164]
-    MUL_179_1 [label=MUL_179]
-    MUL_194_1 [label=MUL_194]
-    MUL_209_1 [label=MUL_209]
-    MUL_224_1 [label=MUL_224]
+    MUL_2_1 [label=MUL_2]
+    MUL_21_1 [label=MUL_21]
+    MUL_27_1 [label=MUL_27]
+    MUL_39_1 [label=MUL_39]
+    MUL_45_1 [label=MUL_45]
   }
   subgraph cluster_3 {
     rank=same;
@@ -42,24 +34,12 @@ digraph idctcol_dfg__3 {
     label = "Time 3";
     color = blue;
     pseudo_3 [style=invis];
-    MUL_2_0 [label=MUL_2]
+    ADD_5
     MUL_16_0 [label=MUL_16]
-    MUL_21_0 [label=MUL_21]
-    MUL_27_0 [label=MUL_27]
     MUL_34_0 [label=MUL_34]
-    MUL_39_1 [label=MUL_39]
-    MUL_45_1 [label=MUL_45]
     MUL_57_0 [label=MUL_57]
-    MUL_62_1 [label=MUL_62]
-    MUL_68_1 [label=MUL_68]
-    MUL_119_1 [label=MUL_119]
-    MUL_134_1 [label=MUL_134]
-    ADD_152
-    ADD_167
-    ADD_182
-    ADD_197
-    ADD_212
-    ADD_227
+    MUL_62_0 [label=MUL_62]
+    MUL_68_0 [label=MUL_68]
   }
   subgraph cluster_4 {
     rank=same;
@@ -67,14 +47,12 @@ digraph idctcol_dfg__3 {
     label = "Time 4";
     color = blue;
     pseudo_4 [style=invis];
-    MUL_2_1 [label=MUL_2]
+    LOD_6
     MUL_16_1 [label=MUL_16]
-    MUL_21_1 [label=MUL_21]
-    MUL_27_1 [label=MUL_27]
     MUL_34_1 [label=MUL_34]
     MUL_57_1 [label=MUL_57]
-    ADD_122
-    ADD_137
+    MUL_62_1 [label=MUL_62]
+    MUL_68_1 [label=MUL_68]
   }
   subgraph cluster_5 {
     rank=same;
@@ -82,10 +60,15 @@ digraph idctcol_dfg__3 {
     label = "Time 5";
     color = blue;
     pseudo_5 [style=invis];
-    ADD_5
+    LSL_10
     ADD_18
     ADD_36
     ADD_59
+    MUL_119_0 [label=MUL_119]
+    MUL_134_0 [label=MUL_134]
+    MUL_149_0 [label=MUL_149]
+    MUL_164_0 [label=MUL_164]
+    MUL_179_0 [label=MUL_179]
   }
   subgraph cluster_6 {
     rank=same;
@@ -93,13 +76,18 @@ digraph idctcol_dfg__3 {
     label = "Time 6";
     color = blue;
     pseudo_6 [style=invis];
-    LOD_6
+    ADD_12
     ADD_22
     SUB_28
     SUB_40
     SUB_46
     SUB_63
     ADD_69
+    MUL_119_1 [label=MUL_119]
+    MUL_134_1 [label=MUL_134]
+    MUL_149_1 [label=MUL_149]
+    MUL_164_1 [label=MUL_164]
+    MUL_179_1 [label=MUL_179]
   }
   subgraph cluster_7 {
     rank=same;
@@ -107,13 +95,20 @@ digraph idctcol_dfg__3 {
     label = "Time 7";
     color = blue;
     pseudo_7 [style=invis];
-    LSL_10
     ASR_24
     ASR_30
     ASR_42
     ASR_48
+    ADD_50
+    SUB_52
     ASR_65
-    ASR_71
+    ADD_122
+    ADD_137
+    ADD_152
+    ADD_167
+    MUL_194_0 [label=MUL_194]
+    MUL_209_0 [label=MUL_209]
+    MUL_224_0 [label=MUL_224]
   }
   subgraph cluster_8 {
     rank=same;
@@ -121,11 +116,17 @@ digraph idctcol_dfg__3 {
     label = "Time 8";
     color = blue;
     pseudo_8 [style=invis];
-    ADD_12
+    ASR_71
     ADD_73
     SUB_75
     ADD_78
     SUB_80
+    ADD_88
+    SUB_90
+    ADD_182
+    MUL_194_1 [label=MUL_194]
+    MUL_209_1 [label=MUL_209]
+    MUL_224_1 [label=MUL_224]
   }
   subgraph cluster_9 {
     rank=same;
@@ -133,10 +134,13 @@ digraph idctcol_dfg__3 {
     label = "Time 9";
     color = blue;
     pseudo_9 [style=invis];
-    ADD_50
-    SUB_52
+    ADD_83
+    SUB_85
     ADD_94
     SUB_102
+    ADD_197
+    ADD_212
+    ADD_227
   }
   subgraph cluster_10 {
     rank=same;
@@ -144,12 +148,12 @@ digraph idctcol_dfg__3 {
     label = "Time 10";
     color = blue;
     pseudo_10 [style=invis];
-    ADD_83
-    SUB_85
-    ADD_88
-    SUB_90
     MUL_95_0 [label=MUL_95]
     MUL_103_0 [label=MUL_103]
+    ADD_109
+    ADD_154
+    SUB_169
+    SUB_214
   }
   subgraph cluster_11 {
     rank=same;
@@ -159,10 +163,10 @@ digraph idctcol_dfg__3 {
     pseudo_11 [style=invis];
     MUL_95_1 [label=MUL_95]
     MUL_103_1 [label=MUL_103]
-    ADD_109
-    ADD_154
-    SUB_169
-    SUB_214
+    ASR_111
+    ASR_156
+    ASR_171
+    ASR_216
   }
   subgraph cluster_12 {
     rank=same;
@@ -172,10 +176,10 @@ digraph idctcol_dfg__3 {
     pseudo_12 [style=invis];
     ADD_97
     ADD_105
-    ASR_111
-    ASR_156
-    ASR_171
-    ASR_216
+    MUL_112_0 [label=MUL_112]
+    MUL_157_0 [label=MUL_157]
+    MUL_172_0 [label=MUL_172]
+    MUL_217_0 [label=MUL_217]
   }
   subgraph cluster_13 {
     rank=same;
@@ -185,10 +189,10 @@ digraph idctcol_dfg__3 {
     pseudo_13 [style=invis];
     ASR_99
     ASR_107
-    MUL_112_0 [label=MUL_112]
-    MUL_157_0 [label=MUL_157]
-    MUL_172_0 [label=MUL_172]
-    MUL_217_0 [label=MUL_217]
+    MUL_112_1 [label=MUL_112]
+    MUL_157_1 [label=MUL_157]
+    MUL_172_1 [label=MUL_172]
+    MUL_217_1 [label=MUL_217]
   }
   subgraph cluster_14 {
     rank=same;
@@ -196,14 +200,13 @@ digraph idctcol_dfg__3 {
     label = "Time 14";
     color = blue;
     pseudo_14 [style=invis];
-    MUL_112_1 [label=MUL_112]
+    ADD_115
     ADD_124
     ADD_139
-    MUL_157_1 [label=MUL_157]
-    MUL_172_1 [label=MUL_172]
+    ADD_160
     SUB_184
     SUB_199
-    MUL_217_1 [label=MUL_217]
+    ADD_220
   }
   subgraph cluster_15 {
     rank=same;
@@ -211,14 +214,14 @@ digraph idctcol_dfg__3 {
     label = "Time 15";
     color = blue;
     pseudo_15 [style=invis];
-    ADD_115
+    LOD_116
     ASR_126
     ASR_141
-    ADD_160
+    LOD_161
     ADD_175
     ASR_186
     ASR_201
-    ADD_220
+    LOD_221
   }
   subgraph cluster_16 {
     rank=same;
@@ -226,14 +229,14 @@ digraph idctcol_dfg__3 {
     label = "Time 16";
     color = blue;
     pseudo_16 [style=invis];
-    LOD_116
+    STR_123
     MUL_127_0 [label=MUL_127]
     MUL_142_0 [label=MUL_142]
-    LOD_161
+    STR_168
     LOD_176
     MUL_187_0 [label=MUL_187]
     MUL_202_0 [label=MUL_202]
-    LOD_221
+    STR_228
   }
   subgraph cluster_17 {
     rank=same;
@@ -241,14 +244,11 @@ digraph idctcol_dfg__3 {
     label = "Time 17";
     color = blue;
     pseudo_17 [style=invis];
-    STR_123
     MUL_127_1 [label=MUL_127]
     MUL_142_1 [label=MUL_142]
-    STR_168
     STR_183
     MUL_187_1 [label=MUL_187]
     MUL_202_1 [label=MUL_202]
-    STR_228
   }
   subgraph cluster_18 {
     rank=same;
