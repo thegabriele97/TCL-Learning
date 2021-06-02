@@ -118,7 +118,7 @@ read_library ./data/RTL_libraries/RTL_library_multi-resources.txt
 # read_library ./data/RTL_libraries/RTL_library_multi-resources-added.txt
 
 set start [clock millisec]
-set result [brave_opt -total_area 30000000]
+set result [brave_opt -total_area 6000]
 set end [clock millisec]
 
 set time [expr {$end - $start}]

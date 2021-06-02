@@ -5,110 +5,65 @@
 
 
 
-Best result with best_latency_idx 0 (75)
+Best result with best_latency_idx 0 (30)
 
 
 
-		 ################### >> OPT LOOP #0 << ###################
+	 ################### >> OPT LOOP #0 << ###################
+
+
+	area: 360	latency: 17	best: 30
+	area: 540	latency: 13	best: 17
+	area: 640	latency: 11	best: 13
+	area: 820	latency: 9	best: 11
+	area: 920	latency: 9	best: 9
+	area: 920	latency: 9	best: 9
 
 
 
+	 ################### >> OPT LOOP #3 << ###################
 
-Searching for: {MUL0 3} {MUL1 0} {MUL2 0} {ADD0 3} {ADD1 0} {ADD2 0} {LOD0 3} {LOD1 0} {LOD2 0} {SUB0 3} {SUB1 0} {SUB2 0} {ASR0 3} {STR0 3} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 795	latency: 29	(best: 75)
 
-Searching for: {MUL0 5} {MUL1 0} {MUL2 0} {ADD0 5} {ADD1 0} {ADD2 0} {LOD0 5} {LOD1 0} {LOD2 0} {SUB0 5} {SUB1 0} {SUB2 0} {ASR0 5} {STR0 5} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 1240	latency: 22	(best: 29)
-
-Searching for: {MUL0 7} {MUL1 0} {MUL2 0} {ADD0 7} {ADD1 0} {ADD2 0} {LOD0 7} {LOD1 0} {LOD2 0} {SUB0 6} {SUB1 0} {SUB2 0} {ASR0 6} {STR0 6} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 1600	latency: 19	(best: 22)
-
-Searching for: {MUL0 9} {MUL1 0} {MUL2 0} {ADD0 9} {ADD1 0} {ADD2 0} {LOD0 9} {LOD1 0} {LOD2 0} {SUB0 6} {SUB1 0} {SUB2 0} {ASR0 5} {STR0 5} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 1950	latency: 18	(best: 19)
-
-Searching for: {MUL0 11} {MUL1 0} {MUL2 0} {ADD0 10} {ADD1 0} {ADD2 0} {LOD0 10} {LOD1 0} {LOD2 0} {SUB0 7} {SUB1 0} {SUB2 0} {ASR0 3} {STR0 3} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 2195	latency: 18	(best: 18)
-
-Searching for: {MUL0 12} {MUL1 0} {MUL2 0} {ADD0 11} {ADD1 0} {ADD2 0} {LOD0 11} {LOD1 0} {LOD2 0} {SUB0 5} {SUB1 0} {SUB2 0} {ASR0 4} {STR0 4} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 2380	latency: 17	(best: 18)
-
-Searching for: {MUL0 13} {MUL1 0} {MUL2 0} {ADD0 12} {ADD1 0} {ADD2 0} {LOD0 12} {LOD1 0} {LOD2 0} {SUB0 4} {SUB1 0} {SUB2 0} {ASR0 5} {STR0 5} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 2560	latency: 17	(best: 17)
-
-Searching for: {MUL0 14} {MUL1 0} {MUL2 0} {ADD0 13} {ADD1 0} {ADD2 0} {LOD0 13} {LOD1 0} {LOD2 0} {SUB0 4} {SUB1 0} {SUB2 0} {ASR0 5} {STR0 5} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 2740	latency: 17	(best: 17)
-
-Searching for: {MUL0 15} {MUL1 0} {MUL2 0} {ADD0 14} {ADD1 0} {ADD2 0} {LOD0 14} {LOD1 0} {LOD2 0} {SUB0 4} {SUB1 0} {SUB2 0} {ASR0 5} {STR0 5} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 2920	latency: 17	(best: 17)
-
-Searching for: {MUL0 16} {MUL1 0} {MUL2 0} {ADD0 15} {ADD1 0} {ADD2 0} {LOD0 15} {LOD1 0} {LOD2 0} {SUB0 4} {SUB1 0} {SUB2 0} {ASR0 5} {STR0 5} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 3010	latency: 17	(best: 17)
-
-Searching for: {MUL0 17} {MUL1 0} {MUL2 0} {ADD0 16} {ADD1 0} {ADD2 0} {LOD0 16} {LOD1 0} {LOD2 0} {SUB0 4} {SUB1 0} {SUB2 0} {ASR0 3} {STR0 3} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 3230	latency: 17	(best: 17)
-
-Searching for: {MUL0 18} {MUL1 0} {MUL2 0} {ADD0 17} {ADD1 0} {ADD2 0} {LOD0 17} {LOD1 0} {LOD2 0} {SUB0 5} {SUB1 0} {SUB2 0} {ASR0 3} {STR0 3} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 3370	latency: 17	(best: 17)
-
-Searching for: {MUL0 19} {MUL1 0} {MUL2 0} {ADD0 18} {ADD1 0} {ADD2 0} {LOD0 17} {LOD1 0} {LOD2 0} {SUB0 5} {SUB1 0} {SUB2 0} {ASR0 3} {STR0 3} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 3510	latency: 17	(best: 17)
-
-Searching for: {MUL0 20} {MUL1 0} {MUL2 0} {ADD0 19} {ADD1 0} {ADD2 0} {LOD0 17} {LOD1 0} {LOD2 0} {SUB0 5} {SUB1 0} {SUB2 0} {ASR0 3} {STR0 3} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 3650	latency: 17	(best: 17)
-
-Searching for: {MUL0 21} {MUL1 0} {MUL2 0} {ADD0 20} {ADD1 0} {ADD2 0} {LOD0 17} {LOD1 0} {LOD2 0} {SUB0 5} {SUB1 0} {SUB2 0} {ASR0 3} {STR0 3} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 3790	latency: 17	(best: 17)
-
-Searching for: {MUL0 22} {MUL1 0} {MUL2 0} {ADD0 21} {ADD1 0} {ADD2 0} {LOD0 17} {LOD1 0} {LOD2 0} {SUB0 5} {SUB1 0} {SUB2 0} {ASR0 3} {STR0 3} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 3930	latency: 17	(best: 17)
-
-Searching for: {MUL0 23} {MUL1 0} {MUL2 0} {ADD0 22} {ADD1 0} {ADD2 0} {LOD0 17} {LOD1 0} {LOD2 0} {SUB0 5} {SUB1 0} {SUB2 0} {ASR0 3} {STR0 3} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 4070	latency: 17	(best: 17)
-
-Searching for: {MUL0 24} {MUL1 0} {MUL2 0} {ADD0 23} {ADD1 0} {ADD2 0} {LOD0 17} {LOD1 0} {LOD2 0} {SUB0 5} {SUB1 0} {SUB2 0} {ASR0 3} {STR0 3} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 4210	latency: 17	(best: 17)
-
-Searching for: {MUL0 25} {MUL1 0} {MUL2 0} {ADD0 24} {ADD1 0} {ADD2 0} {LOD0 17} {LOD1 0} {LOD2 0} {SUB0 5} {SUB1 0} {SUB2 0} {ASR0 3} {STR0 3} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 4250	latency: 17	(best: 17)
-
-Searching for: {MUL0 25} {MUL1 0} {MUL2 0} {ADD0 25} {ADD1 0} {ADD2 0} {LOD0 17} {LOD1 0} {LOD2 0} {SUB0 5} {SUB1 0} {SUB2 0} {ASR0 3} {STR0 3} {STR1 0} {STR2 0}
-> Inserting into lut..
-	area: 4250	latency: 17	(best: 17)
+	area: 360	latency: 17	best: 9	*
+	area: 540	latency: 13	best: 9	*
+	area: 640	latency: 11	best: 9	*
+	area: 820	latency: 9	best: 9	*
+	area: 820	latency: 9	best: 9
 
 
 
-		 ################### >> OPT LOOP #3 << ###################
+	 ################### >> OPT LOOP #6 << ###################
+
+
+	area: 360	latency: 17	best: 9	*
+	area: 540	latency: 13	best: 9	*
+	area: 640	latency: 11	best: 9	*
+	area: 820	latency: 9	best: 9	*
+	area: 880	latency: 9	best: 9
+	area: 920	latency: 9	best: 9	*
 
 
 
+	 ################### >> OPT LOOP #9 << ###################
 
-Searching for: {MUL0 3} {MUL1 0} {MUL2 0} {ADD0 3} {ADD1 0} {ADD2 0} {LOD0 3} {LOD1 0} {LOD2 0} {SUB0 3} {SUB1 0} {SUB2 0} {ASR0 3} {STR0 3} {STR1 0} {STR2 0}
-> Taking from lut..
-{MUL0 3} {MUL1 0} {MUL2 0} {ADD0 3} {ADD1 0} {ADD2 0} {LOD0 3} {LOD1 0} {LOD2 0} {SUB0 3} {SUB1 0} {SUB2 0} {ASR0 3} {STR0 3} {STR1 0} {STR2 0}
-	area: 795	latency: 29	(best: 17)
 
-Searching for: {MUL0 5} {MUL1 0} {MUL2 0} {ADD0 5} {ADD1 0} {ADD2 0} {LOD0 5} {LOD1 0} {LOD2 0} {SUB0 5} {SUB1 0} {SUB2 0} {ASR0 5} {STR0 5} {STR1 0} {STR2 0}
-> Taking from lut..
-{MUL0 5} {MUL1 0} {MUL2 0} {ADD0 5} {ADD1 0} {ADD2 0} {LOD0 5} {LOD1 0} {LOD2 0} {SUB0 4} {SUB1 0} {SUB2 0} {ASR0 4} {STR0 4} {STR1 0} {STR2 0}
-	area: 1240	latency: 22	(best: 17)
+	area: 360	latency: 17	best: 9	*
+	area: 540	latency: 13	best: 9	*
+	area: 640	latency: 11	best: 9	*
+	area: 820	latency: 9	best: 9	*
+	area: 920	latency: 9	best: 9
+	area: 920	latency: 9	best: 9
 
-Searching for: {MUL0 7} {MUL1 0} {MUL2 0} {ADD0 7} {ADD1 0} {ADD2 0} {LOD0 7} {LOD1 0} {LOD2 0} {SUB0 6} {SUB1 0} {SUB2 0} {ASR0 6} {STR0 6} {STR1 0} {STR2 0}
+# loops: 324
+
+
+>> So the used area is: 820 (computed is 820)
+>> So the final constrains (with mixture 0) are {MUL0 5} {MUL1 0} {MUL2 0} {ADD0 4} {ADD1 0} {ADD2 0} {LOD0 2} {LOD1 0} {LOD2 0} {STR0 2} {STR1 0} {STR2 0}
+
+
+[evaluate] ASAP result: {{N27 1} {N28 3} {N26 1} {N29 4} {N25 1} {N30 5} {N20 1} {N21 3} {N19 1} {N22 4} {N18 1} {N23 5} {N24 6} {N31 7} {N13 1} {N14 3} {N12 1} {N15 4} {N11 1} {N16 5} {N6 1} {N7 3} {N5 1} {N8 4} {N4 1} {N9 5} {N10 6} {N17 7} {N1 1} {N2 3} {N0 1} {N3 4}} 8
+[evaluate] result 0: {N6 1} {N20 1} {N5 1} {N13 1} {N19 1} {N7 3} {N21 3} {N27 3} {N4 3} {N12 3} {N14 3} {N18 3} {N26 3} {N8 4} {N22 4} {N28 5} {N1 5} {N9 5} {N11 5} {N15 5} {N23 5} {N25 5} {N0 5} {N29 6} {N10 6} {N24 6} {N2 7} {N16 7} {N30 7} {N3 8} {N17 8} {N31 8}
+[evaluate] result 2: {L4 5} {L5 0} {L6 0} {L0 4} {L1 0} {L2 0} {L10 2} {L11 0} {L12 0} {L13 2} {L14 0} {L15 0}
+[evaluate] time: 48 ms
+[evaluate] latency/latency_min: 9/8
+[evaluate] score 88.88414814814814

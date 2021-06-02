@@ -380,6 +380,11 @@ proc list_mlac_scheduler {constraints nodes_op mapping_op priority} {
                 #set tmp_prio [lsearch -all -inline -not $tmp_prio $node_list]
                 set u [lappend u [lindex $node_list 0]]
             }
+
+            # TODO: check if this is correct
+            if {[llength $u] == [llength $tmp_u]} {
+                break
+            }
         }
         
         # TODO: maybe useless? get_priority already returns a sorted list
