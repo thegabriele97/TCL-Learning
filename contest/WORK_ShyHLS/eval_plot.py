@@ -75,7 +75,7 @@ exectime_y = []
 latency_y = []
 score_y = []
 
-dfg_name = "./data/DFGs/idctcol_dfg__3.dot"
+dfg_name = "./data/DFGs/horner_bezier_surf_dfg__12.dot"
 
 counts = 0
 latency_min = 0
@@ -155,17 +155,14 @@ for lat_idx in range(1, len(latency_y) - 1):
         break
 
 mean = int(statistics.mean(exectime_y[starting_idx:]))
-print ("{} {} {}".format(starting_idx, exectime_y[starting_idx], mean))
 
 area_x.reverse()
 exectime_y.reverse()
 latency_y.reverse()
 score_y.reverse()
 
-latency_diff_y = list(((lat - latency_min) for lat in latency_y))
 
-
-fig, (axs0, axs1, axs2) = plt.subplots(1, 3)
+fig, ((axs0, axs1), (axs2, axs3)) = plt.subplots(2, 2)
 fig.suptitle(dfg_name)
 
 axs0.grid()
@@ -182,7 +179,7 @@ axs1.grid()
 axs1.set_title('Latency')
 axs1.set_xlabel('Area')
 axs1.set_ylabel('Latency')
-axs1.plot(area_x, latency_y, linewidth=2.5)
+axs1.plot(area_x, latency_y, linewidth=2.5, marker = 'o', markerfacecolor='yellow')
 axs1.axhline(latency_min, color='red', linewidth=0.5)
 # axs1.plot(area_x, latency_y, color='green', linewidth = 1,
 #          marker='o', markerfacecolor='blue', markersize=5)
@@ -191,7 +188,14 @@ axs2.grid()
 axs2.set_title('Score')
 axs2.set_xlabel('Area')
 axs2.set_ylabel('Score')
-axs2.plot(area_x, score_y, linewidth=2.5)
-  
+axs2.plot(area_x, score_y, linewidth=1.5)
+
+latency_diff_y_tmp = list(filter(lambda x: x >= 0, ((lat - latency_min) for lat in latency_y)))
+
+axs3.grid()
+axs3.set_title('ASAP Distance')
+axs3.set_xlabel('|braveOpt - ASAP|')
+axs3.set_ylabel('Count')
+axs3.hist(latency_diff_y_tmp, bins = 200, color = 'green')
 
 plt.show()
