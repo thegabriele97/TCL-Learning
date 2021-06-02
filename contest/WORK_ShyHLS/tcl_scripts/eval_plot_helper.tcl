@@ -1,42 +1,6 @@
 source ./tcl_scripts/setenv.tcl
 source ./tcl_scripts/braveOpt.tcl
 
-
-proc validate_solution {result} {
-    # save the scheduled nodes
-    if { [ llength [lindex $result 0 ] ] == 0 } {
-      return 1;
-    }
-
-    set node_list [lindex $result 0]
-    foreach node_pair $node_list {
-        set node [lindex $node_pair 0]
-        set node_start_time [lindex $node_pair 1]
-        set min_child_start_time -1
-        foreach child [ get_attribute $node children ] {
-            set child_start_time [ lindex [ lsearch -index 0 -inline $node_list $child ] 1]
-            # get min starting time of child nodes
-            if { ($min_child_start_time == -1) || ($child_start_time < $min_child_start_time) } {
-                set min_child_start_time $child_start_time
-            }
-        }
-
-        if {$min_child_start_time > 0} {
-            set node_fu_unit [lindex [ lsearch -index 0 -inline [lindex $result 1] $node ] 1 ]
-            set delay_node [get_attribute $node_fu_unit delay]
-            # check that the output of the node is generated before the start of the
-            # first child (first in time)
-            if {$delay_node + $node_start_time > $min_child_start_time} {
-                return 1
-            }
-        }
-    }
-    return 0
-}
-# puts -nonewline "File name for ./data/DFGs/*.dot: "
-# flush stdout
-# gets stdin filename
-
 proc asap {} {
   set max_latency 0
   set node_start_time [list]
@@ -69,11 +33,8 @@ proc asap {} {
 }
 
 
-proc compute_latency_min {result filename} {
+proc compute_latency_min {} {
     set node_start_time [asap]
-    puts "\[evaluate] ASAP result: $node_start_time"
-    print_scheduled_dfg [lindex $node_start_time 0] ./data/out/asap_contest_${filename}.dot
-
     return [lindex $node_start_time 1]
 }
 
@@ -81,7 +42,7 @@ proc compute_latency {result} {
 
   	set latency 0
 
-	  set schedules [lindex $result 0]
+    set schedules [lindex $result 0]
     foreach schedule $schedules {
 		set op_last_node [lindex [lsearch -index 0 -inline [lindex $result 1] [lindex $schedule 0]] 1]
 		set delay_last_node [get_attribute $op_last_node delay]
@@ -105,41 +66,34 @@ proc compute_latency {result} {
     # return $latency
 }
 
-
 # set filename "fir"
 # set filename "matmul_dfg__3"
-# set filename "write_bmp_header_dfg__7"
 # set filename "motion_vectors_dfg__7"
 # set filename "jpeg_fdct_islow_dfg__6"
-set filename "smooth_color_z_triangle_dfg__31"
 # set filename "idctcol_dfg__3"
 # set filename "invert_matrix_general_dfg__3"
 
-read_design ./data/DFGs/${filename}.dot
+# read_design ./data/DFGs/${filename}.dot
+read_design [lindex $::argv 0]
 read_library ./data/RTL_libraries/RTL_library_multi-resources.txt
 # read_library ./data/RTL_libraries/RTL_library_multi-resources-added.txt
 
 set start [clock millisec]
-set result [brave_opt -total_area 1500]
+set result [brave_opt -total_area [lindex $::argv 1]]
 set end [clock millisec]
 
 set time [expr {$end - $start}]
-set is_valid [validate_solution $result]
+set latency [compute_latency $result]
+set latency_min [compute_latency_min]
 
-if { $is_valid == 0 } {
-    set latency_min [compute_latency_min $result $filename]
-    set latency [compute_latency $result]
-
-    puts "\[evaluate] result 0: [lindex $result 0]"
-    puts "\[evaluate] result 2: [lindex $result 2]"
-    puts "\[evaluate] time: $time ms"
-    puts "\[evaluate] latency/latency_min: $latency/$latency_min"
-
-    set score [expr {100 * (1-($time/double((900*1000)))) * $latency_min/double($latency)}]
-    puts "\[evaluate] score $score"
-
-    print_scheduled_dfg [lindex $result 0] ./data/out/contest_${filename}.dot
-
-} else {
-    puts "THE SCHEDULED DFG IS WRONG!"
+set score [expr {100 * (1-($time/double((900*1000)))) * $latency_min/double($latency)}]
+if {$latency == 0} {
+    set score 0
 }
+
+
+puts "## EVAL PLOT HELPER ##"
+puts $time
+puts $latency
+puts $latency_min
+puts $score

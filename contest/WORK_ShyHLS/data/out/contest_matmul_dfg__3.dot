@@ -41,7 +41,6 @@ digraph matmul_dfg__3 {
     pseudo_2 [style=invis];
     MUL_2_0 [label=MUL_2]
     MUL_11_0 [label=MUL_11]
-    MUL_20_0 [label=MUL_20]
     MUL_37_1 [label=MUL_37]
     MUL_45_1 [label=MUL_45]
     MUL_54_1 [label=MUL_54]
@@ -67,7 +66,7 @@ digraph matmul_dfg__3 {
     pseudo_3 [style=invis];
     MUL_2_1 [label=MUL_2]
     MUL_11_1 [label=MUL_11]
-    MUL_20_1 [label=MUL_20]
+    MUL_20_0 [label=MUL_20]
     MUL_29_0 [label=MUL_29]
     ADD_40
     ADD_48
@@ -98,7 +97,7 @@ digraph matmul_dfg__3 {
     pseudo_4 [style=invis];
     ADD_5
     ADD_14
-    ADD_23
+    MUL_20_1 [label=MUL_20]
     MUL_29_1 [label=MUL_29]
     LOD_41
     LOD_49
@@ -129,7 +128,7 @@ digraph matmul_dfg__3 {
     pseudo_5 [style=invis];
     LOD_6
     LOD_15
-    LOD_24
+    ADD_23
     ADD_32
     ADD_76
     ADD_118
@@ -142,19 +141,16 @@ digraph matmul_dfg__3 {
     label = "Time 6";
     color = blue;
     pseudo_6 [style=invis];
+    LOD_24
     LOD_33
     MUL_43_0 [label=MUL_43]
     MUL_51_0 [label=MUL_51]
-    MUL_60_0 [label=MUL_60]
     MUL_85_0 [label=MUL_85]
     MUL_93_0 [label=MUL_93]
-    MUL_102_0 [label=MUL_102]
     MUL_127_0 [label=MUL_127]
     MUL_135_0 [label=MUL_135]
-    MUL_144_0 [label=MUL_144]
     MUL_169_0 [label=MUL_169]
     MUL_177_0 [label=MUL_177]
-    MUL_186_0 [label=MUL_186]
   }
   subgraph cluster_7 {
     rank=same;
@@ -164,19 +160,19 @@ digraph matmul_dfg__3 {
     pseudo_7 [style=invis];
     MUL_43_1 [label=MUL_43]
     MUL_51_1 [label=MUL_51]
-    MUL_60_1 [label=MUL_60]
+    MUL_60_0 [label=MUL_60]
     MUL_69_0 [label=MUL_69]
     MUL_85_1 [label=MUL_85]
     MUL_93_1 [label=MUL_93]
-    MUL_102_1 [label=MUL_102]
+    MUL_102_0 [label=MUL_102]
     MUL_111_0 [label=MUL_111]
     MUL_127_1 [label=MUL_127]
     MUL_135_1 [label=MUL_135]
-    MUL_144_1 [label=MUL_144]
+    MUL_144_0 [label=MUL_144]
     MUL_153_0 [label=MUL_153]
     MUL_169_1 [label=MUL_169]
     MUL_177_1 [label=MUL_177]
-    MUL_186_1 [label=MUL_186]
+    MUL_186_0 [label=MUL_186]
     MUL_195_0 [label=MUL_195]
   }
   subgraph cluster_8 {
@@ -186,12 +182,16 @@ digraph matmul_dfg__3 {
     color = blue;
     pseudo_8 [style=invis];
     ADD_52
+    MUL_60_1 [label=MUL_60]
     MUL_69_1 [label=MUL_69]
     ADD_94
+    MUL_102_1 [label=MUL_102]
     MUL_111_1 [label=MUL_111]
     ADD_136
+    MUL_144_1 [label=MUL_144]
     MUL_153_1 [label=MUL_153]
     ADD_178
+    MUL_186_1 [label=MUL_186]
     MUL_195_1 [label=MUL_195]
   }
   subgraph cluster_9 {
