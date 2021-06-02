@@ -7,6 +7,7 @@ import glob
 import statistics
 
 from numpy.lib.shape_base import split
+from concurrent.futures import ThreadPoolExecutor
 
 def splitlist(v):
     r = tkinter.Tk()
@@ -44,6 +45,23 @@ def braveOpt(dfg, max_area):
 
     return true_res
 
+
+def exec_bench(area, dfg_name):
+
+    results = []
+    for i in range(0, 3):
+        results.append(braveOpt(dfg_name, area))
+        
+    result = results[0]
+
+    exec_time = int((int(results[0][0]) + int(results[1][0]) + int(results[2][0]))/3)
+    latency = int(result[1])
+    latency_min = int(result[2])
+    score = int(float(result[3]))
+
+    return (area, exec_time, latency, latency_min, score);
+
+
 # print(braveOpt(1000))
 # result = splitdict(splitlist(braveOpt(1000)[0]))
 # print(result)
@@ -57,41 +75,71 @@ exectime_y = []
 latency_y = []
 score_y = []
 
-dfg_name = "./data/DFGs/smooth_color_z_triangle_dfg__31.dot"
+dfg_name = "./data/DFGs/idctcol_dfg__3.dot"
 
 counts = 0
 latency_min = 0
-for area_constraint in range(10, 20000, 20):
+for area_constraint in range(10, 20000, 80):
     #print("exec with", area_constraint)
-    results = []
-    for i in range(0, 3):
-        results.append(braveOpt(dfg_name, area_constraint))
+    # results = []
+    # for i in range(0, 3):
+    #     results.append(braveOpt(dfg_name, area_constraint))
         
-    result = results[0]
+    # result = results[0]
 
-    exec_time = int((int(results[0][0]) + int(results[1][0]) + int(results[2][0]))/3)
-    latency = int(result[1])
-    latency_min = int(result[2])
-    # score = int.from_bytes(result[3])
-    score = int(float(result[3]))
-    
-    area_x.append(area_constraint)
-    exectime_y.append(exec_time)
-    latency_y.append(latency)
-    score_y.append(score)
+    # exec_time = int((int(results[0][0]) + int(results[1][0]) + int(results[2][0]))/3)
+    # latency = int(result[1])
+    # latency_min = int(result[2])
+    # # score = int.from_bytes(result[3])
+    # score = int(float(result[3]))
 
-    if latency == latency_min:
-        counts += 1
 
-    if counts == 10:
+    args = ((area, dfg_name) for area in range(area_constraint, area_constraint + 80, 20))
+    # for arg in args:
+    #     print("exec with {}".format(arg))
+
+    with ThreadPoolExecutor() as executor:
+        exec_results = executor.map(lambda p: exec_bench(*p), args)
+        results = [result for result in exec_results]
+
+    stop_it = False
+    for res in results:
+
+        latency = res[2]
+        latency_min = res[3]
+
+        area_x.append(res[0])
+        exectime_y.append(res[1])
+        latency_y.append(latency)
+        score_y.append(res[4])
+
+        # area_x.append(area_constraint)
+        # exectime_y.append(exec_time)
+        # latency_y.append(latency)
+        # score_y.append(score)
+
+        if latency == latency_min:
+            counts += 1
+
+        if counts == 10:
+            stop_it = True
+            break
+        
+        perc = 0
+        if latency > 0:
+            perc = latency_min / float(latency) * 100
+
+        sys.stdout.write('\rExecuting benchmarks using {} threads: {:.2f}% completed ..'.format(len(results), perc))
+        sys.stdout.write(' (latency = {}, goal = {}, input area = {}) '.format(latency, latency_min, res[0]))
+
+        if counts > 0:
+            sys.stdout.write(' {} of 10 '.format(counts + 1))
+        
+        sys.stdout.flush()
+
+
+    if stop_it:
         break
-    
-    perc = 0
-    if latency > 0:
-        perc = latency_min / float(latency) * 100
-
-    sys.stdout.write('\rExecuting benchmarks: {:.2f}% completed ..'.format(perc))
-    sys.stdout.flush()
 
     #print("found", exec_time)
 
@@ -101,29 +149,33 @@ print
 # area_x, latency_y = zip(*sorted(zip(area_x, latency_y), reverse=True))
 
 starting_idx = 0
-for lat_idx in range(len(latency_y)):
-    if latency_y[lat_idx] > 0:
+for lat_idx in range(1, len(latency_y) - 1):
+    if latency_y[lat_idx - 1] > 1 and latency_y[lat_idx] > 1 and latency_y[lat_idx + 1] > 1:
         starting_idx = lat_idx
         break
 
+mean = int(statistics.mean(exectime_y[starting_idx:]))
+print ("{} {} {}".format(starting_idx, exectime_y[starting_idx], mean))
 
 area_x.reverse()
 exectime_y.reverse()
 latency_y.reverse()
 score_y.reverse()
 
+latency_diff_y = list(((lat - latency_min) for lat in latency_y))
+
 
 fig, (axs0, axs1, axs2) = plt.subplots(1, 3)
 fig.suptitle(dfg_name)
 
 axs0.grid()
-axs1.set_title('Execution Time')
+axs0.set_title('Execution Time')
 axs0.set_xlabel('Area')
 axs0.set_ylabel('Exec Time')
 
-axs0.set_yticks(range(int(min(exectime_y)), int(max(exectime_y)) + 5, 5))
+axs0.set_yticks(range(int(min(exectime_y)), int(max(exectime_y)) + 5, 20))
+axs0.axhline(int(mean), color='green', linewidth=2.5)
 axs0.plot(area_x, exectime_y, linewidth=1.5)
-axs0.axhline(statistics.mean(exectime_y[starting_idx:]), color='green', linewidth=2.5)
 
   
 axs1.grid()
