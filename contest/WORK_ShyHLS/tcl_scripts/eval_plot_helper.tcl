@@ -1,6 +1,103 @@
 source ./tcl_scripts/setenv.tcl
 source ./tcl_scripts/braveOpt.tcl
 
+proc validate_units_per_instant {result} {
+
+	set index 1
+	set last_start_time [lindex [lsort -index 1 -integer -decreasing [lindex $result 0] ] 0 1]
+	set scheduled {}
+
+	while {$index <= $last_start_time } {
+		set tmp_fus [lindex $result 2]
+
+		set started_nodes [lsearch -index 1 -all -inline [lindex $result 0] $index]
+
+		set scheduled [concat $scheduled $started_nodes ]
+
+		set tbc {}
+		foreach node_scheduled_list $scheduled {
+			set node_start_time [lindex $node_scheduled_list 1]
+			set node [lindex $node_scheduled_list 0]
+			set node_op_fu [lindex [lsearch -index 0 -inline [lindex $result 1] $node ] 1]
+			set delay [get_attribute $node_op_fu delay]
+
+			if {[expr {$node_start_time + $delay}] > $index} {
+				set tbc [lappend tbc $node_scheduled_list]
+			}
+		}
+
+		#foreach elem $tbc {
+		#	puts -nonewline " \{$elem [get_attribute [lindex $elem 0] label] \}"
+		#}
+
+		#puts ""
+
+		foreach node_list $tbc {
+			
+			set node_op [get_attribute [lindex $node_list 0] operation]
+			set node_op_fu [lindex [lsearch -index 0 -inline [lindex $result 1] [lindex $node_list 0] ] 1]
+
+			set index_tmp_fus [lsearch -index 0 $tmp_fus $node_op_fu]
+			
+			
+			set new_number [expr { [lindex $tmp_fus $index_tmp_fus 1] - 1 }]
+			if { $new_number < 0 } {
+			puts "node_op_fu: [lindex $node_list 0] $node_op_fu $new_number [get_attribute [lindex $node_list 0] label]" 
+			return 1
+			}
+
+			set tmp_fus [lreplace $tmp_fus $index_tmp_fus $index_tmp_fus [ list $node_op_fu $new_number ]]
+		}
+		incr index
+	}
+
+	return 0;
+}
+
+
+proc validate_area {result area_constraint} {
+  set used_area 0
+  foreach elem [lindex $result 2] {
+    set used_area [ expr { $used_area + ([get_attribute [ lindex $elem 0 ] area ] * [ lindex $elem 1 ] ) } ]
+  }
+  if {$area_constraint >= $used_area} {
+    return 0
+  }
+  return 1
+}
+
+proc validate_solution {result} {
+    # save the scheduled nodes
+    if { [ llength [lindex $result 0 ] ] == 0 } {
+      return 1;
+    }
+
+    set node_list [lindex $result 0]
+    foreach node_pair $node_list {
+        set node [lindex $node_pair 0]
+        set node_start_time [lindex $node_pair 1]
+        set min_child_start_time -1
+        foreach child [ get_attribute $node children ] {
+            set child_start_time [ lindex [ lsearch -index 0 -inline $node_list $child ] 1]
+            # get min starting time of child nodes
+            if { ($min_child_start_time == -1) || ($child_start_time < $min_child_start_time) } {
+                set min_child_start_time $child_start_time
+            }
+        }
+
+        if {$min_child_start_time > 0} {
+            set node_fu_unit [lindex [ lsearch -index 0 -inline [lindex $result 1] $node ] 1 ]
+            set delay_node [get_attribute $node_fu_unit delay]
+            # check that the output of the node is generated before the start of the
+            # first child (first in time)
+            if {$delay_node + $node_start_time > $min_child_start_time} {
+                return 1
+            }
+        }
+    }
+    return 0
+}
+
 proc asap {} {
   set max_latency 0
   set node_start_time [list]
@@ -87,7 +184,12 @@ set latency [compute_latency $result]
 set latency_min [compute_latency_min]
 
 set score [expr {100 * (1-($time/double((900*1000)))) * $latency_min/double($latency)}]
-if {$latency == 0} {
+
+set is_valid [validate_solution $result]
+set is_valid2 [validate_area $result [lindex $::argv 1]]
+set is_valid3 [validate_units_per_instant $result]
+
+if {$latency == 0 || $is_valid == 1 || $is_valid2 == 1 || $is_valid3 == 1} {
     set score 0
 }
 

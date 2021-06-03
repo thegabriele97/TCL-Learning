@@ -75,7 +75,7 @@ exectime_y = []
 latency_y = []
 score_y = []
 
-dfg_name = "./data/DFGs/horner_bezier_surf_dfg__12.dot"
+dfg_name = "./data/DFGs/jpeg_fdct_islow_dfg__6.dot"
 
 counts = 0
 latency_min = 0

@@ -147,14 +147,33 @@ proc heuristic {constraints used_area area nodes_op priority mapping_op use_mixt
         set list_node_fu {}
 
         foreach fu $node_op_fu {
+
             set index [lsearch -index 2 $mapping_op $fu]
             if {$index >= 0} {
-                set list_node_fu [lappend list_node_fu [lindex $mapping_op $index]]
+
+                set search_result [lsearch -index 1 $list_node_fu [get_attribute $fu delay]]
+
+                if {$search_result >= 0} {
+                    set area_new [get_attribute $fu area]
+                    set area_old [lindex $list_node_fu $search_result 0]
+
+                    if {$area_new < $area_old} {
+                        set list_node_fu [\
+                            lreplace $list_node_fu $search_result $search_result [lindex $mapping_op $index] \
+                        ]
+                    }
+
+                } else {
+                    set list_node_fu [lappend list_node_fu [lindex $mapping_op $index]]
+                }
+
             }
+
         }
-        
-        set list_node_fu [lsort -index 0 -integer -increasing $list_node_fu]
-        # puts "list_node_fu: $list_node_fu"
+
+        # puts "list_node_fu before: $list_node_fu"
+        set list_node_fu [lsort -index 1 -integer -decreasing $list_node_fu]
+        # puts "list_node_fu after: $list_node_fu"
         # puts "actual_fu: $actual_fu"
         # puts "node: $node [get_attribute $node label]"
         # gets stdin
@@ -236,7 +255,7 @@ proc opt_loop {constraints mapping_op nodes_op area priority use_mixture} {
         # puts "\n\n-------> result_scheduling $result_new"
         # puts "\n#########> constraints: $constraints"
         # puts "\n*********> nodes_op: $nodes_op"
-
+        # gets stdin
 
         ### PROBLEM HERE ######
         # We do the scheduling with constraints 
@@ -381,7 +400,6 @@ proc list_mlac_scheduler {constraints nodes_op mapping_op priority} {
                 set u [lappend u [lindex $node_list 0]]
             }
 
-            # TODO: check if this is correct
             if {[llength $u] == [llength $tmp_u]} {
                 break
             }
@@ -605,6 +623,14 @@ proc start area {
     puts "Best result with best_latency_idx $best_latency_idx ([lindex $all_results $best_latency_idx 4])"
 
 
+    set biggest_area -1
+    foreach mapping $mapping_op {
+        if {[lindex $mapping 0] > $biggest_area} {
+            set biggest_area [lindex $mapping 0]
+        }
+    }
+    
+
     set starting_idx 0
     set constraints_lut {}
     set best_latency [lindex $all_results $best_latency_idx 4]
@@ -643,7 +669,7 @@ proc start area {
                 set idx [lsearch -index 0 $working_constraints [lindex $loop_constraints $i 0]]
 
                 set multiplier 1
-                if { [ expr { $working_used_area + 10*300 } ] < $area } {
+                if { [ expr { $working_used_area + 10*$biggest_area } ] < $area } {
                     set multiplier 2
                 }
 
