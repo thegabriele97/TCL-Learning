@@ -1,0 +1,62 @@
+
+
+
+		 ################### >> LOOPING WITH MIXTURE: 0 << ###################
+
+
+
+
+#########> constraints: {MUL0 0} {MUL1 0} {MUL2 0} {MUL3 0} {MUL4 0} {MUL5 0} {MUL6 0} {MUL7 1} {ADD0 0} {ADD1 0} {ADD2 0} {ADD3 0} {ADD4 0} {ADD5 1} {LOD0 0} {LOD1 0} {LOD2 0} {LOD3 0} {LOD4 1} {STR0 0} {STR1 0} {STR2 0} {STR3 0} {STR4 0} {STR5 0} {STR6 1}
+
+#########> constraints: {MUL0 0} {MUL1 0} {MUL2 0} {MUL3 0} {MUL4 0} {MUL5 1} {MUL6 0} {MUL7 0} {ADD0 0} {ADD1 0} {ADD2 0} {ADD3 0} {ADD4 1} {ADD5 0} {LOD0 0} {LOD1 0} {LOD2 0} {LOD3 1} {LOD4 0} {STR0 0} {STR1 0} {STR2 0} {STR3 0} {STR4 0} {STR5 1} {STR6 0}
+
+#########> constraints: {MUL0 0} {MUL1 0} {MUL2 0} {MUL3 1} {MUL4 0} {MUL5 0} {MUL6 0} {MUL7 0} {ADD0 0} {ADD1 0} {ADD2 0} {ADD3 1} {ADD4 0} {ADD5 0} {LOD0 0} {LOD1 0} {LOD2 1} {LOD3 0} {LOD4 0} {STR0 0} {STR1 0} {STR2 0} {STR3 0} {STR4 1} {STR5 0} {STR6 0}
+
+#########> constraints: {MUL0 0} {MUL1 0} {MUL2 1} {MUL3 0} {MUL4 0} {MUL5 0} {MUL6 0} {MUL7 0} {ADD0 0} {ADD1 0} {ADD2 1} {ADD3 0} {ADD4 0} {ADD5 0} {LOD0 0} {LOD1 1} {LOD2 0} {LOD3 0} {LOD4 0} {STR0 0} {STR1 0} {STR2 0} {STR3 1} {STR4 0} {STR5 0} {STR6 0}
+
+#########> constraints: {MUL0 0} {MUL1 1} {MUL2 0} {MUL3 0} {MUL4 0} {MUL5 0} {MUL6 0} {MUL7 0} {ADD0 0} {ADD1 1} {ADD2 0} {ADD3 0} {ADD4 0} {ADD5 0} {LOD0 1} {LOD1 0} {LOD2 0} {LOD3 0} {LOD4 0} {STR0 0} {STR1 0} {STR2 1} {STR3 0} {STR4 0} {STR5 0} {STR6 0}
+
+#########> constraints: {MUL0 0} {MUL1 1} {MUL2 0} {MUL3 0} {MUL4 0} {MUL5 0} {MUL6 0} {MUL7 0} {ADD0 0} {ADD1 1} {ADD2 0} {ADD3 0} {ADD4 0} {ADD5 0} {LOD0 1} {LOD1 0} {LOD2 0} {LOD3 0} {LOD4 0} {STR0 0} {STR1 1} {STR2 0} {STR3 0} {STR4 0} {STR5 0} {STR6 0}
+Best result with best_latency_idx 0 (73)
+
+
+
+	 ################### >> OPT LOOP #1 << ###################
+
+
+	area: 150	latency: 73	best: 73
+
+
+
+	 ################### >> OPT LOOP #9 << ###################
+
+
+	area: 150	latency: 73	best: 73	*
+
+
+
+	 ################### >> OPT LOOP #14 << ###################
+
+
+	area: 150	latency: 73	best: 73	*
+
+
+
+	 ################### >> OPT LOOP #20 << ###################
+
+
+	area: 150	latency: 73	best: 73	*
+
+# loops: 208
+
+
+>> So the used area is: 150 (computed is 150)
+>> So the final constrains (with mixture 0) are {MUL0 0} {MUL1 1} {MUL2 0} {MUL3 0} {MUL4 0} {MUL5 0} {MUL6 0} {MUL7 0} {ADD0 0} {ADD1 1} {ADD2 0} {ADD3 0} {ADD4 0} {ADD5 0} {LOD0 1} {LOD1 0} {LOD2 0} {LOD3 0} {LOD4 0} {STR0 0} {STR1 1} {STR2 0} {STR3 0} {STR4 0} {STR5 0} {STR6 0}
+
+
+[evaluate] ASAP result: {{N27 1} {N28 3} {N26 1} {N29 4} {N25 1} {N30 5} {N20 1} {N21 3} {N19 1} {N22 4} {N18 1} {N23 5} {N24 6} {N31 7} {N13 1} {N14 3} {N12 1} {N15 4} {N11 1} {N16 5} {N6 1} {N7 3} {N5 1} {N8 4} {N4 1} {N9 5} {N10 6} {N17 7} {N1 1} {N2 3} {N0 1} {N3 4}} 8
+[evaluate] result 0: {N6 1} {N20 6} {N7 6} {N5 11} {N21 11} {N13 16} {N8 16} {N19 21} {N14 21} {N27 26} {N22 26} {N4 31} {N28 31} {N12 36} {N9 36} {N10 38} {N18 41} {N15 41} {N26 46} {N23 46} {N24 48} {N1 51} {N29 51} {N11 56} {N2 56} {N25 61} {N16 61} {N17 63} {N0 66} {N30 66} {N31 68} {N3 71}
+[evaluate] result 2: {L9 0} {L10 1} {L11 0} {L12 0} {L13 0} {L14 0} {L15 0} {L16 0} {L0 0} {L1 1} {L2 0} {L3 0} {L4 0} {L5 0} {L25 1} {L26 0} {L27 0} {L28 0} {L29 0} {L30 0} {L31 1} {L32 0} {L33 0} {L34 0} {L35 0} {L36 0}
+[evaluate] time: 141414 ms
+[evaluate] latency/latency_min: 73/8
+[evaluate] score 9.236968036529682

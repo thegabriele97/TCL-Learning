@@ -1,0 +1,222 @@
+digraph collapse_pyr_dfg__113 {
+  rankdir = LR;
+  newrank="true"
+  subgraph cluster_1 {
+    rank=same;
+    node [style=filled];
+    label = "Time 1";
+    color = blue;
+    pseudo_1 [style=invis];
+    MUL_0_0 [label=MUL_0]
+    ASR_11
+    SUB_15
+    ADD_27
+    SUB_38
+    ADD_79
+  }
+  subgraph cluster_2 {
+    rank=same;
+    node [style=filled];
+    label = "Time 2";
+    color = blue;
+    pseudo_2 [style=invis];
+    MUL_0_1 [label=MUL_0]
+    MUL_16_0 [label=MUL_16]
+    MUL_28_0 [label=MUL_28]
+    MUL_41_0 [label=MUL_41]
+    ASR_52
+    SUB_56
+    ADD_68
+    MUL_82_0 [label=MUL_82]
+    SUB_95
+    ADD_107
+  }
+  subgraph cluster_3 {
+    rank=same;
+    node [style=filled];
+    label = "Time 3";
+    color = blue;
+    pseudo_3 [style=invis];
+    ADD_3
+    MUL_16_1 [label=MUL_16]
+    MUL_28_1 [label=MUL_28]
+    MUL_41_1 [label=MUL_41]
+    MUL_57_0 [label=MUL_57]
+    MUL_69_0 [label=MUL_69]
+    MUL_82_1 [label=MUL_82]
+    LSL_90
+    MUL_96_0 [label=MUL_96]
+    MUL_108_0 [label=MUL_108]
+  }
+  subgraph cluster_4 {
+    rank=same;
+    node [style=filled];
+    label = "Time 4";
+    color = blue;
+    pseudo_4 [style=invis];
+    LOD_5
+    ADD_19
+    ADD_31
+    ADD_44
+    MUL_57_1 [label=MUL_57]
+    MUL_69_1 [label=MUL_69]
+    ADD_85
+    MUL_96_1 [label=MUL_96]
+    MUL_108_1 [label=MUL_108]
+  }
+  subgraph cluster_5 {
+    rank=same;
+    node [style=filled];
+    label = "Time 5";
+    color = blue;
+    pseudo_5 [style=invis];
+    ADD_7
+    LOD_21
+    LOD_33
+    LOD_46
+    ADD_60
+    ADD_72
+    LOD_87
+    ADD_99
+    ADD_111
+  }
+  subgraph cluster_6 {
+    rank=same;
+    node [style=filled];
+    label = "Time 6";
+    color = blue;
+    pseudo_6 [style=invis];
+    STR_9
+    SUB_35
+    SUB_48
+    LOD_62
+    LOD_74
+    SUB_91
+    LOD_101
+    LOD_113
+  }
+  subgraph cluster_7 {
+    rank=same;
+    node [style=filled];
+    label = "Time 7";
+    color = blue;
+    pseudo_7 [style=invis];
+    SUB_23
+    STR_37
+    STR_50
+    ADD_64
+    ADD_76
+    STR_93
+    ADD_103
+    ADD_115
+  }
+  subgraph cluster_8 {
+    rank=same;
+    node [style=filled];
+    label = "Time 8";
+    color = blue;
+    pseudo_8 [style=invis];
+    STR_66
+    STR_78
+    STR_105
+    STR_117
+  }
+  subgraph cluster_9 {
+    rank=same;
+    node [style=filled];
+    label = "Time 9";
+    color = blue;
+    pseudo_9 [style=invis];
+    STR_25
+  }
+    pseudo_1->pseudo_2 [style=invis];
+    pseudo_2->pseudo_3 [style=invis];
+    pseudo_3->pseudo_4 [style=invis];
+    pseudo_4->pseudo_5 [style=invis];
+    pseudo_5->pseudo_6 [style=invis];
+    pseudo_6->pseudo_7 [style=invis];
+    pseudo_7->pseudo_8 [style=invis];
+    pseudo_8->pseudo_9 [style=invis];
+    MUL_0_0 -> MUL_0_1 [color=red];
+    MUL_16_0 -> MUL_16_1 [color=red];
+    MUL_28_0 -> MUL_28_1 [color=red];
+    MUL_41_0 -> MUL_41_1 [color=red];
+    MUL_57_0 -> MUL_57_1 [color=red];
+    MUL_69_0 -> MUL_69_1 [color=red];
+    MUL_82_0 -> MUL_82_1 [color=red];
+    MUL_96_0 -> MUL_96_1 [color=red];
+    MUL_108_0 -> MUL_108_1 [color=red];
+    MUL_0_1 -> ADD_3 [ name = 0 ];
+    ADD_3 -> LOD_5 [ name = 1 ];
+    ADD_3 -> STR_9 [ name = 2 ];
+    LOD_5 -> ADD_7 [ name = 3 ];
+    ADD_7 -> STR_9 [ name = 4 ];
+    ASR_11 -> SUB_23 [ name = 6 ];
+    ASR_11 -> SUB_35 [ name = 7 ];
+    ASR_11 -> SUB_48 [ name = 8 ];
+    ASR_11 -> ASR_52 [ name = 9 ];
+    ASR_11 -> ADD_76 [ name = 10 ];
+    ASR_11 -> LSL_90 [ name = 11 ];
+    ASR_11 -> ADD_103 [ name = 12 ];
+    ASR_11 -> ADD_115 [ name = 13 ];
+    SUB_15 -> MUL_16_0 [ name = 15 ];
+    MUL_16_1 -> ADD_19 [ name = 16 ];
+    ADD_19 -> LOD_21 [ name = 17 ];
+    ADD_19 -> STR_25 [ name = 18 ];
+    LOD_21 -> SUB_23 [ name = 19 ];
+    SUB_23 -> STR_25 [ name = 20 ];
+    ADD_27 -> MUL_28_0 [ name = 22 ];
+    MUL_28_1 -> ADD_31 [ name = 23 ];
+    ADD_31 -> LOD_33 [ name = 24 ];
+    ADD_31 -> STR_37 [ name = 25 ];
+    LOD_33 -> SUB_35 [ name = 26 ];
+    SUB_35 -> STR_37 [ name = 27 ];
+    SUB_38 -> MUL_41_0 [ name = 28 ];
+    SUB_38 -> SUB_56 [ name = 29 ];
+    SUB_38 -> ADD_68 [ name = 30 ];
+    SUB_38 -> SUB_95 [ name = 31 ];
+    SUB_38 -> ADD_107 [ name = 32 ];
+    MUL_41_1 -> ADD_44 [ name = 33 ];
+    ADD_44 -> LOD_46 [ name = 34 ];
+    ADD_44 -> STR_50 [ name = 35 ];
+    LOD_46 -> SUB_48 [ name = 36 ];
+    SUB_48 -> STR_50 [ name = 37 ];
+    ASR_52 -> ADD_64 [ name = 39 ];
+    ASR_52 -> ADD_76 [ name = 40 ];
+    ASR_52 -> LSL_90 [ name = 41 ];
+    ASR_52 -> ADD_103 [ name = 42 ];
+    ASR_52 -> ADD_115 [ name = 43 ];
+    SUB_56 -> MUL_57_0 [ name = 45 ];
+    MUL_57_1 -> ADD_60 [ name = 46 ];
+    ADD_60 -> LOD_62 [ name = 47 ];
+    ADD_60 -> STR_66 [ name = 48 ];
+    LOD_62 -> ADD_64 [ name = 49 ];
+    ADD_64 -> STR_66 [ name = 50 ];
+    ADD_68 -> MUL_69_0 [ name = 52 ];
+    MUL_69_1 -> ADD_72 [ name = 53 ];
+    ADD_72 -> LOD_74 [ name = 54 ];
+    ADD_72 -> STR_78 [ name = 55 ];
+    LOD_74 -> ADD_76 [ name = 56 ];
+    ADD_76 -> STR_78 [ name = 57 ];
+    ADD_79 -> MUL_82_0 [ name = 58 ];
+    ADD_79 -> SUB_95 [ name = 59 ];
+    ADD_79 -> ADD_107 [ name = 60 ];
+    MUL_82_1 -> ADD_85 [ name = 61 ];
+    ADD_85 -> LOD_87 [ name = 62 ];
+    ADD_85 -> STR_93 [ name = 63 ];
+    LOD_87 -> SUB_91 [ name = 64 ];
+    LSL_90 -> SUB_91 [ name = 66 ];
+    SUB_91 -> STR_93 [ name = 67 ];
+    SUB_95 -> MUL_96_0 [ name = 69 ];
+    MUL_96_1 -> ADD_99 [ name = 70 ];
+    ADD_99 -> LOD_101 [ name = 71 ];
+    ADD_99 -> STR_105 [ name = 72 ];
+    LOD_101 -> ADD_103 [ name = 73 ];
+    ADD_103 -> STR_105 [ name = 74 ];
+    ADD_107 -> MUL_108_0 [ name = 76 ];
+    MUL_108_1 -> ADD_111 [ name = 77 ];
+    ADD_111 -> LOD_113 [ name = 78 ];
+    ADD_111 -> STR_117 [ name = 79 ];
+    LOD_113 -> ADD_115 [ name = 80 ];
+    ADD_115 -> STR_117 [ name = 81 ];
+}
