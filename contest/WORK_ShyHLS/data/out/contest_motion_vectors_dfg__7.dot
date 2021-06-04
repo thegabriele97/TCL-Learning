@@ -281,6 +281,7 @@ digraph motion_vectors_dfg__7 {
     label = "Time 37";
     color = blue;
     pseudo_37 [style=invis];
+    LOD_23
     MUL_27_1 [label=MUL_27]
   }
   subgraph cluster_38 {
@@ -289,7 +290,6 @@ digraph motion_vectors_dfg__7 {
     label = "Time 38";
     color = blue;
     pseudo_38 [style=invis];
-    LOD_23
   }
   subgraph cluster_39 {
     rank=same;
@@ -358,6 +358,7 @@ digraph motion_vectors_dfg__7 {
     label = "Time 47";
     color = blue;
     pseudo_47 [style=invis];
+    LOD_50
     MUL_54_1 [label=MUL_54]
   }
   subgraph cluster_48 {
@@ -366,7 +367,6 @@ digraph motion_vectors_dfg__7 {
     label = "Time 48";
     color = blue;
     pseudo_48 [style=invis];
-    LOD_50
   }
   subgraph cluster_49 {
     rank=same;
@@ -473,6 +473,7 @@ digraph motion_vectors_dfg__7 {
     label = "Time 62";
     color = blue;
     pseudo_62 [style=invis];
+    STR_37
     MUL_53_1 [label=MUL_53]
   }
   subgraph cluster_63 {
@@ -481,7 +482,6 @@ digraph motion_vectors_dfg__7 {
     label = "Time 63";
     color = blue;
     pseudo_63 [style=invis];
-    STR_37
   }
   subgraph cluster_64 {
     rank=same;
@@ -513,6 +513,7 @@ digraph motion_vectors_dfg__7 {
     color = blue;
     pseudo_67 [style=invis];
     MUL_1_1 [label=MUL_1]
+    STR_64
   }
   subgraph cluster_68 {
     rank=same;
@@ -520,7 +521,6 @@ digraph motion_vectors_dfg__7 {
     label = "Time 68";
     color = blue;
     pseudo_68 [style=invis];
-    STR_64
   }
   subgraph cluster_69 {
     rank=same;

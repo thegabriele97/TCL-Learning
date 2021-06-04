@@ -11,6 +11,7 @@ digraph fir {
     COF_13
     IN_14
     COF_15
+    IN_16
   }
   subgraph cluster_2 {
     rank=same;
@@ -20,10 +21,11 @@ digraph fir {
     pseudo_2 [style=invis];
     MUL_0_0 [label=MUL_0]
     MUL_1_0 [label=MUL_1]
-    IN_16
     COF_17
     IN_18
     COF_19
+    IN_20
+    COF_21
   }
   subgraph cluster_3 {
     rank=same;
@@ -35,10 +37,12 @@ digraph fir {
     MUL_1_1 [label=MUL_1]
     MUL_2_0 [label=MUL_2]
     MUL_3_0 [label=MUL_3]
-    IN_20
-    COF_21
+    MUL_4_0 [label=MUL_4]
     IN_22
     COF_23
+    IN_24
+    COF_25
+    IN_26
   }
   subgraph cluster_4 {
     rank=same;
@@ -48,13 +52,15 @@ digraph fir {
     pseudo_4 [style=invis];
     MUL_2_1 [label=MUL_2]
     MUL_3_1 [label=MUL_3]
-    MUL_4_0 [label=MUL_4]
+    MUL_4_1 [label=MUL_4]
     MUL_5_0 [label=MUL_5]
+    MUL_6_0 [label=MUL_6]
     ADD_11
-    IN_24
-    COF_25
-    IN_26
     COF_27
+    IN_28
+    COF_29
+    IN_30
+    COF_31
   }
   subgraph cluster_5 {
     rank=same;
@@ -62,15 +68,15 @@ digraph fir {
     label = "Time 5";
     color = blue;
     pseudo_5 [style=invis];
-    MUL_4_1 [label=MUL_4]
     MUL_5_1 [label=MUL_5]
-    MUL_6_0 [label=MUL_6]
+    MUL_6_1 [label=MUL_6]
     MUL_7_0 [label=MUL_7]
+    MUL_8_0 [label=MUL_8]
+    MUL_9_0 [label=MUL_9]
     ADD_12
-    IN_28
-    COF_29
-    IN_30
-    COF_31
+    ADD_13
+    IN_32
+    COF_33
   }
   subgraph cluster_6 {
     rank=same;
@@ -78,14 +84,11 @@ digraph fir {
     label = "Time 6";
     color = blue;
     pseudo_6 [style=invis];
-    MUL_6_1 [label=MUL_6]
     MUL_7_1 [label=MUL_7]
-    MUL_8_0 [label=MUL_8]
-    MUL_9_0 [label=MUL_9]
-    ADD_13
+    MUL_8_1 [label=MUL_8]
+    MUL_9_1 [label=MUL_9]
+    MUL_10_0 [label=MUL_10]
     ADD_14
-    IN_32
-    COF_33
   }
   subgraph cluster_7 {
     rank=same;
@@ -93,9 +96,7 @@ digraph fir {
     label = "Time 7";
     color = blue;
     pseudo_7 [style=invis];
-    MUL_8_1 [label=MUL_8]
-    MUL_9_1 [label=MUL_9]
-    MUL_10_0 [label=MUL_10]
+    MUL_10_1 [label=MUL_10]
     ADD_15
     ADD_17
   }
@@ -105,7 +106,6 @@ digraph fir {
     label = "Time 8";
     color = blue;
     pseudo_8 [style=invis];
-    MUL_10_1 [label=MUL_10]
     ADD_16
   }
   subgraph cluster_9 {

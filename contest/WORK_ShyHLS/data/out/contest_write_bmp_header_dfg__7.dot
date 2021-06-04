@@ -9,6 +9,10 @@ digraph write_bmp_header_dfg__7 {
     pseudo_1 [style=invis];
     MUL_3_0 [label=MUL_3]
     ADD_8
+    ADD_13
+    ADD_145
+    ADD_160
+    ADD_175
     AND_259
     ASR_267
   }
@@ -20,7 +24,15 @@ digraph write_bmp_header_dfg__7 {
     pseudo_2 [style=invis];
     MUL_3_1 [label=MUL_3]
     LOD_9
-    ADD_13
+    LOD_14
+    ADD_133
+    LOD_146
+    LOD_161
+    LOD_176
+    ADD_190
+    ADD_202
+    ADD_217
+    ADD_232
     AND_269
   }
   subgraph cluster_3 {
@@ -29,8 +41,20 @@ digraph write_bmp_header_dfg__7 {
     label = "Time 3";
     color = blue;
     pseudo_3 [style=invis];
-    LOD_14
-    ADD_145
+    ADD_4
+    MUL_17_0 [label=MUL_17]
+    ADD_36
+    ADD_42
+    ADD_50
+    LOD_134
+    LSR_150
+    LSR_165
+    LSR_180
+    LOD_191
+    LOD_203
+    LOD_218
+    LOD_233
+    ADD_277
   }
   subgraph cluster_4 {
     rank=same;
@@ -38,8 +62,26 @@ digraph write_bmp_header_dfg__7 {
     label = "Time 4";
     color = blue;
     pseudo_4 [style=invis];
-    LOD_146
-    ADD_160
+    MUL_17_1 [label=MUL_17]
+    STR_37
+    STR_43
+    ADD_60
+    ADD_70
+    ADD_80
+    AND_83
+    ADD_88
+    ASR_91
+    ADD_98
+    ASR_101
+    ASR_111
+    AND_137
+    AND_152
+    AND_167
+    AND_182
+    LSR_207
+    LSR_222
+    LSR_237
+    LOD_278
   }
   subgraph cluster_5 {
     rank=same;
@@ -47,9 +89,18 @@ digraph write_bmp_header_dfg__7 {
     label = "Time 5";
     color = blue;
     pseudo_5 [style=invis];
-    LSR_150
-    LOD_161
-    ADD_175
+    ADD_18
+    STR_89
+    AND_93
+    AND_103
+    ADD_108
+    AND_113
+    ADD_118
+    ADD_124
+    ADD_130
+    AND_194
+    AND_209
+    BNE_282
   }
   subgraph cluster_6 {
     rank=same;
@@ -57,11 +108,22 @@ digraph write_bmp_header_dfg__7 {
     label = "Time 6";
     color = blue;
     pseudo_6 [style=invis];
-    ADD_4
-    MUL_17_0 [label=MUL_17]
-    AND_152
-    LSR_165
-    LOD_176
+    AND_45
+    ASR_53
+    ASR_63
+    ASR_73
+    STR_99
+    STR_109
+    STR_119
+    STR_125
+    STR_131
+    ADD_142
+    ADD_157
+    ADD_172
+    ADD_187
+    ADD_199
+    AND_224
+    AND_239
   }
   subgraph cluster_7 {
     rank=same;
@@ -69,11 +131,19 @@ digraph write_bmp_header_dfg__7 {
     label = "Time 7";
     color = blue;
     pseudo_7 [style=invis];
-    MUL_17_1 [label=MUL_17]
-    AND_83
-    ASR_91
-    LSR_180
-    ADD_202
+    STR_51
+    AND_55
+    AND_65
+    AND_75
+    STR_143
+    STR_158
+    STR_173
+    STR_188
+    ADD_214
+    ADD_229
+    ADD_244
+    ADD_250
+    ADD_256
   }
   subgraph cluster_8 {
     rank=same;
@@ -81,10 +151,13 @@ digraph write_bmp_header_dfg__7 {
     label = "Time 8";
     color = blue;
     pseudo_8 [style=invis];
-    AND_93
-    ASR_101
-    LOD_203
-    ADD_217
+    STR_61
+    STR_71
+    STR_81
+    STR_200
+    STR_215
+    ADD_264
+    ADD_274
   }
   subgraph cluster_9 {
     rank=same;
@@ -92,11 +165,11 @@ digraph write_bmp_header_dfg__7 {
     label = "Time 9";
     color = blue;
     pseudo_9 [style=invis];
-    AND_103
-    ASR_111
-    LSR_207
-    LOD_218
-    ADD_232
+    STR_230
+    STR_245
+    STR_251
+    STR_257
+    STR_265
   }
   subgraph cluster_10 {
     rank=same;
@@ -104,436 +177,6 @@ digraph write_bmp_header_dfg__7 {
     label = "Time 10";
     color = blue;
     pseudo_10 [style=invis];
-    AND_113
-    ADD_133
-    LSR_222
-    LOD_233
-  }
-  subgraph cluster_11 {
-    rank=same;
-    node [style=filled];
-    label = "Time 11";
-    color = blue;
-    pseudo_11 [style=invis];
-    ADD_18
-    LOD_134
-    AND_167
-    LSR_237
-  }
-  subgraph cluster_12 {
-    rank=same;
-    node [style=filled];
-    label = "Time 12";
-    color = blue;
-    pseudo_12 [style=invis];
-    AND_45
-    ASR_53
-    ADD_190
-  }
-  subgraph cluster_13 {
-    rank=same;
-    node [style=filled];
-    label = "Time 13";
-    color = blue;
-    pseudo_13 [style=invis];
-    AND_55
-    ASR_63
-    LOD_191
-    ADD_277
-  }
-  subgraph cluster_14 {
-    rank=same;
-    node [style=filled];
-    label = "Time 14";
-    color = blue;
-    pseudo_14 [style=invis];
-    ADD_36
-    AND_65
-    ASR_73
-    LOD_278
-  }
-  subgraph cluster_15 {
-    rank=same;
-    node [style=filled];
-    label = "Time 15";
-    color = blue;
-    pseudo_15 [style=invis];
-    STR_37
-    ADD_42
-    AND_75
-    BNE_282
-  }
-  subgraph cluster_16 {
-    rank=same;
-    node [style=filled];
-    label = "Time 16";
-    color = blue;
-    pseudo_16 [style=invis];
-    ADD_50
-    AND_137
-  }
-  subgraph cluster_17 {
-    rank=same;
-    node [style=filled];
-    label = "Time 17";
-    color = blue;
-    pseudo_17 [style=invis];
-    STR_51
-    ADD_60
-    AND_182
-  }
-  subgraph cluster_18 {
-    rank=same;
-    node [style=filled];
-    label = "Time 18";
-    color = blue;
-    pseudo_18 [style=invis];
-    ADD_70
-    AND_194
-  }
-  subgraph cluster_19 {
-    rank=same;
-    node [style=filled];
-    label = "Time 19";
-    color = blue;
-    pseudo_19 [style=invis];
-    STR_61
-    ADD_80
-    AND_209
-  }
-  subgraph cluster_20 {
-    rank=same;
-    node [style=filled];
-    label = "Time 20";
-    color = blue;
-    pseudo_20 [style=invis];
-    ADD_88
-    AND_224
-  }
-  subgraph cluster_21 {
-    rank=same;
-    node [style=filled];
-    label = "Time 21";
-    color = blue;
-    pseudo_21 [style=invis];
-    STR_71
-    ADD_98
-    AND_239
-  }
-  subgraph cluster_22 {
-    rank=same;
-    node [style=filled];
-    label = "Time 22";
-    color = blue;
-    pseudo_22 [style=invis];
-    ADD_108
-  }
-  subgraph cluster_23 {
-    rank=same;
-    node [style=filled];
-    label = "Time 23";
-    color = blue;
-    pseudo_23 [style=invis];
-    STR_81
-    ADD_118
-  }
-  subgraph cluster_24 {
-    rank=same;
-    node [style=filled];
-    label = "Time 24";
-    color = blue;
-    pseudo_24 [style=invis];
-    ADD_124
-  }
-  subgraph cluster_25 {
-    rank=same;
-    node [style=filled];
-    label = "Time 25";
-    color = blue;
-    pseudo_25 [style=invis];
-    STR_89
-    ADD_130
-  }
-  subgraph cluster_26 {
-    rank=same;
-    node [style=filled];
-    label = "Time 26";
-    color = blue;
-    pseudo_26 [style=invis];
-    ADD_142
-  }
-  subgraph cluster_27 {
-    rank=same;
-    node [style=filled];
-    label = "Time 27";
-    color = blue;
-    pseudo_27 [style=invis];
-    STR_99
-    ADD_157
-  }
-  subgraph cluster_28 {
-    rank=same;
-    node [style=filled];
-    label = "Time 28";
-    color = blue;
-    pseudo_28 [style=invis];
-    ADD_172
-  }
-  subgraph cluster_29 {
-    rank=same;
-    node [style=filled];
-    label = "Time 29";
-    color = blue;
-    pseudo_29 [style=invis];
-    STR_109
-    ADD_187
-  }
-  subgraph cluster_30 {
-    rank=same;
-    node [style=filled];
-    label = "Time 30";
-    color = blue;
-    pseudo_30 [style=invis];
-    ADD_199
-  }
-  subgraph cluster_31 {
-    rank=same;
-    node [style=filled];
-    label = "Time 31";
-    color = blue;
-    pseudo_31 [style=invis];
-    STR_119
-    ADD_214
-  }
-  subgraph cluster_32 {
-    rank=same;
-    node [style=filled];
-    label = "Time 32";
-    color = blue;
-    pseudo_32 [style=invis];
-    ADD_229
-  }
-  subgraph cluster_33 {
-    rank=same;
-    node [style=filled];
-    label = "Time 33";
-    color = blue;
-    pseudo_33 [style=invis];
-    STR_43
-    ADD_244
-  }
-  subgraph cluster_34 {
-    rank=same;
-    node [style=filled];
-    label = "Time 34";
-    color = blue;
-    pseudo_34 [style=invis];
-    ADD_250
-  }
-  subgraph cluster_35 {
-    rank=same;
-    node [style=filled];
-    label = "Time 35";
-    color = blue;
-    pseudo_35 [style=invis];
-    STR_125
-    ADD_256
-  }
-  subgraph cluster_36 {
-    rank=same;
-    node [style=filled];
-    label = "Time 36";
-    color = blue;
-    pseudo_36 [style=invis];
-    ADD_264
-  }
-  subgraph cluster_37 {
-    rank=same;
-    node [style=filled];
-    label = "Time 37";
-    color = blue;
-    pseudo_37 [style=invis];
-    STR_131
-    ADD_274
-  }
-  subgraph cluster_38 {
-    rank=same;
-    node [style=filled];
-    label = "Time 38";
-    color = blue;
-    pseudo_38 [style=invis];
-  }
-  subgraph cluster_39 {
-    rank=same;
-    node [style=filled];
-    label = "Time 39";
-    color = blue;
-    pseudo_39 [style=invis];
-    STR_143
-  }
-  subgraph cluster_40 {
-    rank=same;
-    node [style=filled];
-    label = "Time 40";
-    color = blue;
-    pseudo_40 [style=invis];
-  }
-  subgraph cluster_41 {
-    rank=same;
-    node [style=filled];
-    label = "Time 41";
-    color = blue;
-    pseudo_41 [style=invis];
-    STR_158
-  }
-  subgraph cluster_42 {
-    rank=same;
-    node [style=filled];
-    label = "Time 42";
-    color = blue;
-    pseudo_42 [style=invis];
-  }
-  subgraph cluster_43 {
-    rank=same;
-    node [style=filled];
-    label = "Time 43";
-    color = blue;
-    pseudo_43 [style=invis];
-    STR_173
-  }
-  subgraph cluster_44 {
-    rank=same;
-    node [style=filled];
-    label = "Time 44";
-    color = blue;
-    pseudo_44 [style=invis];
-  }
-  subgraph cluster_45 {
-    rank=same;
-    node [style=filled];
-    label = "Time 45";
-    color = blue;
-    pseudo_45 [style=invis];
-    STR_188
-  }
-  subgraph cluster_46 {
-    rank=same;
-    node [style=filled];
-    label = "Time 46";
-    color = blue;
-    pseudo_46 [style=invis];
-  }
-  subgraph cluster_47 {
-    rank=same;
-    node [style=filled];
-    label = "Time 47";
-    color = blue;
-    pseudo_47 [style=invis];
-    STR_200
-  }
-  subgraph cluster_48 {
-    rank=same;
-    node [style=filled];
-    label = "Time 48";
-    color = blue;
-    pseudo_48 [style=invis];
-  }
-  subgraph cluster_49 {
-    rank=same;
-    node [style=filled];
-    label = "Time 49";
-    color = blue;
-    pseudo_49 [style=invis];
-    STR_215
-  }
-  subgraph cluster_50 {
-    rank=same;
-    node [style=filled];
-    label = "Time 50";
-    color = blue;
-    pseudo_50 [style=invis];
-  }
-  subgraph cluster_51 {
-    rank=same;
-    node [style=filled];
-    label = "Time 51";
-    color = blue;
-    pseudo_51 [style=invis];
-    STR_230
-  }
-  subgraph cluster_52 {
-    rank=same;
-    node [style=filled];
-    label = "Time 52";
-    color = blue;
-    pseudo_52 [style=invis];
-  }
-  subgraph cluster_53 {
-    rank=same;
-    node [style=filled];
-    label = "Time 53";
-    color = blue;
-    pseudo_53 [style=invis];
-    STR_245
-  }
-  subgraph cluster_54 {
-    rank=same;
-    node [style=filled];
-    label = "Time 54";
-    color = blue;
-    pseudo_54 [style=invis];
-  }
-  subgraph cluster_55 {
-    rank=same;
-    node [style=filled];
-    label = "Time 55";
-    color = blue;
-    pseudo_55 [style=invis];
-    STR_251
-  }
-  subgraph cluster_56 {
-    rank=same;
-    node [style=filled];
-    label = "Time 56";
-    color = blue;
-    pseudo_56 [style=invis];
-  }
-  subgraph cluster_57 {
-    rank=same;
-    node [style=filled];
-    label = "Time 57";
-    color = blue;
-    pseudo_57 [style=invis];
-    STR_257
-  }
-  subgraph cluster_58 {
-    rank=same;
-    node [style=filled];
-    label = "Time 58";
-    color = blue;
-    pseudo_58 [style=invis];
-  }
-  subgraph cluster_59 {
-    rank=same;
-    node [style=filled];
-    label = "Time 59";
-    color = blue;
-    pseudo_59 [style=invis];
-    STR_265
-  }
-  subgraph cluster_60 {
-    rank=same;
-    node [style=filled];
-    label = "Time 60";
-    color = blue;
-    pseudo_60 [style=invis];
-  }
-  subgraph cluster_61 {
-    rank=same;
-    node [style=filled];
-    label = "Time 61";
-    color = blue;
-    pseudo_61 [style=invis];
     STR_275
   }
     pseudo_1->pseudo_2 [style=invis];
@@ -545,57 +188,6 @@ digraph write_bmp_header_dfg__7 {
     pseudo_7->pseudo_8 [style=invis];
     pseudo_8->pseudo_9 [style=invis];
     pseudo_9->pseudo_10 [style=invis];
-    pseudo_10->pseudo_11 [style=invis];
-    pseudo_11->pseudo_12 [style=invis];
-    pseudo_12->pseudo_13 [style=invis];
-    pseudo_13->pseudo_14 [style=invis];
-    pseudo_14->pseudo_15 [style=invis];
-    pseudo_15->pseudo_16 [style=invis];
-    pseudo_16->pseudo_17 [style=invis];
-    pseudo_17->pseudo_18 [style=invis];
-    pseudo_18->pseudo_19 [style=invis];
-    pseudo_19->pseudo_20 [style=invis];
-    pseudo_20->pseudo_21 [style=invis];
-    pseudo_21->pseudo_22 [style=invis];
-    pseudo_22->pseudo_23 [style=invis];
-    pseudo_23->pseudo_24 [style=invis];
-    pseudo_24->pseudo_25 [style=invis];
-    pseudo_25->pseudo_26 [style=invis];
-    pseudo_26->pseudo_27 [style=invis];
-    pseudo_27->pseudo_28 [style=invis];
-    pseudo_28->pseudo_29 [style=invis];
-    pseudo_29->pseudo_30 [style=invis];
-    pseudo_30->pseudo_31 [style=invis];
-    pseudo_31->pseudo_32 [style=invis];
-    pseudo_32->pseudo_33 [style=invis];
-    pseudo_33->pseudo_34 [style=invis];
-    pseudo_34->pseudo_35 [style=invis];
-    pseudo_35->pseudo_36 [style=invis];
-    pseudo_36->pseudo_37 [style=invis];
-    pseudo_37->pseudo_38 [style=invis];
-    pseudo_38->pseudo_39 [style=invis];
-    pseudo_39->pseudo_40 [style=invis];
-    pseudo_40->pseudo_41 [style=invis];
-    pseudo_41->pseudo_42 [style=invis];
-    pseudo_42->pseudo_43 [style=invis];
-    pseudo_43->pseudo_44 [style=invis];
-    pseudo_44->pseudo_45 [style=invis];
-    pseudo_45->pseudo_46 [style=invis];
-    pseudo_46->pseudo_47 [style=invis];
-    pseudo_47->pseudo_48 [style=invis];
-    pseudo_48->pseudo_49 [style=invis];
-    pseudo_49->pseudo_50 [style=invis];
-    pseudo_50->pseudo_51 [style=invis];
-    pseudo_51->pseudo_52 [style=invis];
-    pseudo_52->pseudo_53 [style=invis];
-    pseudo_53->pseudo_54 [style=invis];
-    pseudo_54->pseudo_55 [style=invis];
-    pseudo_55->pseudo_56 [style=invis];
-    pseudo_56->pseudo_57 [style=invis];
-    pseudo_57->pseudo_58 [style=invis];
-    pseudo_58->pseudo_59 [style=invis];
-    pseudo_59->pseudo_60 [style=invis];
-    pseudo_60->pseudo_61 [style=invis];
     MUL_3_0 -> MUL_3_1 [color=red];
     MUL_17_0 -> MUL_17_1 [color=red];
     MUL_3_1 -> ADD_4 [ name = 2 ];

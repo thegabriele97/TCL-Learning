@@ -1,19 +1,19 @@
 source ./tcl_scripts/setenv.tcl
 source ./tcl_scripts/braveOpt.tcl
 
-set filename "fir"
+# set filename "fir"
 # set filename "matmul_dfg__3"
 # set filename "write_bmp_header_dfg__7"
 # set filename "motion_vectors_dfg__7"
 # set filename "jpeg_fdct_islow_dfg__6"
-# set filename "smooth_color_z_triangle_dfg__31"
+set filename "smooth_color_z_triangle_dfg__31"
 # set filename "idctcol_dfg__3"
 # set filename "invert_matrix_general_dfg__3"
 
 read_design ./data/DFGs/${filename}.dot
-# read_library ./data/RTL_libraries/RTL_library_multi-resources.txt
-read_library ./data/RTL_libraries/RTL_library_multi-resources-added.txt
-set area_constraint 5000
+read_library ./data/RTL_libraries/RTL_library_multi-resources.txt
+# read_library ./data/RTL_libraries/RTL_library_multi-resources-added.txt
+set area_constraint 1000
 
 proc validate_units_per_instant {result} {
 
