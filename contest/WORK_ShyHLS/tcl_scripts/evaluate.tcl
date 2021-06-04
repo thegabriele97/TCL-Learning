@@ -111,9 +111,6 @@ proc validate_solution {result} {
     }
     return 0
 }
-# puts -nonewline "File name for ./data/DFGs/*.dot: "
-# flush stdout
-# gets stdin filename
 
 proc asap {} {
   set max_latency 0
@@ -172,15 +169,6 @@ proc compute_latency {result} {
     }
 
     return $latency
-
-    # set last_node_starting_time [lindex [lindex $result 0 end] 1]
-    # set last_node_name [lindex [lindex $result 0 end] 0]
-    # set op_last_node [lindex [lsearch -index 0 -inline [lindex $result 1] $last_node_name] 1]
-    # set delay_last_node [get_attribute $op_last_node delay]
-
-    # set latency [expr {$last_node_starting_time + $delay_last_node}]
-
-    # return $latency
 }
 
 
