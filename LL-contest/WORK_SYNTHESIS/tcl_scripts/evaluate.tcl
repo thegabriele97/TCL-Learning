@@ -103,5 +103,12 @@ if { $empty == 1 } {
     puts "POINTS:  $points"
     puts ""
     puts "------------------------"
+} else {
+    puts ""
+    puts ""
+    puts "------------------------"
+    puts "ERROR: slack less than $allowed_slack"
+    puts ""
+    puts "------------------------"
 }
 exit > "/tmp/void"
