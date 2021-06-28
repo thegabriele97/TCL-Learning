@@ -1,6 +1,6 @@
 #@ # 
 #@ # Running pt_shell Version O-2018.06-SP4 for linux64 -- Nov 30, 2018
-#@ # Date:   Thu Jun 24 19:57:55 2021
+#@ # Date:   Mon Jun 28 20:34:33 2021
 #@ # Run by: s281389@worksynthesis
 #@ 
 
@@ -876,7 +876,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ # -- Starting source ./tcl_scripts/evaluate.tcl
 
 #@ set blockName "c1908"
-#@ set allowed_slack 0.5
+#@ set allowed_slack -0.5
 #@ 
 #@ source ./tcl_scripts/pt_analysis.tcl
 #@ # -- Starting source ./tcl_scripts/pt_analysis.tcl
@@ -1015,7 +1015,18 @@ source ./tcl_scripts/evaluate.tcl
 #@ 	#################################
 #@ 	### INSERT YOUR COMMANDS HERE ###
 #@ 	#################################
-#@ 	puts "CALLED"
+#@ 	set cell_list [get_cell]
+#@ 	foreach_in_collection cell $cell_list {
+#@ 		;#puts "A"
+#@ 	}
+#@ 	set wrt_path_collection [get_timing_paths] ;# collection of timing paths - size 1
+#@ 	foreach_in_collection timing_point [get_attribute $wrt_path_collection points] {
+#@ 		;# scan the collection of timing points belonging to the path
+#@ 		set cell_name [get_attribute [get_attribute $timing_point object] full_name]
+#@ 		;# for each timing point we can extract multiple attributes (e.g. arrival time)
+#@ 		set arrival [get_attribute $timing_point arrival]
+#@ 		puts "$cell_name --> $arrival"
+#@ 	}
 #@ 	return
 #@ }
 #@ 
@@ -1024,6 +1035,16 @@ source ./tcl_scripts/evaluate.tcl
 #@ }
 #@ # -- End source ./tcl_scripts/dualVth.tcl
 
+#@ 
+#@ proc check_slack {allowed_slack} {
+#@     set path_list [get_timing_paths -slack_greater_than -100 -slack_lesser_than $allowed_slack]
+#@     set empty 1
+#@     foreach_in_collection elem $path_list {
+#@         puts $elem
+#@         set empty 0
+#@     }
+#@     return $empty
+#@ }
 #@ 
 #@ proc get_area {} {
 #@     set sum 0
@@ -1088,28 +1109,30 @@ source ./tcl_scripts/evaluate.tcl
 #@ dualVth -allowed_slack $allowed_slack
 #@ set end [clock millisec]
 #@ 
-#@ set time [ expr { $end - $start } ]
-#@ set final_leakage [get_leakage]
-#@ set final_dynamic [get_dynamic]
-#@ set final_area [get_area]
-#@ set pleak_ratio [ expr { $initial_leakage / $final_leakage } ]
-#@ set pdyn_ratio [ expr { $initial_dynamic / $final_dynamic } ]
-#@ set area_ratio [ expr { $initial_area / $final_area } ]
-#@ set points [ expr { ($area_ratio + $pleak_ratio + $pdyn_ratio) * ( 1 - ($time/(900 * 1000))) } ]
+#@ set empty [check_slack $allowed_slack]
+#@ if { $empty == 1 } {
+#@     set time [ expr { $end - $start } ]
+#@     set final_leakage [get_leakage]
+#@     set final_dynamic [get_dynamic]
+#@     set final_area [get_area]
+#@     set pleak_ratio [ expr { $initial_leakage / $final_leakage } ]
+#@     set pdyn_ratio [ expr { $initial_dynamic / $final_dynamic } ]
+#@     set area_ratio [ expr { $initial_area / $final_area } ]
+#@     set points [ expr { ($area_ratio + $pleak_ratio + $pdyn_ratio) * ( 1 - ($time/(900 * 1000))) } ]
 #@ 
-#@ # Summary
-#@ puts ""
-#@ puts ""
-#@ puts "------------------------"
-#@ puts "RESULTS"
-#@ puts ""
-#@ puts ""
-#@ puts "TIME:   $time ms"
-#@ puts "P LEAK: $initial_leakage\/$final_leakage \t-> $pleak_ratio"
-#@ puts "P DYN:  $initial_dynamic\/$final_dynamic \t-> $pdyn_ratio"
-#@ puts "AREA:   $initial_area\/$final_area \t\t-> $area_ratio"
-#@ puts ""
-#@ puts "POINTS:  $points"
-#@ puts ""
-#@ puts "------------------------"
+#@     # Summary
+#@     puts ""
+#@     puts ""
+#@     puts "------------------------"
+#@     puts "RESULTS"
+#@     puts ""
+#@     puts "TIME:   $time ms"
+#@     puts "P LEAK: $initial_leakage\/$final_leakage \t-> $pleak_ratio"
+#@     puts "P DYN:  $initial_dynamic\/$final_dynamic \t-> $pdyn_ratio"
+#@     puts "AREA:   $initial_area\/$final_area \t\t-> $area_ratio"
+#@     puts ""
+#@     puts "POINTS:  $points"
+#@     puts ""
+#@     puts "------------------------"
+#@ }
 #@ exit > "/tmp/void"

@@ -5,7 +5,18 @@ proc dualVth {args} {
 	#################################
 	### INSERT YOUR COMMANDS HERE ###
 	#################################
-	puts "CALLED"
+	set cell_list [get_cell]
+	foreach_in_collection cell $cell_list {
+		;#puts "A"
+	}
+	set wrt_path_collection [get_timing_paths] ;# collection of timing paths - size 1
+	foreach_in_collection timing_point [get_attribute $wrt_path_collection points] {
+		;# scan the collection of timing points belonging to the path
+		set cell_name [get_attribute [get_attribute $timing_point object] full_name]
+		;# for each timing point we can extract multiple attributes (e.g. arrival time)
+		set arrival [get_attribute $timing_point arrival]
+		puts "$cell_name --> $arrival"
+	}
 	return
 }
 

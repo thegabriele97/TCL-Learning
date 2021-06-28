@@ -1,8 +1,18 @@
 set blockName "c1908"
-set allowed_slack 0.5
+set allowed_slack -0.5
 
 source ./tcl_scripts/pt_analysis.tcl
 source ./tcl_scripts/dualVth.tcl
+
+proc check_slack {allowed_slack} {
+    set path_list [get_timing_paths -slack_greater_than -100 -slack_lesser_than $allowed_slack]
+    set empty 1
+    foreach_in_collection elem $path_list {
+        puts $elem
+        set empty 0
+    }
+    return $empty
+}
 
 proc get_area {} {
     set sum 0
@@ -67,27 +77,31 @@ set start [clock millisec]
 dualVth -allowed_slack $allowed_slack
 set end [clock millisec]
 
-set time [ expr { $end - $start } ]
-set final_leakage [get_leakage]
-set final_dynamic [get_dynamic]
-set final_area [get_area]
-set pleak_ratio [ expr { $initial_leakage / $final_leakage } ]
-set pdyn_ratio [ expr { $initial_dynamic / $final_dynamic } ]
-set area_ratio [ expr { $initial_area / $final_area } ]
-set points [ expr { ($area_ratio + $pleak_ratio + $pdyn_ratio) * ( 1 - ($time/(900 * 1000))) } ]
+# Check that the slack is within the given constraint
+set empty [check_slack $allowed_slack]
+if { $empty == 1 } {
+    set time [ expr { $end - $start } ]
+    set final_leakage [get_leakage]
+    set final_dynamic [get_dynamic]
+    set final_area [get_area]
+    set pleak_ratio [ expr { $initial_leakage / $final_leakage } ]
+    set pdyn_ratio [ expr { $initial_dynamic / $final_dynamic } ]
+    set area_ratio [ expr { $initial_area / $final_area } ]
+    set points [ expr { ($area_ratio + $pleak_ratio + $pdyn_ratio) * ( 1 - ($time/(900 * 1000))) } ]
 
-# Summary
-puts ""
-puts ""
-puts "------------------------"
-puts "RESULTS"
-puts ""
-puts "TIME:   $time ms"
-puts "P LEAK: $initial_leakage\/$final_leakage \t-> $pleak_ratio"
-puts "P DYN:  $initial_dynamic\/$final_dynamic \t-> $pdyn_ratio"
-puts "AREA:   $initial_area\/$final_area \t\t-> $area_ratio"
-puts ""
-puts "POINTS:  $points"
-puts ""
-puts "------------------------"
+    # Summary
+    puts ""
+    puts ""
+    puts "------------------------"
+    puts "RESULTS"
+    puts ""
+    puts "TIME:   $time ms"
+    puts "P LEAK: $initial_leakage\/$final_leakage \t-> $pleak_ratio"
+    puts "P DYN:  $initial_dynamic\/$final_dynamic \t-> $pdyn_ratio"
+    puts "AREA:   $initial_area\/$final_area \t\t-> $area_ratio"
+    puts ""
+    puts "POINTS:  $points"
+    puts ""
+    puts "------------------------"
+}
 exit > "/tmp/void"
