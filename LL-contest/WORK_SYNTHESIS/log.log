@@ -1,0 +1,55 @@
+
+                                 PrimeTime (R)
+
+               Version O-2018.06-SP4 for linux64 - Nov 30, 2018 
+
+                    Copyright (c) 1988 - 2018 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+            or distribution of this software is strictly prohibited.
+Information: Checked out license 'PrimePower' (PT-019)
+Loading db file '/space/s281389/TCLExercises/LL-contest/WORK_SYNTHESIS/tech/STcmos65/CORE65LPLVT_nom_1.20V_25C.db'
+Loading verilog file '/space/s281389/TCLExercises/LL-contest/WORK_SYNTHESIS/saved/c1908/synthesis/c1908_postsyn.v'
+Loading db file '/space/s281389/TCLExercises/LL-contest/WORK_SYNTHESIS/tech/STcmos65/CORE65LPHVT_nom_1.20V_25C.db'
+Linking design c1908...
+Information: 830 (95.84%) library cells are unused in library CORE65LPLVT..... (LNK-045)
+Information: 835 (96.42%) library cells are unused in library CORE65LPHVT..... (LNK-045)
+Information: total 1665 library cells are unused (LNK-046)
+
+Reading SDC version 1.3...
+Information: Loading library 'CORE65LPLVT' data due to accessing lib cells not linked in the current design. (LNK-041)
+Warning: Creating virtual clock named 'clk' with no sources. (UITE-121)
+Warning: Legacy rail_connection library specifications will no longer be supported in PrimePower starting 2018.06 release. (PWR-604)
+Set attribute 'default_threshold_voltage_group' on 'CORE65LPLVT'
+Set attribute 'default_threshold_voltage_group' on 'CORE65LPHVT'
+Error: couldn't compile regular expression pattern: parentheses () not balanced
+	Use error_info for more info. (CMD-013)
+Information: script './tcl_scripts/evaluate.tcl'
+	stopped at line 77 due to error. (CMD-081)
+Extended error info:
+couldn't compile regular expression pattern: parentheses () not balanced
+    while executing
+"regexp {\/(.+)_(.+_.+[0-9]*X([0-9]+)))} $curr_cell_lib_name full1 name_orig name2_orig old_load"
+    (procedure "replace_with_lower_size" line 5)
+    invoked from within
+"replace_with_lower_size [get_cell $cell]"
+    invoked from within
+"foreach_in_collection cell $cell_list {
+		# test example
+		replace_with_lower_size [get_cell $cell]
+	}"
+    (procedure "dualVth" line 9)
+    invoked from within
+"dualVth -allowed_slack $allowed_slack"
+ -- End Extended Error Info
+pt_shell> 
+Information: Interrupting current command. (INT-2)
+Information: One more interrupt will exit process. (INT-3)
+Information: Process terminated by interrupt. (INT-4)
+
+Timing updates: 1 (0 implicit, 1 explicit) (0 incremental, 1 full, 0 logical)
+Noise updates: 0 (0 implicit, 0 explicit) (0 incremental, 0 full)
+Maximum memory usage for this session: 1049.68 MB
+CPU usage for this session: 5 seconds 
+Elapsed time for this session: 58 seconds
