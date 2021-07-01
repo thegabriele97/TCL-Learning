@@ -1,6 +1,6 @@
 #@ # 
 #@ # Running dc_shell Version O-2018.06-SP4 for linux64 -- Nov 27, 2018
-#@ # Date:   Thu Jun 24 18:56:50 2021
+#@ # Date:   Thu Jul  1 23:55:40 2021
 #@ # Run by: s281389@worksynthesis
 #@ 
 
@@ -6628,8 +6628,8 @@ source /tools/synopsys_18/syn/O-2018.06-SP4/admin/setup/.synopsys_dc.setup
 
 #@ # -- End source /tools/synopsys_18/syn/O-2018.06-SP4/admin/setup/.synopsys_dc.setup
 
-source ./tcl_scripts/synthesis.tcl
-#@ # -- Starting source ./tcl_scripts/synthesis.tcl
+source tcl_scripts/synthesis.tcl
+#@ # -- Starting source tcl_scripts/synthesis.tcl
 
 #@ ##	+----------------------------------------------------------------
 #@ ##	|		 Synthesis and Optimization of Digital Systems			|
@@ -6668,14 +6668,12 @@ source ./tcl_scripts/synthesis.tcl
 #@ 
 #@ set target_library ""
 #@ set target_library [lappend target_library [lindex $link_library 3]]
-#@ set target_library [lappend target_library [lindex $link_library 4]]
 #@ # -- End source ./tech/STcmos65/synopsys_dc.setup
 
 #@ source "./tcl_scripts/power_features.tcl"
 #@ # -- Starting source ./tcl_scripts/power_features.tcl
 
 #@ set_attribute [find library CORE65LPLVT] default_threshold_voltage_group LVT -type string
-#@ set_attribute [find library CORE65LPHVT] default_threshold_voltage_group HVT -type string
 #@ # -- End source ./tcl_scripts/power_features.tcl
 
 #@ 
@@ -6814,5 +6812,6 @@ source ./tcl_scripts/synthesis.tcl
 #@ 
 #@ exec rm -rf $libDir
 #@ #exit
-#@ # -- End source ./tcl_scripts/synthesis.tcl
+#@ # -- End source tcl_scripts/synthesis.tcl
 
+report_threshold_voltage_group

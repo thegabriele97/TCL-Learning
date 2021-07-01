@@ -1,5 +1,5 @@
 set blockName "c1908"
-set allowed_slack -0.565262
+set allowed_slack -0.5
 source ./tcl_scripts/pt_analysis.tcl
 source ./tcl_scripts/dualVth.tcl
 

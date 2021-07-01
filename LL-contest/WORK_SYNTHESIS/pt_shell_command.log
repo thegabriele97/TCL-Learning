@@ -1,7 +1,7 @@
 #@ # 
 #@ # Running pt_shell Version O-2018.06-SP4 for linux64 -- Nov 30, 2018
-#@ # Date:   Thu Jul  1 15:08:40 2021
-#@ # Run by: s281589@worksynthesis
+#@ # Date:   Thu Jul  1 23:59:11 2021
+#@ # Run by: s281389@worksynthesis
 #@ 
 
 source /tools/synopsys_18/pts/O-2018.06-SP4/admin/setup/.synopsys_pt.setup
@@ -876,7 +876,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ # -- Starting source ./tcl_scripts/evaluate.tcl
 
 #@ set blockName "c1908"
-#@ set allowed_slack -0.565262
+#@ set allowed_slack -0.5
 #@ source ./tcl_scripts/pt_analysis.tcl
 #@ # -- Starting source ./tcl_scripts/pt_analysis.tcl
 
@@ -1382,7 +1382,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ 
 #@ 
 #@ 		puts "LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOP"
-#@ 		gets stdin
+#@ 		# gets stdin
 #@ 	}
 #@ 
 #@ 
@@ -1398,6 +1398,9 @@ source ./tcl_scripts/evaluate.tcl
 #@ }
 #@ 
 #@ proc dualVth {args} {
+#@ 
+#@ 	report_threshold_voltage_group 
+#@ 	break
 #@ 	parse_proc_arguments -args $args results
 #@ 	set allowed_slack $results(-allowed_slack)
 #@ 
@@ -1405,14 +1408,13 @@ source ./tcl_scripts/evaluate.tcl
 #@ 	### INSERT YOUR COMMANDS HERE ###
 #@ 	#################################
 #@ 	print_slacks
-#@ 	gets stdin
+#@ 	#gets stdin
 #@ 	start $allowed_slack
 #@ 	print_slacks
-#@ 	gets stdin
+#@ 	#gets stdin
 #@ 
 #@ 	return
 #@ }
-#@ 
 #@ define_proc_attributes dualVth -info "Post-Synthesis Dual-Vth Cell Assignment and Gate Re-Sizing" -define_args {
 #@ 	{-allowed_slack "allowed slack after the optimization (valid range [-OO, 0])" value float required}
 #@ }
@@ -1441,90 +1443,4 @@ source ./tcl_scripts/evaluate.tcl
 #@ 
 #@ proc get_leakage {} {
 #@     # Cell Leakage Power   = 4.150e-07   ( 0.09%)
-#@     report_power > "power.rpt"
-#@     set fp [open "power.rpt" r]
-#@     set pwr_report [read $fp]
-#@     close $fp
-#@     if { [ regexp {Cell Leakage Power[ ]*=[ ]*([0-9\.\-e]+)} $pwr_report all_matches value ] } {
-#@         return $value
-#@     } else {
-#@         puts "ERROR on Cell Internal Power"
-#@         exit > "void"
-#@     }
-#@ }
-#@ 
-#@ proc get_dynamic {} {
-#@     #   Net Switching Power  = 3.195e-04   (66.70%)
-#@     #   Cell Internal Power  = 1.591e-04   (33.21%
-#@     report_power > "power.rpt"
-#@     set fp [open "power.rpt" r]
-#@     set pwr_report [read $fp]
-#@     close $fp
-#@ 
-#@     set sum 0
-#@ 
-#@     if { [ regexp {Net Switching Power[ ]*=[ ]*([0-9\.\-e]+)} $pwr_report all_matches value ] } {
-#@         set sum [ expr { $sum + $value } ]
-#@     } else {
-#@         puts "not found"
-#@         puts "ERROR on Cell Internal Power"
-#@         exit > "void"
-#@     }
-#@ 
-#@     if { [ regexp {Cell Internal Power[ ]*=[ ]*([0-9\.\-e]+)} $pwr_report all_matches value ] } {
-#@         set sum [ expr { $sum + $value } ]
-#@     } else {
-#@         puts "ERROR on Cell Internal Power"
-#@         exit > "void"
-#@     }
-#@     return $sum
-#@ }
-#@ 
-#@ # Start the pt_shell by loading the blockName circuit
-#@ pt_init $blockName
-#@ 
-#@ # Get starting point
-#@ set initial_leakage [get_leakage]
-#@ set initial_dynamic [get_dynamic]
-#@ set initial_area [get_area]
-#@ 
-#@ # Call dualVth function
-#@ set start [clock millisec]
-#@ dualVth -allowed_slack $allowed_slack
-#@ set end [clock millisec]
-#@ 
-#@ # Check that the slack is within the given constraint
-#@ set empty [check_slack $allowed_slack]
-#@ if { $empty == 1 } {
-#@     set time [ expr { $end - $start } ]
-#@     set final_leakage [get_leakage]
-#@     set final_dynamic [get_dynamic]
-#@     set final_area [get_area]
-#@     set pleak_ratio [ expr { $initial_leakage / $final_leakage } ]
-#@     set pdyn_ratio [ expr { $initial_dynamic / $final_dynamic } ]
-#@     set area_ratio [ expr { $initial_area / $final_area } ]
-#@     set points [ expr { ($area_ratio + $pleak_ratio + $pdyn_ratio) * ( 1 - ($time/(900 * 1000))) } ]
-#@ 
-#@     # Summary
-#@     puts ""
-#@     puts ""
-#@     puts "------------------------"
-#@     puts "RESULTS"
-#@     puts ""
-#@     puts "TIME:   $time ms"
-#@     puts "P LEAK: $initial_leakage\/$final_leakage \t-> $pleak_ratio"
-#@     puts "P DYN:  $initial_dynamic\/$final_dynamic \t-> $pdyn_ratio"
-#@     puts "AREA:   $initial_area\/$final_area \t\t-> $area_ratio"
-#@     puts ""
-#@     puts "POINTS:  $points"
-#@     puts ""
-#@     puts "------------------------"
-#@ } else {
-#@     puts ""
-#@     puts ""
-#@     puts "------------------------"
-#@     puts "ERROR: slack less than $allowed_slack"
-#@     puts ""
-#@     puts "------------------------"
-#@ }
-#@ exit 
+#@     repo

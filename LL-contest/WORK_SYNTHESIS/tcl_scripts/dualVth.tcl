@@ -367,7 +367,7 @@ proc start {allowed_slack} {
 
 
 		puts "LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOP"
-		gets stdin
+		# gets stdin
 	}
 
 
@@ -390,14 +390,13 @@ proc dualVth {args} {
 	### INSERT YOUR COMMANDS HERE ###
 	#################################
 	print_slacks
-	gets stdin
+	#gets stdin
 	start $allowed_slack
 	print_slacks
-	gets stdin
+	#gets stdin
 
 	return
 }
-
 define_proc_attributes dualVth \
 -info "Post-Synthesis Dual-Vth Cell Assignment and Gate Re-Sizing" \
 -define_args \
