@@ -2,7 +2,7 @@
 Report : Averaged Power
 Design : c1908
 Version: O-2018.06-SP4
-Date   : Thu Jul  1 14:34:55 2021
+Date   : Thu Jul  1 15:10:28 2021
 ****************************************
 
 
@@ -17,16 +17,16 @@ Power Group             Power     Power      Power      Power   (     %)  Attrs
 --------------------------------------------------------------------------------
 clock_network              0.0000    0.0000    0.0000    0.0000 ( 0.00%)  i
 register                   0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
-combinational           1.324e-04 3.049e-04 5.484e-08 4.374e-04 (100.00%) 
+combinational           1.511e-04 3.197e-04 3.721e-07 4.712e-04 (100.00%) 
 sequential                 0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
 memory                     0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
 io_pad                     0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
 black_box                  0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
 
-  Net Switching Power  = 3.049e-04   (69.71%)
-  Cell Internal Power  = 1.324e-04   (30.28%)
-  Cell Leakage Power   = 5.484e-08   ( 0.01%)
+  Net Switching Power  = 3.197e-04   (67.85%)
+  Cell Internal Power  = 1.511e-04   (32.07%)
+  Cell Leakage Power   = 3.721e-07   ( 0.08%)
                          ---------
-Total Power            = 4.374e-04  (100.00%)
+Total Power            = 4.712e-04  (100.00%)
 
 1
