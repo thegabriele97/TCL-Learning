@@ -6,7 +6,7 @@ proc max args {
     return $res
 }
 
-proc get_cell_HVT {cell} {
+proc set_cell_HVT {cell} {
 	set type HVT
 	set curr_cell_lib [get_lib_cell -o $cell]
 	set curr_cell_lib_name [get_attribute $curr_cell_lib full_name]
@@ -20,7 +20,7 @@ proc get_cell_HVT {cell} {
             if { [ regexp {\/(.+)_.+_(.+)} $possible_swap_name full nm nm2 ] } {
               if { ($name_orig == $nm) && ($name2_orig == $nm2) && ([get_attribute $alternative threshold_voltage_group] == $type) } {
 				
-				# puts "get_cell_hvt: found $possible_swap_name from $curr_cell_lib_name"
+				# puts "set_cell_HVT: found $possible_swap_name from $curr_cell_lib_name"
 				size_cell $cell $possible_swap_name
 				# set curr_cell_lib [get_lib_cell -o $cell]
 				# puts [get_attribute $curr_cell_lib threshold_voltage_group]
@@ -43,9 +43,6 @@ proc get_cell_lower_size {cell} {
 	set curr_cell_lib_name [get_attribute $curr_cell_lib full_name]
 
 	set replacement_name $curr_cell_lib_name
-	puts "x"
-	set replacement_dyn [get_attribute $cell leakage_power]
-	puts "x"
 
 	if { [ regexp {\/.*X([0-9]+)} $curr_cell_lib_name full1 old_load] } {
 
@@ -61,20 +58,14 @@ proc get_cell_lower_size {cell} {
 					if { $old_load > $new_possible_load && $new_possible_load > $min_found } {
 						set min_found $new_possible_load
 						set replacement_name $possible_swap_name
-						set replacement_dyn [get_attribute $alternative leakage_power]
 					}
 
 				}
 			}
 		}
-
-		# if {$min_found != $old_load} {
-		#	puts "Replaced $cell -> $curr_cell_lib_name with $replacement_name"
-			# size_cell $cell $replacement_name
-		#}
 	}
 
-	return list[ $replacement_name $replacement_dyn]
+	return $replacement_name 
 }
 
 
@@ -124,10 +115,10 @@ proc compute_priority_leakage {cell} {
 
 	############ NEW CELL
 
-	set new_hvt_cell [get_cell_HVT $cell]
+	set new_hvt_cell [set_cell_HVT $cell]
 	
 	set cell_new_leakage [get_attribute $new_hvt_cell leakage_power]
-	# set curr_cell_lib_name2 [get_attribute [get_lib_cell -o $new_hvt_cell] full_name]
+	set curr_cell_lib_name2 [get_attribute [get_lib_cell -o $new_hvt_cell] full_name]
 	set HVT_delay_max [get_attribute [get_timing_arcs -of_object $new_hvt_cell] delay_max]
 
 	set max_lvt_delay [max $LVT_delay_max]
@@ -145,25 +136,46 @@ proc compute_priority_leakage {cell} {
 	size_cell $cell $curr_cell_lib_name 
 
 	set denominator [expr {$max_hvt_delay - $max_lvt_delay}]
-	return [expr {($cell_actual_leakage - $cell_new_leakage) / $denominator}]
+	return [list [expr {($cell_actual_leakage - $cell_new_leakage) / $denominator}] $curr_cell_lib_name2]
 }
 
-proc compute_area {cell} {
+proc compute_area_dyn {cell} {
 	
 	############ ACTUAL CELL
+	set curr_cell_lib_name  [get_attribute [get_lib_cell -o $cell] full_name]
 	set cell_actual_area [get_attribute $cell area]
 	set cell_actual_dynpower [get_attribute $cell dynamic_power]
-	
+	set actual_delay_max [get_attribute [get_timing_arcs -of_object $cell] delay_max]
+
 
 	############ NEW CELL
-	set new_hvt_cell [get_cell_HVT $cell]
+	set new_cell_name [get_cell_lower_size $cell]
+	size_cell $cell $new_cell_name 
 	
-	set cell_new_area [get_attribute $new_hvt_cell area]
-	set cell_new_dynpower [get_attribute $new_hvt_cell dynamic_power]
+	set cell_new_area [get_attribute $cell area]
+	set cell_new_dynpower [get_attribute $cell dynamic_power]
+	set new_delay_max [get_attribute [get_timing_arcs -of_object $cell] delay_max]
+
+	# puts "$cell_actual_area -> $cell_new_area"
+	# puts "$cell_actual_dynpower -> $cell_new_dynpower"
+
+	size_cell $cell $curr_cell_lib_name 
+
+	set max_lvt_delay [max $actual_delay_max]
+	set max_hvt_delay [max $new_delay_max]
+
+	set denominator [expr {$max_hvt_delay - $max_lvt_delay}]
+
+	if {$denominator == 0} {
+		return 0
+	}
+
+	return [list [expr {($cell_actual_area*$cell_actual_dynpower - $cell_new_area*$cell_new_dynpower) / $denominator}] $new_cell_name]
 }
 
 
 proc start {allowed_slack} {
+	set lut {}
 	# set cell_list [get_cell]
 	# foreach_in_collection cell $cell_list {
 	# 	# test example
@@ -178,40 +190,165 @@ proc start {allowed_slack} {
 	# }
 
 	# set current_path [get_attribute [index_collection $path_list end] slack]
-	set current_path [index_collection $path_list end]
-
+	
 	set priority {}
-	foreach_in_collection timing_point [get_attribute $current_path points] {
+	set priority_areadyn {}
+	set count 0
+	foreach_in_collection current_path $path_list {
+	#set current_path [index_collection $path_list end]
 
-		set obj_type [get_attribute [get_attribute $timing_point object] object_class]
-		
-		if {$obj_type == "pin"} {
-			set cell [ get_cell -of_object [get_attribute $timing_point object] ]
+		foreach_in_collection timing_point [get_attribute $current_path points] {
 
-			# puts [get_attribute $cell ref_name]
-			# puts [get_attribute $cell leakage_power]
+			set obj_type [get_attribute [get_attribute $timing_point object] object_class]
+			
+			if {$obj_type == "pin"} {
+				set cell [ get_cell -of_object [get_attribute $timing_point object] ]
 
-			set priority_leakage 0
-			if {[get_attribute [get_lib_cell -o $cell] threshold_voltage_group] == "LVT"} {
-				set priority_leakage [compute_priority_leakage $cell]
+				# puts [get_attribute $cell ref_name]
+				# puts [get_attribute $cell leakage_power]
+
+				if {[get_attribute [get_lib_cell -o $cell] threshold_voltage_group] == "LVT"} {
+
+
+					set search_lut [lsearch -index 0 -inline -all $lut [get_attribute [get_lib_cell -o $cell] full_name]]
+					if {$search_lut < 0} {
+
+						set priority_leakage_list [compute_priority_leakage $cell]
+						set priority_area_list [compute_area_dyn $cell]
+
+						set priority_leakage [lindex $priority_leakage_list 0]
+						set priority_area [lindex $priority_area_list 0]
+
+						# {cell_lvt, cell_hvt, priotity_hvt}
+						# {cell_lvt, cell_low_size, priorty_area}
+
+						set x1 [list [get_attribute [get_lib_cell -o $cell] full_name] [lindex $priority_leakage_list 1]  [lindex $priority_leakage_list 0]]
+						set x2 [list [get_attribute [get_lib_cell -o $cell] full_name] [lindex $priority_area_list 1]  [lindex $priority_area_list 0]]
+
+						set lut [lappend lut $x1]
+						set lut [lappend lut $x2]
+
+						set search_lut [list $x1 $x2]
+
+						puts "lut: $lut"
+						# gets stdin
+					}
+
+
+					puts "result search: $search_lut"
+					# gets stdin
+					set priority_leakage [lindex $search_lut 0 2]
+					set priority_area [lindex $search_lut 1 2]
+
+
+					if {$priority_leakage > 0} {
+						set priority [lappend priority [list $timing_point $priority_leakage]]
+					}
+
+					if {$priority_area > 0} {
+						set priority_areadyn [lappend priority_areadyn [list $timing_point $priority_area]]
+					}
+				}
+
+
+				# compute_area_dyn $cell
 			}
-
-			set priority [lappend priority [list $timing_point $priority_leakage]]
+			
 		}
-		
+
+		incr count
+
+
+		if {$count >= 5} {
+			
+
+			puts $priority
+			# gets stdin
+
+			set priority [lsort -index 1 -decreasing -real $priority]
+			set priority_areadyn [lsort -index 1 -decreasing -real $priority_areadyn]
+			puts $priority
+			
+			set must_end 0
+			while {1} {
+
+				set first_prio_leak -1
+				set first_prio_area -1
+
+				if {[llength $priority]} {
+					set first_prio_leak [lindex $priority 0]
+				}
+
+				if {[llength $priority_areadyn]} {
+					set first_prio_area [lindex $priority_areadyn 0]
+				}
+
+				if {$first_prio_leak == -1 && $first_prio_area == -1 } {
+					break
+				}
+
+				if {[lindex $first_prio_leak 1] >= [lindex $first_prio_area 1]} {
+					set cell [ get_cell -of_object [get_attribute [lindex $first_prio_leak 0] object] ]
+				} else {
+					set cell [ get_cell -of_object [get_attribute [lindex $first_prio_area 0] object] ]
+				}
+
+				set curr_cell_lib_name  [get_attribute [get_lib_cell -o $cell] full_name]
+				
+
+
+				if {[lindex $first_prio_leak 1] >= [lindex $first_prio_area 1]} {
+					# substitution leak based
+					# removed first element of priority
+					# replace
+					set_cell_HVT $cell
+					set priority [ lrange $priority 1 end ]
+				} else {
+					size_cell $cell [get_cell_lower_size $cell] 
+					set priority_areadyn [ lrange $priority_areadyn 1 end ]
+				}
+
+
+				if {[is_ok_slack $allowed_slack] == 0} {
+					puts "STOPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPEEEEEERFECT"
+
+					size_cell $cell $curr_cell_lib_name
+
+					set must_end 1
+					break
+				}
+
+
+			} 
+
+			# foreach pair $priority {
+
+			# 	set cell [ get_cell -of_object [get_attribute [lindex $pair 0] object] ]
+			# 	set curr_cell_lib_name  [get_attribute [get_lib_cell -o $cell] full_name]
+
+			# 	set_cell_HVT $cell
+
+			# 	if {[is_ok_slack $allowed_slack] == 0} {
+			# 		puts "STOPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPEEEEEERFECT"
+
+			# 		size_cell $cell $curr_cell_lib_name
+
+			# 		set must_end 1
+			# 		break
+			# 	}
+
+			# }
+
+			if {$must_end == 1} {
+				break
+			}
+			
+			set count 0
+			# gets stdin
+		}
+
 	}
 
-	set priority [lsort -index 1 -decreasing -real $priority]
-	puts $priority
-
-	foreach pair $priority {
-
-		set cell [ get_cell -of_object [get_attribute [lindex $pair 0] object] ]
-		get_cell_HVT $cell
-
-		puts [is_ok_slack $allowed_slack]
-
-	}
 
 }
 

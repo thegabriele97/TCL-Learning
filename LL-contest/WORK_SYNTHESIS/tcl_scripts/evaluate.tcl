@@ -1,5 +1,5 @@
 set blockName "c1908"
-set allowed_slack -0.5
+set allowed_slack -10.5
 
 source ./tcl_scripts/pt_analysis.tcl
 source ./tcl_scripts/dualVth.tcl
@@ -10,6 +10,7 @@ proc check_slack {allowed_slack} {
     foreach_in_collection elem $path_list {
         puts $elem
         set empty 0
+        break
     }
     return $empty
 }
