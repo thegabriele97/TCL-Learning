@@ -1,6 +1,6 @@
 #@ # 
 #@ # Running pt_shell Version O-2018.06-SP4 for linux64 -- Nov 30, 2018
-#@ # Date:   Thu Jul  1 23:59:11 2021
+#@ # Date:   Fri Jul  2 01:33:54 2021
 #@ # Run by: s281389@worksynthesis
 #@ 
 
@@ -1020,6 +1020,7 @@ source ./tcl_scripts/evaluate.tcl
 #@     }
 #@     return $res
 #@ }
+#@ #
 #@ 
 #@ proc set_cell_HVT {cell} {
 #@ 	set type HVT
@@ -1099,7 +1100,7 @@ source ./tcl_scripts/evaluate.tcl
 #@             set delta [ expr [ get_attribute $tpoint arrival ] - $arrival ]
 #@             set arrival [ get_attribute $tpoint arrival ]  
 #@ 
-#@             puts "$full_name\t\t\t\t$delta\t$arrival"    
+#@             # puts "$full_name\t\t\t\t$delta\t$arrival"    
 #@ 
 #@             
 #@ 
@@ -1212,8 +1213,11 @@ source ./tcl_scripts/evaluate.tcl
 #@ 	
 #@ 
 #@ 	set end 0
+#@ 	set sl1 -1
+#@ 	set sl2 0
 #@ 	while {$end == 0} {
 #@ 
+#@ 		set end 1
 #@ 		set lut {}
 #@ 		set priority {}
 #@ 		set priority_areadyn {}
@@ -1234,13 +1238,14 @@ source ./tcl_scripts/evaluate.tcl
 #@ 					# puts [get_attribute $cell ref_name]
 #@ 					# puts [get_attribute $cell leakage_power]
 #@ 
-#@ 					if {[get_attribute [get_lib_cell -o $cell] threshold_voltage_group] == "LVT"} {
 #@ 
 #@ 
 #@ 						set search_lut [lsearch -index 0 -inline -all $lut [get_attribute [get_lib_cell -o $cell] full_name]]
 #@ 						if {$search_lut < 0} {
-#@ 
-#@ 							set priority_leakage_list [compute_priority_leakage $cell]
+#@ 							set priority_leakage_list -1
+#@ 							if {[get_attribute [get_lib_cell -o $cell] threshold_voltage_group] == "LVT"} {
+#@ 								set priority_leakage_list [compute_priority_leakage $cell]
+#@ 							}
 #@ 							set priority_area_list [compute_area_dyn $cell]
 #@ 
 #@ 							set priority_leakage [lindex $priority_leakage_list 0]
@@ -1257,12 +1262,12 @@ source ./tcl_scripts/evaluate.tcl
 #@ 
 #@ 							set search_lut [list $x1 $x2]
 #@ 
-#@ 							puts "lut: $lut"
+#@ 							#puts "lut: $lut"
 #@ 							# gets stdin
 #@ 						}
 #@ 
 #@ 
-#@ 						puts "result search: $search_lut"
+#@ 						#puts "result search: $search_lut"
 #@ 						# gets stdin
 #@ 						set priority_leakage [lindex $search_lut 0 2]
 #@ 						set priority_area [lindex $search_lut 1 2]
@@ -1275,7 +1280,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ 						if {$priority_area > 0} {
 #@ 							set priority_areadyn [lappend priority_areadyn [list $timing_point $priority_area]]
 #@ 						}
-#@ 					}
+#@ 					
 #@ 
 #@ 
 #@ 					# compute_area_dyn $cell
@@ -1286,17 +1291,20 @@ source ./tcl_scripts/evaluate.tcl
 #@ 			incr count
 #@ 
 #@ 
-#@ 			if {$count >= 5} {
-#@ 				set end 1
+#@ 			if {$count >= 1} {
 #@ 				
-#@ 				puts $priority
+#@ 				#puts $priority
 #@ 				# gets stdin
 #@ 
 #@ 				set priority [lsort -index 1 -decreasing -real $priority]
 #@ 				set priority_areadyn [lsort -index 1 -decreasing -real $priority_areadyn]
-#@ 				puts $priority
+#@ 				#puts $priority
 #@ 				
 #@ 				set must_end 0
+#@ 
+#@ 					puts "ALL PRIO FINISHED1 [llength $priority]"
+#@ 					puts "ALL PRIO FINISHED2 [llength $priority_areadyn]"
+#@ 					#gets stdin
 #@ 				while {1} {
 #@ 
 #@ 					set first_prio_leak -1
@@ -1324,28 +1332,38 @@ source ./tcl_scripts/evaluate.tcl
 #@ 					
 #@ 
 #@ 
+#@ 					set curr_cell_lib [get_lib_cell -o $cell]
 #@ 					if {[lindex $first_prio_leak 1] >= [lindex $first_prio_area 1]} {
 #@ 						# substitution leak based
 #@ 						# removed first element of priority
 #@ 						# replace
-#@ 						set_cell_HVT $cell
-#@ 						set priority [ lrange $priority 1 end ]
-#@ 						set end 0
+#@ 						set curr_cell_lib [get_lib_cell -o $cell]
+#@ 
+#@ 						if {[get_attribute $curr_cell_lib threshold_voltage_group] != "HVT"} {
+#@ 							set_cell_HVT $cell
+#@ 							set end 0
+#@ 						}
+#@ 							set priority [ lrange $priority 1 end ]
+#@ 						#puts "ALL PRIO FINISHED"
+#@ 						#gets stdin
 #@ 					} else {
-#@ 						size_cell $cell [get_cell_lower_size $cell] 
-#@ 						set priority_areadyn [ lrange $priority_areadyn 1 end ]
-#@ 						set end 0
+#@ 						set rpc [get_cell_lower_size $cell]
+#@ 						if {$rpc != [get_attribute $curr_cell_lib full_name]} {
+#@ 							size_cell $cell $rpc 
+#@ 							set end 0
+#@ 						}
+#@ 							set priority_areadyn [ lrange $priority_areadyn 1 end ]
+#@ 						#puts "ALL PRIO FINISHED2 [llength $priority_areadyn]"
+#@ 						#gets stdin
 #@ 					}
 #@ 
 #@ 
 #@ 					if {[is_ok_slack $allowed_slack] == 0} {
-#@ 						puts $lut
-#@ 						puts "STOPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPEEEEEERFECT"
-#@ 
+#@ 						#puts $lut
+#@ 						#puts "STOPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPEEEEEERFECT"
+#@ 						set end 1
 #@ 						size_cell $cell $curr_cell_lib_name
 #@ 
-#@ 						set must_end 1
-#@ 						break
 #@ 					}
 #@ 
 #@ 
@@ -1368,11 +1386,6 @@ source ./tcl_scripts/evaluate.tcl
 #@ 				# 	}
 #@ 
 #@ 				# }
-#@ 
-#@ 				if {$must_end == 1} {
-#@ 					set end 1
-#@ 					break
-#@ 				}
 #@ 				
 #@ 				set count 0
 #@ 				# gets stdin
@@ -1381,7 +1394,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ 		}
 #@ 
 #@ 
-#@ 		puts "LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOP"
+#@ 		#puts "LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOP"
 #@ 		# gets stdin
 #@ 	}
 #@ 
@@ -1398,9 +1411,6 @@ source ./tcl_scripts/evaluate.tcl
 #@ }
 #@ 
 #@ proc dualVth {args} {
-#@ 
-#@ 	report_threshold_voltage_group 
-#@ 	break
 #@ 	parse_proc_arguments -args $args results
 #@ 	set allowed_slack $results(-allowed_slack)
 #@ 
@@ -1443,4 +1453,90 @@ source ./tcl_scripts/evaluate.tcl
 #@ 
 #@ proc get_leakage {} {
 #@     # Cell Leakage Power   = 4.150e-07   ( 0.09%)
-#@     repo
+#@     report_power > "power.rpt"
+#@     set fp [open "power.rpt" r]
+#@     set pwr_report [read $fp]
+#@     close $fp
+#@     if { [ regexp {Cell Leakage Power[ ]*=[ ]*([0-9\.\-e]+)} $pwr_report all_matches value ] } {
+#@         return $value
+#@     } else {
+#@         puts "ERROR on Cell Internal Power"
+#@         exit > "void"
+#@     }
+#@ }
+#@ 
+#@ proc get_dynamic {} {
+#@     #   Net Switching Power  = 3.195e-04   (66.70%)
+#@     #   Cell Internal Power  = 1.591e-04   (33.21%
+#@     report_power > "power.rpt"
+#@     set fp [open "power.rpt" r]
+#@     set pwr_report [read $fp]
+#@     close $fp
+#@ 
+#@     set sum 0
+#@ 
+#@     if { [ regexp {Net Switching Power[ ]*=[ ]*([0-9\.\-e]+)} $pwr_report all_matches value ] } {
+#@         set sum [ expr { $sum + $value } ]
+#@     } else {
+#@         puts "not found"
+#@         puts "ERROR on Cell Internal Power"
+#@         exit > "void"
+#@     }
+#@ 
+#@     if { [ regexp {Cell Internal Power[ ]*=[ ]*([0-9\.\-e]+)} $pwr_report all_matches value ] } {
+#@         set sum [ expr { $sum + $value } ]
+#@     } else {
+#@         puts "ERROR on Cell Internal Power"
+#@         exit > "void"
+#@     }
+#@     return $sum
+#@ }
+#@ 
+#@ # Start the pt_shell by loading the blockName circuit
+#@ pt_init $blockName
+#@ 
+#@ # Get starting point
+#@ set initial_leakage [get_leakage]
+#@ set initial_dynamic [get_dynamic]
+#@ set initial_area [get_area]
+#@ 
+#@ # Call dualVth function
+#@ set start [clock millisec]
+#@ dualVth -allowed_slack $allowed_slack
+#@ set end [clock millisec]
+#@ 
+#@ # Check that the slack is within the given constraint
+#@ set empty [check_slack $allowed_slack]
+#@ if { $empty == 1 } {
+#@     set time [ expr { $end - $start } ]
+#@     set final_leakage [get_leakage]
+#@     set final_dynamic [get_dynamic]
+#@     set final_area [get_area]
+#@     set pleak_ratio [ expr { $initial_leakage / $final_leakage } ]
+#@     set pdyn_ratio [ expr { $initial_dynamic / $final_dynamic } ]
+#@     set area_ratio [ expr { $initial_area / $final_area } ]
+#@     set points [ expr { ($area_ratio + $pleak_ratio + $pdyn_ratio) * ( 1 - ($time/(900 * 1000))) } ]
+#@ 
+#@     # Summary
+#@     puts ""
+#@     puts ""
+#@     puts "------------------------"
+#@     puts "RESULTS"
+#@     puts ""
+#@     puts "TIME:   $time ms"
+#@     puts "P LEAK: $initial_leakage\/$final_leakage \t-> $pleak_ratio"
+#@     puts "P DYN:  $initial_dynamic\/$final_dynamic \t-> $pdyn_ratio"
+#@     puts "AREA:   $initial_area\/$final_area \t\t-> $area_ratio"
+#@     puts ""
+#@     puts "POINTS:  $points"
+#@     puts ""
+#@     puts "------------------------"
+#@ } else {
+#@     puts ""
+#@     puts ""
+#@     puts "------------------------"
+#@     puts "ERROR: slack less than $allowed_slack"
+#@     puts ""
+#@     puts "------------------------"
+#@ }
+#@ exit 

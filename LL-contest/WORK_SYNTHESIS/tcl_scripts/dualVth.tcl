@@ -5,6 +5,7 @@ proc max args {
     }
     return $res
 }
+#
 
 proc set_cell_HVT {cell} {
 	set type HVT
@@ -84,7 +85,7 @@ proc report_timing_enh {} {
             set delta [ expr [ get_attribute $tpoint arrival ] - $arrival ]
             set arrival [ get_attribute $tpoint arrival ]  
 
-            puts "$full_name\t\t\t\t$delta\t$arrival"    
+            # puts "$full_name\t\t\t\t$delta\t$arrival"    
 
             
 
@@ -197,8 +198,11 @@ proc start {allowed_slack} {
 	
 
 	set end 0
+	set sl1 -1
+	set sl2 0
 	while {$end == 0} {
 
+		set end 1
 		set lut {}
 		set priority {}
 		set priority_areadyn {}
@@ -219,13 +223,14 @@ proc start {allowed_slack} {
 					# puts [get_attribute $cell ref_name]
 					# puts [get_attribute $cell leakage_power]
 
-					if {[get_attribute [get_lib_cell -o $cell] threshold_voltage_group] == "LVT"} {
 
 
 						set search_lut [lsearch -index 0 -inline -all $lut [get_attribute [get_lib_cell -o $cell] full_name]]
 						if {$search_lut < 0} {
-
-							set priority_leakage_list [compute_priority_leakage $cell]
+							set priority_leakage_list -1
+							if {[get_attribute [get_lib_cell -o $cell] threshold_voltage_group] == "LVT"} {
+								set priority_leakage_list [compute_priority_leakage $cell]
+							}
 							set priority_area_list [compute_area_dyn $cell]
 
 							set priority_leakage [lindex $priority_leakage_list 0]
@@ -242,12 +247,12 @@ proc start {allowed_slack} {
 
 							set search_lut [list $x1 $x2]
 
-							puts "lut: $lut"
+							#puts "lut: $lut"
 							# gets stdin
 						}
 
 
-						puts "result search: $search_lut"
+						#puts "result search: $search_lut"
 						# gets stdin
 						set priority_leakage [lindex $search_lut 0 2]
 						set priority_area [lindex $search_lut 1 2]
@@ -260,7 +265,7 @@ proc start {allowed_slack} {
 						if {$priority_area > 0} {
 							set priority_areadyn [lappend priority_areadyn [list $timing_point $priority_area]]
 						}
-					}
+					
 
 
 					# compute_area_dyn $cell
@@ -271,17 +276,20 @@ proc start {allowed_slack} {
 			incr count
 
 
-			if {$count >= 5} {
-				set end 1
+			if {$count >= 1} {
 				
-				puts $priority
+				#puts $priority
 				# gets stdin
 
 				set priority [lsort -index 1 -decreasing -real $priority]
 				set priority_areadyn [lsort -index 1 -decreasing -real $priority_areadyn]
-				puts $priority
+				#puts $priority
 				
 				set must_end 0
+
+					puts "ALL PRIO FINISHED1 [llength $priority]"
+					puts "ALL PRIO FINISHED2 [llength $priority_areadyn]"
+					#gets stdin
 				while {1} {
 
 					set first_prio_leak -1
@@ -309,28 +317,38 @@ proc start {allowed_slack} {
 					
 
 
+					set curr_cell_lib [get_lib_cell -o $cell]
 					if {[lindex $first_prio_leak 1] >= [lindex $first_prio_area 1]} {
 						# substitution leak based
 						# removed first element of priority
 						# replace
-						set_cell_HVT $cell
-						set priority [ lrange $priority 1 end ]
-						set end 0
+						set curr_cell_lib [get_lib_cell -o $cell]
+
+						if {[get_attribute $curr_cell_lib threshold_voltage_group] != "HVT"} {
+							set_cell_HVT $cell
+							set end 0
+						}
+							set priority [ lrange $priority 1 end ]
+						#puts "ALL PRIO FINISHED"
+						#gets stdin
 					} else {
-						size_cell $cell [get_cell_lower_size $cell] 
-						set priority_areadyn [ lrange $priority_areadyn 1 end ]
-						set end 0
+						set rpc [get_cell_lower_size $cell]
+						if {$rpc != [get_attribute $curr_cell_lib full_name]} {
+							size_cell $cell $rpc 
+							set end 0
+						}
+							set priority_areadyn [ lrange $priority_areadyn 1 end ]
+						#puts "ALL PRIO FINISHED2 [llength $priority_areadyn]"
+						#gets stdin
 					}
 
 
 					if {[is_ok_slack $allowed_slack] == 0} {
-						puts $lut
-						puts "STOPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPEEEEEERFECT"
-
+						#puts $lut
+						#puts "STOPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPEEEEEERFECT"
+						set end 1
 						size_cell $cell $curr_cell_lib_name
 
-						set must_end 1
-						break
 					}
 
 
@@ -353,11 +371,6 @@ proc start {allowed_slack} {
 				# 	}
 
 				# }
-
-				if {$must_end == 1} {
-					set end 1
-					break
-				}
 				
 				set count 0
 				# gets stdin
@@ -366,7 +379,7 @@ proc start {allowed_slack} {
 		}
 
 
-		puts "LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOP"
+		#puts "LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOP"
 		# gets stdin
 	}
 
