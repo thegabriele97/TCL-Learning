@@ -106,38 +106,42 @@ proc is_ok_slack {allowed_slack} {
 }
 
 proc compute_priority_leakage {cell} {
-	
-	############ ACTUAL CELL
-	set cell_actual_leakage [get_attribute $cell leakage_power]
-	# set cell_actual_delay [expr {$original_arrival - $previous_arrival}]
 	set curr_cell_lib_name  [get_attribute [get_lib_cell -o $cell] full_name]
-	set LVT_delay_max [get_attribute [get_timing_arcs -of_object $cell] delay_max]
 
-
-	############ NEW CELL
-
-	set new_hvt_cell [set_cell_HVT $cell]
+	if {[get_attribute [get_lib_cell -o $cell] threshold_voltage_group] == "LVT"} {
 	
-	set cell_new_leakage [get_attribute $new_hvt_cell leakage_power]
-	set curr_cell_lib_name2 [get_attribute [get_lib_cell -o $new_hvt_cell] full_name]
-	set HVT_delay_max [get_attribute [get_timing_arcs -of_object $new_hvt_cell] delay_max]
-
-	set max_lvt_delay [max $LVT_delay_max]
-	set max_hvt_delay [max $HVT_delay_max]
+		############ ACTUAL CELL
+		set cell_actual_leakage [get_attribute $cell leakage_power]
+		# set cell_actual_delay [expr {$original_arrival - $previous_arrival}]
+		set LVT_delay_max [get_attribute [get_timing_arcs -of_object $cell] delay_max]
 
 
-	# puts "[get_attribute $new_hvt_cell full_name] [get_attribute $cell full_name]"
-	# puts "$curr_cell_lib_name $curr_cell_lib_name2"
+		############ NEW CELL
+		set new_hvt_cell [set_cell_HVT $cell]
+		
+		set cell_new_leakage [get_attribute $new_hvt_cell leakage_power]
+		set curr_cell_lib_name2 [get_attribute [get_lib_cell -o $new_hvt_cell] full_name]
+		set HVT_delay_max [get_attribute [get_timing_arcs -of_object $new_hvt_cell] delay_max]
 
-	# puts "hvt_cell: $new_hvt_cell"
-	# puts "actual: $cell_actual_delay - delay: $LVT_delay_max"
-	# puts "new: $new_hvt_cell - delay: $HVT_delay_max - max: [max $HVT_delay_max]"
-	# puts "new: $cell - delay: $LVT_delay_max - max: [max $LVT_delay_max]"
+		set max_lvt_delay [max $LVT_delay_max]
+		set max_hvt_delay [max $HVT_delay_max]
 
-	size_cell $cell $curr_cell_lib_name 
 
-	set denominator [expr {$max_hvt_delay - $max_lvt_delay}]
-	return [list [expr {($cell_actual_leakage - $cell_new_leakage) / $denominator}] $curr_cell_lib_name2]
+		# puts "[get_attribute $new_hvt_cell full_name] [get_attribute $cell full_name]"
+		# puts "$curr_cell_lib_name $curr_cell_lib_name2"
+
+		# puts "hvt_cell: $new_hvt_cell"
+		# puts "actual: $cell_actual_delay - delay: $LVT_delay_max"
+		# puts "new: $new_hvt_cell - delay: $HVT_delay_max - max: [max $HVT_delay_max]"
+		# puts "new: $cell - delay: $LVT_delay_max - max: [max $LVT_delay_max]"
+
+		size_cell $cell $curr_cell_lib_name 
+
+		set denominator [expr {$max_hvt_delay - $max_lvt_delay}]
+		return [list [expr {($cell_actual_leakage - $cell_new_leakage) / $denominator}] $curr_cell_lib_name2]
+	} else {
+		return [list 0 $curr_cell_lib_name]
+	}
 }
 
 proc compute_area_dyn {cell} {
@@ -227,10 +231,9 @@ proc start {allowed_slack} {
 
 						set search_lut [lsearch -index 0 -inline -all $lut [get_attribute [get_lib_cell -o $cell] full_name]]
 						if {$search_lut < 0} {
-							set priority_leakage_list -1
-							if {[get_attribute [get_lib_cell -o $cell] threshold_voltage_group] == "LVT"} {
-								set priority_leakage_list [compute_priority_leakage $cell]
-							}
+							
+							set priority_leakage_list [compute_priority_leakage $cell]
+							
 							set priority_area_list [compute_area_dyn $cell]
 
 							set priority_leakage [lindex $priority_leakage_list 0]
@@ -322,7 +325,6 @@ proc start {allowed_slack} {
 						# substitution leak based
 						# removed first element of priority
 						# replace
-						set curr_cell_lib [get_lib_cell -o $cell]
 
 						if {[get_attribute $curr_cell_lib threshold_voltage_group] != "HVT"} {
 							set_cell_HVT $cell
