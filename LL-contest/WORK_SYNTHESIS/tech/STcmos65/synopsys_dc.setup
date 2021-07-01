@@ -13,4 +13,3 @@ lappend link_library "CORE65LPHVT_nom_1.20V_25C.db"
 
 set target_library ""
 set target_library [lappend target_library [lindex $link_library 3]]
-set target_library [lappend target_library [lindex $link_library 4]]
