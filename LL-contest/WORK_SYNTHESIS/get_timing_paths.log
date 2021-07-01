@@ -1,0 +1,766 @@
+2.  Synopsys Commands                                        Command Reference
+                               get_timing_paths
+
+NAME
+       get_timing_paths
+              Creates  a  collection  of  timing paths for custom reporting or
+              other processing.
+
+SYNTAX
+       collection get_timing_paths
+              [-from from_list
+                | -rise_from rise_from_list
+                | -fall_from fall_from_list]
+              [-to to_list
+                | -rise_to rise_to_list
+                | -fall_to fall_to_list]
+              [-through through_list]
+              [-rise_through rise_through_list]
+              [-fall_through fall_through_list]
+              [-exclude exclude_list
+                | -rise_exclude rise_exclude_list
+                | -fall_exclude fall_exclude_list]
+              [-delay_type delay_type]
+              [-nworst paths_per_endpoint]
+              [-max_paths max_path_count]
+              [-group path_group_list]
+              [-unique_pins]
+              [-slack_greater_than minimum_slack]
+              [-slack_lesser_than maximum_slack]
+              [-ignore_register_feedback feedback_slack_cutoff]
+              [-include_hierarchical_pins]
+              [-trace_latch_borrow]
+              [-trace_latch_forward]
+              [-pba_mode none | path | exhaustive]
+              [-start_end_type from_to_type]
+              [-normalized_slack]
+              [-start_end_pair]
+              [-cover_design]
+              [-cover_through through_list]
+              [-dont_merge_duplicates]
+              [-pre_commands pre_command_string]
+              [-post_commands post_command_string]
+              [-path_type format]
+              [-attributes attribute_list]
+              [-tag_paths_filtered_by_pba tag_name]
+              path_collection
+
+   Data Types
+       from_list                 list
+       rise_from_list            list
+       fall_from_list            list
+       to_list                   list
+       rise_to_list              list
+       fall_to_list              list
+       through_list              list
+       rise_through_list         list
+       fall_through_list         list
+       exclude_list              list
+       rise_exclude_list         list
+       fall_exclude_list         list
+       delay_type                string
+       paths_per_endpoint        integer
+       max_path_count            integer
+       path_group_list           list
+       minimum_slack             float
+       maximum_slack             float
+       feedback_slack_cutoff     float
+       from_to_type              string
+       pre_command_string        string
+       post_command_string       string
+       format                    string
+       attribute_list            list
+       tag_name                  string
+       path_collection           collection
+
+ARGUMENTS
+       -from from_list
+              Collects only paths that start from the specified list of  pins,
+              ports,  nets,  or cell instances; or from startpoints clocked by
+              the named clocks. Valid startpoints are clock pins of sequential
+              devices and input pins of the design.
+
+       -rise_from rise_from_list
+              Same as the -from option, except that the path must start with a
+              rising transition. If you specify a  clock  object,  the  option
+              selects startpoints clocked by the named clock and launched by a
+              rising edge of the  clock  at  the  clock  source,  taking  into
+              account any logical inversions along the clock path.
+
+       -fall_from fall_from_list
+              Same  as  the -rise_from option, except that the path must start
+              with a falling transition.
+
+       -to to_list
+              Collects only paths that end at  the  specified  list  of  pins,
+              ports,  nets,  or cell instances; or at endpoints clocked by the
+              named clocks. Valid endpoints are data input pins of  sequential
+              devices and output pins of the design.
+
+              Due to the infrastructure of the timing analyzer, the -to option
+              runs more efficiently than the -from option. As a  result,  end-
+              point-oriented  path  gathering  (based on using the -to option)
+              outperforms equivalent startpoint-oriented path gathering (based
+              on using the -from option).
+
+       -rise_to rise_to_list
+              Same  as the -to option, except that the path data must end with
+              a rising transition. If you specify a clock object,  the  option
+              selects  endpoints  clocked by the named clock and captured by a
+              rising edge of the  clock  at  the  clock  source,  taking  into
+              account any logical inversions along the clock path.
+
+       -fall_to fall_to_list
+              Same  as the -rise_to option, except that the path data must end
+              with a falling transition.
+
+       -through through_list
+              Collects only paths in which the data  goes  through  the  named
+              pins,  ports,  cell  instances, or nets. You can use this option
+              multiple times in a command.
+
+              When a single -through list contains multiple objects, the  data
+              path  can go through any one of the listed objects. When you use
+              multiple -through options, the data path must meet each  of  the
+              -through options in sequence.
+
+              For  example,  the  following command gets a path that starts at
+              A1, then passes through either B1 or B2, then passes through C1,
+              and ends at D1.
+
+                pt_shell> report_timing -from A1 -through {B1 B2} -through C1 -to D1
+
+              If  advanced  analysis  through  transparent  latches is enabled
+              (timing_enable_through_paths set to true), and the  pins  speci-
+              fied  in  the  last through switch are latch loop breakers, then
+              the timing paths collected are constrained by the worst  of  the
+              closing edges at the latch or by a required value computed using
+              logic downstream of the latch loop breaker.
+
+       -rise_through rise_through_list
+              Same as the -through option, except  that  it  applies  only  to
+              paths with a rising transition at the specified objects.
+
+       -fall_through fall_through_list
+              Same  as  the  -through  option,  except that it applies only to
+              paths with a falling transition at the specified objects.
+
+       -exclude exclude_list
+              Excludes all paths in which the data goes from, through,  or  to
+              the  specified  list of pins, ports, nets, or cell instances; or
+              excludes all paths belonging to the specified list of  path  tag
+              sets.  It  checks only data paths (not clock paths) for excluded
+              objects.
+
+              Using the -exclude option can  result  in  significantly  longer
+              runtimes.   To  reduce  the  runtime  impact,  use  this  option
+              together with other  topological  restriction  options  such  as
+              -from and -through.
+
+              The -exclude option does not check borrowing paths considered by
+              the -trace_latch_borrow option.
+
+       -rise_exclude rise_exclude_list
+              Same as the -exclude option, but applies only to rising  transi-
+              tions at the named pins, ports, nets, or cell instances.
+
+       -fall_exclude fall_exclude_list
+              Same  as the -exclude option, but applies only to rising transi-
+              tions at the named objects.
+
+              You can use no more than one of the -exclude, -rise_exclude,  or
+              -fall_exclude options in a command.
+
+       -delay_type delay_type
+              Specifies  the  type  of  path  delay constraint to consider for
+              finding and sorting paths with the worst slack:
+              o max (default) -- max delay (setup constraint)
+              o min  -- min delay (hold constraint)
+              o min_max  -- both min and max delay (stored min first, max sec-
+                ond)
+              o max_rise  -- max delay, rising at data path endpoint
+              o max_fall  -- max delay, falling at data path endpoint
+              o min_rise  -- min delay, rising at data path endpoint
+              o min_fall  -- min delay, falling at data path endpoint
+
+       -nworst paths_per_endpoint
+              Collects up to the specified number of worst paths per endpoint.
+              The default is 1. A larger value results in a larger  collection
+              and more runtime. Allowed values are 1 to 2000000.
+
+              If  you  set  -nworst  to any number greater than 1, the command
+              automatically does the following:
+
+              o Implicitly sets -max_paths equal to the -nworst setting if the
+                -max_paths option is not used in the command, so that at least
+                one set of multiple paths to an endpoint can be reported
+              o   Implicitly    sets    -slack_lesser_than    0.0    if    the
+                -slack_lesser_than  and  -slack_greater_than  options  are not
+                used in the command, so that only violating paths are reported
+
+       -max_paths max_path_count
+              Collects up to the specified maximum total number of paths among
+              all path groups. The default is equal to the -nworst setting, or
+              1  if  the  -nworst  option is not used. Allowed values are 1 to
+              2000000.
+
+              If you set -max_paths to any number greater than 1, the  command
+              implicitly sets -slack_lesser_than 0.0 if the -slack_lesser_than
+              and -slack_greater_than options are not used in the command,  so
+              that only violating paths are reported.
+
+              The  -nworst  option  controls  the maximum number of paths col-
+              lected per endpoint, whereas the -max_paths option controls  the
+              overall total maximum number of paths collected.  The -max_paths
+              setting should be at least as large as the -nworst  setting,  so
+              by default the tool implicitly sets -max_paths to the same value
+              as -nworst if you do not use the -max_paths option in  the  com-
+              mand.
+
+       -group path_group_list
+              Collects  only  paths  that belong to the specified path groups.
+              Path groups are created by the create_clock and group_path  com-
+              mands.  Without  the -group option, the get_timing_paths command
+              collects paths without considering path groups. For example, the
+              get_timing_paths  command  alone creates a collection containing
+              the single worst path in the  design,  whereas  get_timing_paths
+              -group  [get_path_groups] creates a collection containing multi-
+              ple paths, consisting of the single  worst  path  in  each  path
+              group.
+
+       -unique_pins
+              Collects  only  the  single  worst timing path through any given
+              sequence of pins. No other paths  are  collected  for  the  same
+              sequence  of  pins  from startpoint to endpoint. For example, if
+              the worst path starts with a rising edge at the first pin  of  a
+              pin  sequence,  then  paths starting with a falling edge are not
+              collected for that sequence of pins.
+
+              For non-unate logic such as XOR gates, using this option greatly
+              reduces  the number of paths collected because of the large num-
+              ber of possible rising/falling edge  combinations  through  each
+              sequence of pins.
+
+              Using this option can require longer runtimes when used with the
+              -nworst option because many paths must be analyzed to  find  the
+              worst path through each pin sequence, but only the worst path is
+              collected and counted  toward  the  total  number  of  requested
+              paths.
+
+       -slack_greater_than minimum_slack
+              Collects  only paths with slack greater than the specified mini-
+              mum_slack value; these paths have a negative slack  better  than
+              the  specified  minimum_slack value (or a positive slack that is
+              farther from causing a violation). This option is intended to be
+              used  with the -slack_lesser_than option to collect paths within
+              a specific range of slack.
+
+       -slack_lesser_than maximum_slack
+              Collects only paths with slack less  than  the  specified  maxi-
+              mum_slack  value;  these  paths have a negative slack worse than
+              the specified maximum_slack value (or a positive slack  that  is
+              closer to causing a violation).
+
+              By  default,  the report_timing command collects the single path
+              with the worst slack; or if the -nworst or -max_paths option  is
+              set  to  a value greater than 1, the command considers all paths
+              with negative slack, as if -slack_lesser_than is set to 0.0.
+
+              The -slack_lesser_than and -slack_greater_than  options  act  as
+              filters  to restrict the paths that are collected, so the number
+              of paths collected can be fewer than the number  specified  with
+              the  -nworst and -max_paths options.  If no paths meet the slack
+              criteria, no paths are collected.
+
+       -ignore_register_feedback feedback_slack_cutoff
+              Ignores noninverting timing loops that start and end at the same
+              register pin that holds a value. To be ignored, the data-to-out-
+              put arc and the output-to-data path must be either both  invert-
+              ing  or both noninverting.  This option applies to minimum delay
+              as well as maximum delay constraints. Paths are ignored only  if
+              they  have a slack less than the specified feedback_slack_cutoff
+              value.
+
+              This option acts as a filter to restrict the paths that are col-
+              lected,  so  the number of paths collected can be fewer than the
+              number specified with the -nworst and -max_paths options.
+
+       -include_hierarchical_pins
+              Causes the collected paths to include points for the  hierarchi-
+              cal  pins  crossed,  as  well  as all leaf pins in the path. The
+              hierarchical pins are included only for documentation  purposes;
+              the  report_timing command reports them as having zero incremen-
+              tal delay and they do not affect the timing results.
+
+       -trace_latch_borrow
+              Controls the type of data collected for a path that starts at  a
+              transparent  latch. If the path startpoint borrows from the pre-
+              vious path segment, using this option causes the  path  data  to
+              include the set of borrowing paths that lead up to the borrowing
+              latch, starting with  a  nonborrowing  path  or  a  noninverting
+              sequential  loop.  Each  path  segment is maintained separately,
+              including the time borrowed and lent and the  endpoints  of  the
+              path segment.
+
+              Without  the  -trace_latch_borrow  option,  the command does not
+              include upstream borrowing latches when in default latch  analy-
+              sis mode or borrowing latch loop breakers when in advanced latch
+              analysis mode (timing_enable_through_paths variable set to true)
+              as path segments in the timing report.
+
+       -trace_latch_forward
+              Controls  the  type  of data collected for a path that ends at a
+              transparent latch D pin. If advanced analysis through  transpar-
+              ent  latches  is  enabled (timing_enable_through_paths is set to
+              true) and this transparent latch D pin is constrained by a down-
+              stream required time, this option causes the data to include the
+              paths in the fanout of this D pin that  led  to  the  downstream
+              required  constraint. These paths can include multiple path seg-
+              ments whereby  the  constraint  is  the  result  of  propagating
+              through  more  than  one  latch  constrained  by  the downstream
+              required time. In this case, each  path  segment  is  maintained
+              separately,  showing  the downstream required time for that path
+              segment.
+
+              Without the -trace_latch_forward option, the  command  does  not
+              trace the path beyond the specified endpoint.
+
+       -pba_mode none | path | exhaustive
+              Specifies one of the following path-based timing analysis modes:
+
+              o none (the default) - Disables path-based analysis and  enables
+                ordinary graph-based analysis. This is the fastest mode.
+              o  path  - Performs path-based analysis on paths after they have
+                been gathered by graph-based analysis, producing more accurate
+                timing results for those paths. To control the ordering of the
+                paths (either by original graph-based  slack  or  recalculated
+                path-based  slack),  set  the  pba_path_mode_sort_by_gba_slack
+                variable.
+              o exhaustive - Performs an  exhaustive  path-based  analysis  to
+                determine  the  truly worst-case paths in the design.  This is
+                the most accurate and most  computation-intensive  mode.   You
+                cannot   use   the   exhaustive   mode   together   with   the
+                -start_end_pair, -cover_design, or path_collection options.
+
+              In ordinary graph-based (default) timing analysis, the tool con-
+              siders both the worst arrival time and worst slew among all sig-
+              nals feeding into a path, even when the worst arrival and  worst
+              slew come from different signals.
+
+              In  path-based  timing analysis, the tool considers each path in
+              isolation from other paths, which eliminates impossible combina-
+              tions  of worst slew and worst arrival, and similar combinations
+              of effects such as crosstalk and CRPR. As a  result,  path-based
+              analysis reduces pessimism and increases accuracy at the cost of
+              more runtime.
+
+       -start_end_type from_to_type
+              Restricts the collection to one of four classes of  paths  based
+              on the type of startpoint and endpoint:
+
+              o reg_to_reg - from register to register
+
+              o reg_to_out - from register to output port
+
+              o in_to_reg - from input port to register
+
+              o in_to_out - from input port to output port
+
+              In  this  description,  "register" means any valid startpoint or
+              endpoint that is not an input port,  output  port,  or  bidirec-
+              tional  port,  even if not a sequential register. For example, a
+              clock-gating check endpoint qualifies as  a  "register"  in  the
+              in_to_reg  from-to  type. A bidirectional port qualifies as both
+              an input port and an output port.
+
+       -normalized_slack
+              Collects and sorts paths using normalized slack instead of abso-
+              lute slack. Normalized slack is the absolute slack divided by an
+              idealized maximum allowable  propagation  delay  (typically  the
+              clock  period).  To  use  this option, the timing update must be
+              performed while the timing_enable_normalized_slack  variable  is
+              set to true.
+
+       -start_end_pair
+              Collects the worst path for each startpoint-endpoint pair in the
+              design, including all  violating  startpoint-endpoint  pairs  by
+              default,  or all startpoint-endpoint pairs with slack worse than
+              the value specified by the  -slack_lesser_than  option  if  that
+              option  is  used.  The  number  of paths collected is limited to
+              2000000.
+
+              The -start_end_pair option overrides  the  default  behavior  of
+              collecting  only  the  single worst path in the design. Instead,
+              the command collects the worst timing  path  of  each  violating
+              startpoint-endpoint  pair, which can result in a very large col-
+              lection and long runtimes. (Note that the Design Compiler and IC
+              Compiler  tools  differ  from  this  behavior  by respecting the
+              default limits on the number of paths collected and by  allowing
+              usage of the -nworst and -max_paths with -start_end_pair.)
+
+              To  limit the collection size and runtime to reasonable amounts,
+              use the -slack_lesser_than option and specify a slack limit that
+              is  only  slightly  greater  than the worst slack in the design.
+              You can also restrict the scope of the  analysis  by  using  the
+              -from,   -to,   and   similar   options.   You  cannot  use  the
+              -start_end_pair   option   with   the    -nworst,    -max_paths,
+              -unique_pins,  -slack_greater_than, or -ignore_register_feedback
+              options.
+
+              Using the -start_end_pair option requires any -from, -rise_from,
+              or  -fall_from  option to specify only valid timing startpoints,
+              and any -to, -rise_to, or -fall_to option to specify only  valid
+              timing  endpoints;  wildcard  characters  that  specify  invalid
+              startpoints or endpoints are not allowed. In  other  words,  the
+              timing_report_always_use_valid_start_end_points    variable   is
+              treated as set to true, irrespective of its actual setting.
+
+              The -start_end_pair option sorts the paths first by endpoint and
+              then  by  slack, with the paths sharing the same endpoint stored
+              together in order of increasing slack.
+
+       -cover_design
+              Collects the worst  path  through  each  violating  pin  in  the
+              design, so that the collected paths cover every violating pin in
+              the design. A pin is deemed to be violating if its slack is less
+              than   zero,   or   less  than  the  value  specified  with  the
+              -slack_lesser_than option if that option is used. The slack of a
+              pin  is  the  worst  slack  among  all paths that start at, pass
+              through, or end on that pin. The maximum number  of  paths  col-
+              lected is 2000000.
+
+              You  can perform path-based analysis on the generated collection
+              to get path-based accuracy that covers all known violating  pins
+              in  the  design,  without  the runtime cost of performing a full
+              exhaustive path-based analysis.
+
+              The following options cannot be used with -cover_design:
+
+              -nworst
+              -max_paths
+              -unique_pins
+              -ignore_register_feedback
+              -start_end_pair
+              -pba_mode exhaustive
+              path_collection
+
+       -cover_through through_list
+              Collects the single worst violating path  through  each  of  the
+              named  pins,  ports,  cell  instances, and nets. Only paths with
+              negative slack are collected (or with slack less than the  value
+              specified by the -slack_lesser_than option, if used).
+
+              The  number of paths collected is less than or equal to the num-
+              ber of objects in the through_list. Fewer paths are collected if
+              there  are  no  violating  paths  through the objects, or if the
+              worst path through one object is the  same  as  the  worst  path
+              through another object.
+
+              The following options cannot be used with -cover_through:
+
+              -nworst
+              -max_paths
+              -through / -rise_through / -fall_through
+              -exclude / -rise_exclude / -fall_exclude
+              -unique_pins
+              -ignore_register_feedback
+              -start_end_pair
+              -pba_mode exhaustive
+              path_collection
+
+       -dont_merge_duplicates
+              Prevents  the merging of duplicate paths across multiple scenar-
+              ios when the PrimeTime tool is invoked with the  -multi_scenario
+              option.
+
+              By  default,  when  the  same path is collected in more than one
+              scenario, the tool keeps only the single most critical  instance
+              of that path in the merged collection.
+
+              If  you  use  this  option,  the  tool  does not merge duplicate
+              instances of the same path, but instead collects the most criti-
+              cal instances of the path from all scenarios. Because the number
+              of paths collected might  limited  by  -nworst,  -max_paths,  or
+              other  command options, the resulting merged collection might be
+              more focused on a portion of the design that is critical in mul-
+              tiple  scenarios,  and  less  evenly spread out across different
+              portions of design.
+
+       -pre_commands pre_command_string
+              Specifies a list of commands, separated  by  semicolons,  to  be
+              executed  in  the worker (slave) context before execution of the
+              get_timing_paths command. This option is available only  if  you
+              invoke  the  PrimeTime tool with the -multi_scenario option. The
+              maximum size of a command is 1000 characters.
+
+       -post_commands post_command_string
+              This option is like the -pre_commands option,  except  that  the
+              commands  are  executed  after  (instead of before) the get_tim-
+              ing_paths command.
+
+       -path_type format
+              Specifies the types of data points stored for each path  in  the
+              path  collection.  Use the -path_type full_clock_expanded option
+              to include clock path points leading up the launch  and  capture
+              points,  including points leading up to generated clocks. Other-
+              wise, omit the -path_type option to exclude  clock  path  points
+              from  the path collection.  You can query the data points in the
+              collection  as  path  attributes  or  report   them   with   the
+              report_timing command.
+
+              Note  that the report_timing command supports several -path_type
+              format options, whereas the get_timing_paths command  only  sup-
+              ports  full_clock_expanded. If you enter the -path_type argument
+              as f or full or full_clock, the get_timing_paths command  inter-
+              prets it as full_clock_expanded.
+
+       -attributes attribute_list
+              Specifies  the  attributes  to  be returned to the master from a
+              slave collection.  By default, a slave collection  returns  only
+              the  full_name,  scenario_name,  and object_class attributes. To
+              control the amount of data retrieved from the  slave,  use  this
+              option  together  with  the  set_distributed_parameters -collec-
+              tion_levels command.
+
+              The -attributes option is  available  only  if  you  invoke  the
+              PrimeTime tool with the -multi_scenario option.
+
+       -tag_paths_filtered_by_pba tag_name
+              When  used  with  the -pba_mode path option, the -tag_paths_fil-
+              tered_by_pba option causes tagging of all paths originally found
+              by  path-based analysis and later discarded by path-based analy-
+              sis, using the specified tag name.  In  future  get_timing_paths
+              and  report_timing  commands,  you  can exclude the tagged paths
+              from further analysis by specifying the tag name as an  argument
+              to the -exclude option.
+
+       path_collection
+              Performs  path-based analysis on the specified paths and returns
+              a new path collection.  You can use this option  only  with  the
+              -pba_mode  path  option.  This option is mutually exclusive with
+              options that control the selection of paths to collect.
+
+DESCRIPTION
+       The get_timing_paths command creates a collection of paths  for  custom
+       reporting  or  other  operations.  Most of the get_timing_paths command
+       options are shared by report_timing, and the behavior of  these  shared
+       options  is  identical.  The  order  in  which  paths are returned from
+       get_timing_paths matches the reported timing path order of  report_tim-
+       ing.
+
+       You  can  pass the generated collection directly to another command, or
+       you can set a variable to the collection for later reporting. For exam-
+       ple,
+
+       pt_shell> sizeof_collection [get_timing_paths -nworst 4 -max_paths 20]
+       Warning: report_timing has satisfied the max_paths criteria. ...
+       20
+
+       pt_shell> set mypaths [get_timing_paths -nworst 4 -max_paths 20]
+       Warning: report_timing has satisfied the max_paths criteria. ...
+       Information: Defining new variable 'mypaths'. (CMD-041)
+        ...
+       pt_shell> sizeof_collection $mypaths
+       20
+       pt_shell> get_attribute $mypaths slack
+       -1.157432 -0.987188 -0.984205 -0.971914 -0.968931 -0.873521 ...
+       pt_shell> report_timing $mypaths
+       (20 path timing reports displayed)
+
+       To iterate over the paths in the collection, use the foreach_in_collec-
+       tion  command.   To   obtain   information   about   paths,   use   the
+       get_attribute, report_attribute, and collection commands. To get a list
+       of timing path attributes, use the following command:
+
+         pt_shell> list_attributes -application -class timing_path
+          ...
+         Attribute Name             Object        Type       Properties  Constraints
+         ---------------------------------------------------------------------------
+         arrival                    timing_path   float      A
+         capture_clock_paths        timing_path   collection A
+         clock_uncertainty          timing_path   float      A
+         close_edge_adjustment      timing_path   float      A
+         common_path_pessimism      timing_path   float      A
+          ...
+
+       User-defined attributes can be created for timing paths and set on spe-
+       cific    timing    paths    with    the    define_user_attribute    and
+       set_user_attribute commands.  To be queried, the attribute must be  set
+       on  a timing path collection that has been set to a variable, for exam-
+       ple,
+         pt_shell> define_user_attribute -classes timing_path -type boolean is_special
+         pt_shell> set mypath [get_timing_paths ...]
+         pt_shell> set_user_attribute -class timing_path $mypath is_special true
+         pt_shell> get_attribute $mypath is_special
+         true
+       This behavior differs from user attributes set on other  objects,  such
+       as  pins, which allow user attributes to be set and queried directly in
+       the design (not stored in a collection variable).
+
+       The get_timing_paths command constructs a  new  timing  path  at  every
+       invocation  so two timing paths derived from identical get_timing_paths
+       commands and stored in two different collection variables do not  share
+       the same user attributes.  For example,
+         pt_shell> define_user_attribute comment -type string -class timing_path
+         pt_shell> set p1 [get_timing_paths]
+         pt_shell> set p2 [get_timing_paths]
+         pt_shell> set_user_attribute $p1 comment "Hello world"
+         pt_shell> get_attribute $p1 comment
+         Hello world
+         pt_shell> get_attribute $p2 comment
+         Warning: Attribute 'comment' does not exist on timing_path 'path' (ATTR-3)
+
+       One attribute of a timing path is the points collection. A point corre-
+       sponds to a pin or port along the path. Iterate  through  these  points
+       with  the  foreach_in_collection command and collect attributes on them
+       by using the get_attribute command.  To  get  a  list  of  timing  path
+       attributes, use the following command:
+
+         pt_shell> list_attributes -application -class timing_point
+          ...
+         Attribute Name              Object         Type     Properties  Constraints
+         ---------------------------------------------------------------------------
+         annotated_delay_delta       timing_point   float    A
+         annotated_delta_transition  timing_point   float    A
+         aocvm_coefficient           timing_point   float    A
+         applied_derate              timing_point   float    A
+         arrival                     timing_point   float    A
+          ...
+
+       For  information about creating collections and iterating over the ele-
+       ments of a collection, see the examples in the EXAMPLES section and the
+       man pages of the collections and foreach_in_collection commands.
+
+       To  report the dominant and overridden timing exceptions related to the
+       timing path, use the report_timing command with the -exceptions option.
+       To  get  more  information about the exceptions that apply to the path,
+       you can create a path collection with the get_timing_paths command  and
+       query the timing path attributes:
+
+         Attribute                         Possible Reason
+         -----------------------------------------------------------------------
+         dominant_exception                false_path / min_max_delay /
+                                           multicycle_path
+         startpoint_unconstrained_reason   no_launch_clock / dangling_start_point /
+                                           fanout_of_disabled
+         endpoint_unconstrained_reason     no_capture_clock / dangling_end_point /
+                                           fanin_of_disabled
+
+EXAMPLES
+       You can find some detailed examples of custom timing reports in:
+
+         $SYNOPSYS_ROOT/auxx/pt/examples/tcl
+
+       where $SYNOPSYS_ROOT is the installation directory for PrimeTime.
+
+       The following procedure reports the startpoint name, endpoint name, and
+       the slack of the worst path in each path group.
+
+         proc custom_report_worst_path_per_group {} {
+           echo [format "%-20s %-20s %7s" "From" "To" "Slack"]
+           echo "--------------------------------------------------------"
+           foreach_in_collection path [get_timing_paths] {
+             set slack [get_attribute $path slack]
+             set startpoint [get_attribute $path startpoint]
+             set endpoint [get_attribute $path endpoint]
+             echo [format "%-20s %-20s %s" [get_attribute $startpoint full_name] \
+               [get_attribute $endpoint full_name] $slack]
+           }
+         }
+
+         pt_shell> custom_report_worst_path_per_group
+
+         >From                 To                     Slack
+         --------------------------------------------------------
+         ffa/CP               QA                   0.1977
+         ffb/CP               ffd/D                3.8834
+
+       The following example shows Total Negative Slack, Total Positive Slack,
+       and Worst Negative Slack for the current design.
+
+         proc report_design_slack_information {} {
+           set design_tns 0
+           set design_wns 100000
+           set design_tps 0
+           foreach_in_collection group [get_path_groups *] {
+             set group_tns 0
+             set group_wns 100000
+             set group_tps 0
+             foreach_in_collection path [get_timing_paths -nworst 10000 -group $group] {
+               set slack [get_attribute $path slack]
+               if {$slack < $group_wns} {
+                 set group_wns $slack
+                 if {$slack < $design_wns} {
+                    set design_wns $slack
+                 }
+               }
+               if {$slack < 0.0} {
+                 set group_tns [expr $group_tns + $slack]
+               } else {
+                 set group_tps [expr $group_tps + $slack]
+               }
+             }
+             set design_tns [expr $design_tns + $group_tns]
+             set design_tps [expr $design_tps + $group_tps]
+             set group_name [get_attribute $group full_name]
+             echo [format "Group '%s' Worst Negative Slack : %g" $group_name $group_wns]
+             echo [format "Group '%s' Total Negative Slack : %g" $group_name $group_tns]
+             echo [format "Group '%s' Total Positive Slack : %g" $group_name $group_tps]
+             echo ""
+           }
+           echo "------------------------------------------"
+           echo [format "Design Worst Negative Slack : %g" $design_wns]
+           echo [format "Design Total Negative Slack : %g" $design_tns]
+           echo [format "Design Total Positive Slack : %g" $design_tps]
+         }
+
+         pt_shell> report_design_slack_information
+
+         Group 'CLK' Worst Negative Slack : -3.1166
+         Group 'CLK' Total Negative Slack : -232.986
+         Group 'CLK' Total Positive Slack : 4.5656
+
+         Group 'vclk' Worst Negative Slack : -4.0213
+         Group 'vclk' Total Negative Slack : -46.1982
+         Group 'vclk' Total Positive Slack : 0
+
+         ------------------------------------------
+         Design Worst Negative Slack : -4.0213
+         Design Total Negative Slack : -279.184
+         Design Total Positive Slack : 4.5656
+
+       If  you use the -pba_mode option, path recalculation (path-based analy-
+       sis) is used during the path search, and the worst  recalculated  paths
+       meeting  your  criteria  are returned. This option requires that a path
+       search to be performed to ensure that the paths  being  returned  truly
+       are  the  worst  paths. The additional runtime required for this option
+       depends on the amount of timing improvement resulting  from  path-based
+       analysis. As the timing improvement from path-based analysis increases,
+       the runtime for the path search increases.  Large  -nworst  values  can
+       significantly increase the time needed for the search.
+
+       To see the worst path in the design with path-based analysis applied:
+
+         pt_shell> report_timing [get_timing_paths -pba_mode exhaustive]
+
+       To  report  all  endpoints  in  the design which fail after considering
+       path-based analysis:
+
+         pt_shell> set mypaths [get_timing_paths -pba_mode exhaustive \
+                     -slack_lesser_than 0 -max_paths 1000]
+         pt_shell> report_timing $mypaths
+
+SEE ALSO
+       collections(2)
+       create_clock(2)
+       foreach_in_collection(2)
+       get_attribute(2)
+       group_path(2)
+       read_sdf(2)
+       report_timing(2)
+       set_case_analysis(2)
+       set_operating_conditions(2)
+       timing_report_always_use_valid_start_end_points(3)
+
+                          Version O-2018.06-SP4
+            Copyright (c) 2018 Synopsys, Inc. All rights reserved.

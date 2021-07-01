@@ -30,6 +30,12 @@ suppress_message UID-401
 suppress_message ENV-003
 suppress_message UITE-489
 suppress_message CMD-041
+suppress_message PWR-601
+suppress_message PWR-602
+suppress_message PWR-246
+suppress_message SEL-002
+suppress_message PTE-139
+suppress_message LNK-041
 ######################################################################
 ##
 ## READ DESIGN
@@ -40,7 +46,8 @@ suppress_message CMD-041
 
 proc pt_init {blockName} {
 
-    #set blockName "aes_cipher_top"
+
+     #set blockName "aes_cipher_top"
 
     # DEFINE INPUT FILES
     set dir "./saved/${blockName}/synthesis"
@@ -98,8 +105,7 @@ proc pt_init {blockName} {
     ##
     ######################################################################
     #exit
-
-
     set_user_attribute [find library CORE65LPLVT] default_threshold_voltage_group LVT
     set_user_attribute [find library CORE65LPHVT] default_threshold_voltage_group HVT
+   
 }

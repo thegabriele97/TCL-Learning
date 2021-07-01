@@ -25,23 +25,23 @@ proc get_area {} {
 
 proc get_leakage {} {
     # Cell Leakage Power   = 4.150e-07   ( 0.09%)
-    report_power > "/tmp/power.rpt"
-    set fp [open "/tmp/power.rpt" r]
+    report_power > "power.rpt"
+    set fp [open "power.rpt" r]
     set pwr_report [read $fp]
     close $fp
     if { [ regexp {Cell Leakage Power[ ]*=[ ]*([0-9\.\-e]+)} $pwr_report all_matches value ] } {
         return $value
     } else {
         puts "ERROR on Cell Internal Power"
-        exit > "/tmp/void"
+        exit > "void"
     }
 }
 
 proc get_dynamic {} {
     #   Net Switching Power  = 3.195e-04   (66.70%)
     #   Cell Internal Power  = 1.591e-04   (33.21%
-    report_power > "/tmp/power.rpt"
-    set fp [open "/tmp/power.rpt" r]
+    report_power > "power.rpt"
+    set fp [open "power.rpt" r]
     set pwr_report [read $fp]
     close $fp
 
@@ -52,14 +52,14 @@ proc get_dynamic {} {
     } else {
         puts "not found"
         puts "ERROR on Cell Internal Power"
-        exit > "/tmp/void"
+        exit > "void"
     }
 
     if { [ regexp {Cell Internal Power[ ]*=[ ]*([0-9\.\-e]+)} $pwr_report all_matches value ] } {
         set sum [ expr { $sum + $value } ]
     } else {
         puts "ERROR on Cell Internal Power"
-        exit > "/tmp/void"
+        exit > "void"
     }
     return $sum
 }
@@ -111,4 +111,4 @@ if { $empty == 1 } {
     puts ""
     puts "------------------------"
 }
-exit > "/tmp/void"
+exit 
