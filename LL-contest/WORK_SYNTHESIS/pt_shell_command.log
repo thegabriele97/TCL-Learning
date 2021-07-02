@@ -1,6 +1,6 @@
 #@ # 
 #@ # Running pt_shell Version O-2018.06-SP4 for linux64 -- Nov 30, 2018
-#@ # Date:   Fri Jul  2 01:54:32 2021
+#@ # Date:   Fri Jul  2 01:59:53 2021
 #@ # Run by: s281389@worksynthesis
 #@ 
 
@@ -1153,13 +1153,17 @@ source ./tcl_scripts/evaluate.tcl
 #@ 		size_cell $cell $curr_cell_lib_name 
 #@ 
 #@ 		set denominator [expr {$max_hvt_delay - $max_lvt_delay}]
-#@ 		return [list [expr {($cell_actual_leakage - $cell_new_leakage) / $denominator}] $curr_cell_lib_name2]
+#@ 		if {$denominator == 0} {
+#@ 			return [list 0 $curr_cell_lib_name2]
+#@ 		} else {
+#@ 			return [list [expr {($cell_actual_leakage - $cell_new_leakage) / $denominator}] $curr_cell_lib_name2]
+#@ 		}
 #@ 	} else {
 #@ 		return [list 0 $curr_cell_lib_name]
 #@ 	}
 #@ }
 #@ 
-#@ proc compute_area_dyn {cell} {
+#@ proc compute_priority_area_dyn {cell} {
 #@ 	
 #@ 	############ ACTUAL CELL
 #@ 	set curr_cell_lib_name  [get_attribute [get_lib_cell -o $cell] full_name]
@@ -1249,7 +1253,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ 							
 #@ 							set priority_leakage_list [compute_priority_leakage $cell]
 #@ 							
-#@ 							set priority_area_list [compute_area_dyn $cell]
+#@ 							set priority_area_list [compute_priority_area_dyn $cell]
 #@ 
 #@ 							set priority_leakage [lindex $priority_leakage_list 0]
 #@ 							set priority_area [lindex $priority_area_list 0]
@@ -1286,7 +1290,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ 					
 #@ 
 #@ 
-#@ 					# compute_area_dyn $cell
+#@ 					# compute_priority_area_dyn $cell
 #@ 				}
 #@ 				
 #@ 			}

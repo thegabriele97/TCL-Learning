@@ -138,13 +138,17 @@ proc compute_priority_leakage {cell} {
 		size_cell $cell $curr_cell_lib_name 
 
 		set denominator [expr {$max_hvt_delay - $max_lvt_delay}]
-		return [list [expr {($cell_actual_leakage - $cell_new_leakage) / $denominator}] $curr_cell_lib_name2]
+		if {$denominator == 0} {
+			return [list 0 $curr_cell_lib_name2]
+		} else {
+			return [list [expr {($cell_actual_leakage - $cell_new_leakage) / $denominator}] $curr_cell_lib_name2]
+		}
 	} else {
 		return [list 0 $curr_cell_lib_name]
 	}
 }
 
-proc compute_area_dyn {cell} {
+proc compute_priority_area_dyn {cell} {
 	
 	############ ACTUAL CELL
 	set curr_cell_lib_name  [get_attribute [get_lib_cell -o $cell] full_name]
@@ -234,7 +238,7 @@ proc start {allowed_slack} {
 							
 							set priority_leakage_list [compute_priority_leakage $cell]
 							
-							set priority_area_list [compute_area_dyn $cell]
+							set priority_area_list [compute_priority_area_dyn $cell]
 
 							set priority_leakage [lindex $priority_leakage_list 0]
 							set priority_area [lindex $priority_area_list 0]
@@ -271,7 +275,7 @@ proc start {allowed_slack} {
 					
 
 
-					# compute_area_dyn $cell
+					# compute_priority_area_dyn $cell
 				}
 				
 			}
