@@ -36,6 +36,7 @@ suppress_message PWR-246
 suppress_message SEL-002
 suppress_message PTE-139
 suppress_message LNK-041
+suppress_message NED-045
 ######################################################################
 ##
 ## READ DESIGN

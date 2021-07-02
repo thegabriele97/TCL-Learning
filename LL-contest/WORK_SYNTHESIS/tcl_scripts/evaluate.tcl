@@ -1,10 +1,10 @@
 set blockName "c1908"
-set allowed_slack -0.5
+set allowed_slack -3
 source ./tcl_scripts/pt_analysis.tcl
 source ./tcl_scripts/dualVth.tcl
 
 proc check_slack {allowed_slack} {
-    set path_list [get_timing_paths -slack_greater_than -100 -slack_lesser_than $allowed_slack]
+    set path_list [get_timing_paths -slack_lesser_than $allowed_slack]
     set empty 1
     foreach_in_collection elem $path_list {
         puts $elem
@@ -111,4 +111,3 @@ if { $empty == 1 } {
     puts ""
     puts "------------------------"
 }
-exit 
