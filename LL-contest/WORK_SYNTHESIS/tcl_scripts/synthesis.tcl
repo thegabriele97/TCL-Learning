@@ -45,7 +45,7 @@ suppress_message RTDC-126
 ######################################################################
 
 # DEFINE CIRCUITS and WORK DIRS
-set blockName "c1908"
+set blockName "c432"
 set active_design $blockName
 
 # DEFINE WORK DIRS

@@ -1,6 +1,6 @@
 #@ # 
 #@ # Running pt_shell Version O-2018.06-SP4 for linux64 -- Nov 30, 2018
-#@ # Date:   Fri Jul  2 14:04:40 2021
+#@ # Date:   Sun Jul  4 14:37:01 2021
 #@ # Run by: s281589@worksynthesis
 #@ 
 
@@ -875,8 +875,10 @@ source /tools/synopsys_18/pts/O-2018.06-SP4/admin/setup/.synopsys_pt.setup
 source ./tcl_scripts/evaluate.tcl
 #@ # -- Starting source ./tcl_scripts/evaluate.tcl
 
-#@ set blockName "c1908"
-#@ set allowed_slack -3
+#@ # set blockName "c1908"
+#@ set blockName "c5315"
+#@ # set blockName "c432"
+#@ set allowed_slack -0.2
 #@ source ./tcl_scripts/pt_analysis.tcl
 #@ # -- Starting source ./tcl_scripts/pt_analysis.tcl
 
@@ -1053,14 +1055,39 @@ source ./tcl_scripts/evaluate.tcl
 #@               }
 #@             }
 #@           }
-#@         } else {
-#@             # puts "Skipped $cell because already $type"
 #@         }
 #@     }
 #@ 
 #@ 	return $cell
 #@ }
 #@ 
+#@ proc set_cell_LVT {cell} {
+#@ 	set type LVT
+#@ 	set curr_cell_lib [get_lib_cell -o $cell]
+#@ 	set curr_cell_lib_name [get_attribute $curr_cell_lib full_name]
+#@ 	# puts $curr_cell_lib_name
+#@ 	if { [ regexp {\/(.+)_.+_(.+)} $curr_cell_lib_name full1 name_orig name2_orig ] } {
+#@         if { [get_attribute $curr_cell_lib threshold_voltage_group] != $type } {
+#@ 
+#@           foreach_in_collection alternative [get_alternative_lib_cells [get_cell $cell]] {
+#@             set possible_swap_name [get_attribute $alternative full_name]
+#@ 
+#@             if { [ regexp {\/(.+)_.+_(.+)} $possible_swap_name full nm nm2 ] } {
+#@               if { ($name_orig == $nm) && ($name2_orig == $nm2) && ([get_attribute $alternative threshold_voltage_group] == $type) } {
+#@ 				
+#@ 				# puts "set_cell_HVT: found $possible_swap_name from $curr_cell_lib_name"
+#@ 				size_cell $cell $possible_swap_name
+#@ 				# set curr_cell_lib [get_lib_cell -o $cell]
+#@ 				# puts [get_attribute $curr_cell_lib threshold_voltage_group]
+#@ 				# puts "Replaced $cell -> $curr_cell_lib_name with $possible_swap_name"
+#@               }
+#@             }
+#@           }
+#@         }
+#@     }
+#@ 
+#@ 	return $cell
+#@ }
 #@ 
 #@ proc get_cell_lower_size {cell} {
 #@ 	set curr_cell_lib [get_lib_cell -o $cell]
@@ -1118,14 +1145,20 @@ source ./tcl_scripts/evaluate.tcl
 #@ 
 #@ }
 #@ 
+#@ proc is_ok_slack_broken {allowed_slack} {
+#@ 	if {[get_attribute [get_timing_paths] slack] < [ expr { $allowed_slack - 1 } ] } {
+#@ 		return 0
+#@ 	}
+#@ 
+#@ 	return 1
+#@ }
+#@ 
 #@ proc is_ok_slack {allowed_slack} {
-#@     set path_list [get_timing_paths -slack_lesser_than $allowed_slack]
-#@     set empty 1
-#@     foreach_in_collection elem $path_list {
-#@         set empty 0
-#@ 		break
-#@     }
-#@     return $empty
+#@ 	if {[get_attribute [get_timing_paths] slack] < $allowed_slack} {
+#@ 		return 0
+#@ 	}
+#@ 
+#@ 	return 1
 #@ }
 #@ 
 #@ proc compute_priority_leakage {cell} {
@@ -1137,7 +1170,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ 		set cell_actual_leakage [get_attribute $cell leakage_power]
 #@ 		# set cell_actual_delay [expr {$original_arrival - $previous_arrival}]
 #@ 		set LVT_delay_max [get_attribute [get_timing_arcs -of_object $cell] delay_max]
-#@ 
+#@ 		set lvt_path_delay {}
 #@ 
 #@ 		############ NEW CELL
 #@ 		set new_hvt_cell [set_cell_HVT $cell]
@@ -1148,15 +1181,6 @@ source ./tcl_scripts/evaluate.tcl
 #@ 
 #@ 		set max_lvt_delay [max $LVT_delay_max]
 #@ 		set max_hvt_delay [max $HVT_delay_max]
-#@ 
-#@ 
-#@ 		# puts "[get_attribute $new_hvt_cell full_name] [get_attribute $cell full_name]"
-#@ 		# puts "$curr_cell_lib_name $curr_cell_lib_name2"
-#@ 
-#@ 		# puts "hvt_cell: $new_hvt_cell"
-#@ 		# puts "actual: $cell_actual_delay - delay: $LVT_delay_max"
-#@ 		# puts "new: $new_hvt_cell - delay: $HVT_delay_max - max: [max $HVT_delay_max]"
-#@ 		# puts "new: $cell - delay: $LVT_delay_max - max: [max $LVT_delay_max]"
 #@ 
 #@ 		size_cell $cell $curr_cell_lib_name 
 #@ 
@@ -1211,246 +1235,148 @@ source ./tcl_scripts/evaluate.tcl
 #@ }
 #@ 
 #@ 
-#@ proc start2 {allowed_slack} {
+#@ proc compute_priority {cell} {
+#@ 
+#@ 	set curr_cell_lib_name  [get_attribute [get_lib_cell -o $cell] full_name]
+#@ 
+#@ 	############ ACTUAL CELL
+#@ 	set cell_actual_leakage [get_attribute $cell leakage_power]
+#@ 	set cell_actual_area [get_attribute $cell area]
+#@ 	set cell_actual_dynpower [get_attribute $cell dynamic_power]
+#@ 	# set cell_actual_delay [expr {$original_arrival - $previous_arrival}]
+#@ 	set LVT_delay_max [get_attribute [get_timing_arcs -of_object $cell] delay_max]
+#@ 	set lvt_path_delay {}
+#@ 
+#@ 	############ NEW CELL
+#@ 	set new_hvt_cell [set_cell_HVT $cell]
 #@ 	
-#@ 	# prendi path 
-#@ 	while {1} {
-#@ 		print_slacks
-#@ 		set end 1
-#@ 		set lut {}
-#@ 		set priority {}
-#@ 		set priority_areadyn {}
-#@ 		set count 0
+#@ 	set cell_new_leakage [get_attribute $new_hvt_cell leakage_power]
+#@ 	set curr_cell_lib_name2 [get_attribute [get_lib_cell -o $new_hvt_cell] full_name]
+#@ 	set HVT_delay_max [get_attribute [get_timing_arcs -of_object $new_hvt_cell] delay_max]
 #@ 
-#@ 		set path_list [get_timing_paths -slack_greater_than $allowed_slack -max_paths 2000000]
-#@ 		set current_path [index_collection $path_list end]
+#@ 	set max_lvt_delay [max $LVT_delay_max]
+#@ 	set max_hvt_delay [max $HVT_delay_max]
 #@ 
-#@ 		set slacks {}
-#@ 		foreach_in_collection path $path_list {
-#@ 			set slack [lappend slacks [get_attribute $path slack]]
-#@ 		}
+#@ 	# size_cell $cell $curr_cell_lib_name 
 #@ 
-#@ 
-#@ 		# slack scende
-#@ 		
-#@ 		foreach_in_collection timing_point [get_attribute $current_path points] {
-#@ 
-#@ 			set obj_type [get_attribute [get_attribute $timing_point object] object_class]
-#@ 			
-#@ 			if {$obj_type == "pin"} {
-#@ 				set cell [ get_cell -of_object [get_attribute $timing_point object] ]
-#@ 				puts [get_attribute $cell full_name]
-#@ 
-#@ 				# puts [get_attribute $cell ref_name]
-#@ 				# puts [get_attribute $cell leakage_power]
-#@ 
-#@ 
-#@ 
-#@ 					set search_lut [lsearch -index 0 -inline -all $lut [get_attribute [get_lib_cell -o $cell] full_name]]
-#@ 					if {$search_lut < 0} {
-#@ 						
-#@ 						set priority_leakage_list [compute_priority_leakage $cell]
-#@ 						
-#@ 						set priority_area_list [compute_priority_area_dyn $cell]
-#@ 
-#@ 						set priority_leakage [lindex $priority_leakage_list 0]
-#@ 						set priority_area [lindex $priority_area_list 0]
-#@ 
-#@ 						# {cell_lvt, cell_hvt, priotity_hvt}
-#@ 						# {cell_lvt, cell_low_size, priorty_area}
-#@ 
-#@ 						set x1 [list [get_attribute [get_lib_cell -o $cell] full_name] [lindex $priority_leakage_list 1]  [lindex $priority_leakage_list 0]]
-#@ 						set x2 [list [get_attribute [get_lib_cell -o $cell] full_name] [lindex $priority_area_list 1] 0]
-#@ 
-#@ 						set lut [lappend lut $x1]
-#@ 						set lut [lappend lut $x2]
-#@ 
-#@ 						set search_lut [list $x1 $x2]
-#@ 
-#@ 						#puts "lut: $lut"
-#@ 						# gets stdin
-#@ 					}
-#@ 
-#@ 
-#@ 					#puts "result search: $search_lut"
-#@ 					# gets stdin
-#@ 					set priority_leakage [lindex $search_lut 0 2]
-#@ 					set priority_area [lindex $search_lut 1 2]
-#@ 
-#@ 
-#@ 					if {$priority_leakage > 0} {
-#@ 						set priority [lappend priority [list $timing_point $priority_leakage]]
-#@ 					}
-#@ 
-#@ 					if {$priority_area > 0} {
-#@ 						set priority_areadyn [lappend priority_areadyn [list $timing_point $priority_area]]
-#@ 					}
-#@ 				
-#@ 
-#@ 
-#@ 				# compute_priority_area_dyn $cell
-#@ 			}
-#@ 			
-#@ 		}
-#@ 
-#@ 		incr count
-#@ 
-#@ 		if {$count >= 1} {
-#@ 			
-#@ 			#puts $priority
-#@ 			# gets stdin
-#@ 
-#@ 			set priority [lsort -index 1 -decreasing -real $priority]
-#@ 			set priority_areadyn [lsort -index 1 -decreasing -real $priority_areadyn]
-#@ 			#puts $priority
-#@ 			
-#@ 			set must_end 0
-#@ 
-#@ 				puts "ALL PRIO FINISHED1 [llength $priority]"
-#@ 				foreach prio $priority {
-#@ 					puts [get_attribute [ get_cell -of_object [get_attribute [lindex $prio 0] object]] full_name]
-#@ 				}
-#@ 				puts "ALL PRIO FINISHED2 [llength $priority_areadyn]"
-#@ 				#gets stdin
-#@ 			while {1} {
-#@ 
-#@ 				set first_prio_leak -1
-#@ 				set first_prio_area -1
-#@ 
-#@ 				if {[llength $priority] > 0} {
-#@ 					set first_prio_leak [lindex $priority 0]
-#@ 				}
-#@ 
-#@ 				if {[llength $priority_areadyn] > 0} {
-#@ 					set first_prio_area [lindex $priority_areadyn 0]
-#@ 				}
-#@ 
-#@ 				if {$first_prio_leak == -1 && $first_prio_area == -1 } {
-#@ 					break
-#@ 				}
-#@ 
-#@ 				if {[lindex $first_prio_leak 1] >= [lindex $first_prio_area 1]} {
-#@ 					set cell [ get_cell -of_object [get_attribute [lindex $first_prio_leak 0] object] ]
-#@ 				} else {
-#@ 					set cell [ get_cell -of_object [get_attribute [lindex $first_prio_area 0] object] ]
-#@ 				}
-#@ 
-#@ 				set curr_cell_lib_name  [get_attribute [get_lib_cell -o $cell] full_name]
-#@ 				
-#@ 
-#@ 				set curr_cell_lib [get_lib_cell -o $cell]
-#@ 				if {[lindex $first_prio_leak 1] >= [lindex $first_prio_area 1]} {
-#@ 					# substitution leak based
-#@ 					# removed first element of priority
-#@ 					# replace
-#@ 
-#@ 					if {[get_attribute $curr_cell_lib threshold_voltage_group] != "HVT"} {
-#@ 						set_cell_HVT $cell
-#@ 					}
-#@ 					set priority [ lrange $priority 1 end ]
-#@ 					#puts "ALL PRIO FINISHED"
-#@ 					#gets stdin
-#@ 				} else {
-#@ 					set rpc [get_cell_lower_size $cell]
-#@ 					if {$rpc != [get_attribute $curr_cell_lib full_name]} {
-#@ 						size_cell $cell $rpc 
-#@ 					}
-#@ 					set priority_areadyn [ lrange $priority_areadyn 1 end ]
-#@ 					#puts "ALL PRIO FINISHED2 [llength $priority_areadyn]"
-#@ 					#gets stdin
-#@ 				}
-#@ 
-#@ 
-#@ 				if {[is_ok_slack $allowed_slack] == 0} {
-#@ 					#puts $lut
-#@ 					#puts "STOPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPEEEEEERFECT"
-#@ 					size_cell $cell $curr_cell_lib_name
-#@ 
-#@ 				}
-#@ 
-#@ 
-#@ 			} 
-#@ 
-#@ 			# foreach pair $priority {
-#@ 
-#@ 			# 	set cell [ get_cell -of_object [get_attribute [lindex $pair 0] object] ]
-#@ 			# 	set curr_cell_lib_name  [get_attribute [get_lib_cell -o $cell] full_name]
-#@ 
-#@ 			# 	set_cell_HVT $cell
-#@ 
-#@ 			# 	if {[is_ok_slack $allowed_slack] == 0} {
-#@ 			# 		puts "STOPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPEEEEEERFECT"
-#@ 
-#@ 			# 		size_cell $cell $curr_cell_lib_name
-#@ 
-#@ 			# 		set must_end 1
-#@ 			# 		break
-#@ 			# 	}
-#@ 
-#@ 			# }
-#@ 			
-#@ 			set count 0
-#@ 			# gets stdin
-#@ 		}
-#@ 
-#@ 		set i 0
-#@ 		set end_slack_check 0
-#@ 
-#@ 
-#@ 		puts "aaaaaaaaaaaaaaaaaa"
-#@ 		print_slacks
-#@ 
-#@ 		foreach_in_collection path [get_timing_paths -slack_greater_than $allowed_slack -max_paths 2000000] {
-#@ 			puts "--> check [lindex $slacks $i] != [get_attribute $path slack]"
-#@ 			if {[lindex $slacks $i] != [get_attribute $path slack]} {
-#@ 				set end_slack_check 1
-#@ 				break
-#@ 			}
-#@ 
-#@ 			incr i
-#@ 		}
-#@ 
-#@ 		if {$end_slack_check == 0} {
-#@ 			break
-#@ 		}
-#@ 
+#@ 	set denominator [expr {$max_hvt_delay - $max_lvt_delay}]
+#@ 	set hvt_priority {}
+#@ 	if {$denominator == 0} {
+#@ 		set hvt_priority [list 0 $curr_cell_lib_name2]
+#@ 	} else {
+#@ 		set hvt_priority [list [expr {($cell_actual_leakage - $cell_new_leakage) / $denominator}] $curr_cell_lib_name2]
 #@ 	}
+#@ 
+#@ 	set area_priority {}
+#@ 	set lower_size_name [get_cell_lower_size $cell]
+#@ 
+#@ 	if {$lower_size_name == $curr_cell_lib_name2} {
+#@ 		set area_priority [list 0 $lower_size_name]
+#@ 	} else {
+#@ 
+#@ 		size_cell $cell $lower_size_name
+#@ 
+#@ 		set cell_new_area [get_attribute $cell area]
+#@ 		set cell_new_dynpower [get_attribute $cell dynamic_power]
+#@ 		set new_delay_max [get_attribute [get_timing_arcs -of_object $cell] delay_max]
+#@ 		
+#@ 		set denominator [expr {$max_hvt_delay - $max_lvt_delay}]
+#@ 
+#@ 		if {$denominator == 0} {
+#@ 			set area_priority [list 0 $lower_size_name]
+#@ 		}
+#@ 
+#@ 		set area_priority [list [expr {($cell_actual_area*$cell_actual_dynpower - $cell_new_area*$cell_new_dynpower) / $denominator}] $lower_size_name]
+#@ 	}
+#@ 
+#@ 	size_cell $cell $curr_cell_lib_name
+#@ 	return [list $hvt_priority $area_priority]
 #@ }
 #@ 
-#@ proc start3 {allowed_slack} {
+#@ proc start {allowed_slack} {
 #@ 
 #@ 
 #@ 	set priority {}
+#@ 	set priority_area {}
+#@ 	set marked_cells {}
 #@ 
+#@ 	set finished 0
+#@ 	set start_time [clock millisec]
 #@ 	foreach_in_collection cell [get_cell] {
-#@ 		set priority [lappend priority [concat [list $cell] [compute_priority_leakage $cell]]]
+#@ 		# set priority_total [compute_priority $cell]
+#@ 		# set priority [lappend priority [concat [list $cell] [lindex $priority_total 0]]]
+#@ 		# if {[lindex $priority_total 1 0] > 0} {
+#@ 		# 	set priority_area [lappend priority [concat [list $cell] [lindex $priority_total 1]]]
+#@ 		# 	set marked_cells [lappend marked_cells [list $marked_cells 0]]
+#@ 		# }
+#@ 		set priority [lappend priority [concat [list $cell [get_attribute [get_lib_cell -o $cell] full_name]] [compute_priority_leakage $cell]]]
+#@ 
+#@ 		if {[expr {[clock millisec] - $start_time}] > 24000} {
+#@ 			set finished 1
+#@ 			break
+#@ 		}
 #@ 	}
 #@ 
-#@ 	set priority [lsort -index 1 -decreasing -real $priority]
+#@ 	set priority [lsort -index 2 -decreasing -real $priority]
 #@ 	puts $priority
 #@ 	# gets stdin
-#@ 	
 #@ 	foreach prio $priority {
 #@ 
 #@ 		set cell [lindex $prio 0]
 #@ 		set curr_cell_lib_name  [get_attribute [get_lib_cell -o $cell] full_name]
 #@ 		
+#@ 		puts -nonewline "slack [get_attribute [get_timing_paths] slack] -> "
 #@ 		set_cell_HVT $cell
+#@ 		puts -nonewline "[get_attribute [get_timing_paths] slack] -> "
 #@ 
-#@ 		if {[is_ok_slack $allowed_slack] == 0} {
+#@ 		if {[is_ok_slack_broken $allowed_slack] == 0} {
 #@ 			size_cell $cell $curr_cell_lib_name
+#@ 			puts -nonewline "[get_attribute [get_timing_paths] slack]"
 #@ 		}
 #@ 
+#@ 		puts ""
+#@ 		if {[expr {[clock millisec] - $start_time}] > 360000} { 
+#@ 			break
+#@ 		}
 #@ 	}
 #@ 
+#@ 	if {$finished == 1} {
+#@ 		foreach_in_collection cell [get_cell] {
 #@ 
-#@ 	set priority_area {}
-#@ 	set marked_cells {}
+#@ 			if {[expr {[clock millisec] - $start_time}] > 360000} {
+#@ 				break
+#@ 			}
+#@ 
+#@ 			set curr_cell_lib_name [get_attribute [get_lib_cell -o $cell] full_name]
+#@ 			if {[lsearch -index 1 $priority $curr_cell_lib_name] == -1} {
+#@ 
+#@ 				puts -nonewline "# slack [get_attribute [get_timing_paths] slack] -> "
+#@ 				set_cell_HVT $cell
+#@ 				puts -nonewline "[get_attribute [get_timing_paths] slack] -> "
+#@ 
+#@ 				if {[is_ok_slack_broken $allowed_slack] == 0} {
+#@ 					size_cell $cell $curr_cell_lib_name
+#@ 					puts -nonewline "[get_attribute [get_timing_paths] slack]"
+#@ 				}
+#@ 
+#@ 				puts ""
+#@ 			}
+#@ 		}
+#@ 	}
+#@ 	
+#@ 	set curr_cell_lib_name  [get_attribute [get_lib_cell -o $cell] full_name]
+#@ 
+#@ 	puts "slack [is_ok_slack $allowed_slack]"
+#@ 
 #@ 	foreach_in_collection cell [get_cell] {
 #@ 		set result [compute_priority_area_dyn $cell]
 #@ 		if {[lindex $result 0] > 0} {
 #@ 			set marked_cells [lappend marked_cells [list $marked_cells 0]]
 #@ 			set priority_area [lappend priority_area [concat [list $cell] $result ]]
+#@ 		}
+#@ 
+#@ 		if {[expr {[clock millisec] - $start_time}] > 42000} {
+#@ 			break
 #@ 		}
 #@ 	}
 #@ 
@@ -1473,237 +1399,63 @@ source ./tcl_scripts/evaluate.tcl
 #@ 			if {$new_cell_name != $curr_cell_lib_name && [lindex $marked_cells $i 1] == 0} {
 #@ 				set found 1
 #@ 			
+#@ 				puts -nonewline "slack [get_attribute [get_timing_paths] slack] -> "
 #@ 				size_cell $cell $new_cell_name
+#@ 				puts -nonewline "[get_attribute [get_timing_paths] slack] -> "
 #@ 
-#@ 				if {[is_ok_slack $allowed_slack] == 0} {
+#@ 				if {[is_ok_slack_broken $allowed_slack] == 0} {
 #@ 					size_cell $cell $curr_cell_lib_name
+#@ 					puts -nonewline "[get_attribute [get_timing_paths] slack]"
 #@ 					set marked_cells [lreplace $marked_cells $i $i [list [lindex $marked_cells 0] 1]]
 #@ 				}
+#@ 
+#@ 				puts ""
+#@ 				puts "Final cell -> [get_attribute [get_lib_cell -o $cell] full_name]"
 #@ 			}
 #@ 		}
 #@ 
-#@ 		puts "LOOP $found"
+#@ 		puts "LOOP $found: slack [is_ok_slack $allowed_slack]"
 #@ 		#gets stdin
 #@ 
 #@ 		if {$found == 0} {
 #@ 			break
 #@ 		}
 #@ 
+#@ 		if {[expr {[clock millisec] - $start_time}] > 45000} {
+#@ 			break
+#@ 		}
 #@ 	}
 #@ 
+#@ 
+#@ 	while {[is_ok_slack $allowed_slack] == 0} {
+#@ 		puts "RESTORING SLACK...."
+#@ 
+#@ 		foreach_in_collection worst_path [get_timing_paths -max_paths 2000000] {
+#@ 
+#@ 			foreach_in_collection timing_point [get_attribute $worst_path points]	{
+#@ 				set obj_type [get_attribute [get_attribute $timing_point object] object_class]
+#@ 							
+#@ 				if {$obj_type == "pin"} {
+#@ 					set cell [ get_cell -of_object [get_attribute $timing_point object] ]
+#@ 					set_cell_LVT $cell	
+#@ 				}
+#@ 
+#@ 				if {[is_ok_slack $allowed_slack] == 1} {
+#@ 					break
+#@ 				}
+#@ 			}
+#@ 
+#@ 			if {[is_ok_slack $allowed_slack] == 1} {
+#@ 				break
+#@ 			}
+#@ 		}
+#@ 
+#@ 	}
 #@ }
+#@ 
 #@ 
 #@ ## Arrivo subito 
 #@ 
-#@ proc start {allowed_slack} {
-#@ 	# set cell_list [get_cell]
-#@ 	# foreach_in_collection cell $cell_list {
-#@ 	# 	# test example
-#@ 	# 	get_cell_lower_size [get_cell $cell]
-#@ 	# 	break
-#@ 	# }	
-#@ 
-#@ 	
-#@ 	
-#@ 	# foreach_in_collection path $path_list {
-#@ 	# 	puts "[get_attribute $path slack]"
-#@ 	# }
-#@ 
-#@ 	# set current_path [get_attribute [index_collection $path_list end] slack]
-#@ 	
-#@ 	
-#@ 
-#@ 	set end 0
-#@ 	set sl1 -1
-#@ 	set sl2 0
-#@ 	while {$end == 0} {
-#@ 		print_slacks 
-#@ 		set end 1
-#@ 		set lut {}
-#@ 		set priority {}
-#@ 		set priority_areadyn {}
-#@ 		set count 0
-#@ 		# X8 X6 X2
-#@ 		set path_list [get_timing_paths -slack_greater_than $allowed_slack -max_paths 2000000]
-#@ 		foreach_in_collection current_path $path_list {
-#@ 			foreach_in_collection timing_point [get_attribute $current_path points] {
-#@ 				set cell [ get_cell -of_object [get_attribute $timing_point object] ]
-#@ 				puts ">>>>>>  [get_attribute $cell full_name] <<<<<<"
-#@ 			}
-#@ 		}
-#@ 		foreach_in_collection current_path $path_list {
-#@ 			puts "SLACK [get_attribute $current_path slack]"
-#@ 			#set current_path [index_collection $path_list end]
-#@ 
-#@ 			foreach_in_collection timing_point [get_attribute $current_path points] {
-#@ 
-#@ 				set obj_type [get_attribute [get_attribute $timing_point object] object_class]
-#@ 				
-#@ 				if {$obj_type == "pin"} {
-#@ 					set cell [ get_cell -of_object [get_attribute $timing_point object] ]
-#@ 					puts [get_attribute $cell full_name]
-#@ 
-#@ 					# puts [get_attribute $cell ref_name]
-#@ 					# puts [get_attribute $cell leakage_power]
-#@ 
-#@ 
-#@ 
-#@ 						set search_lut [lsearch -index 0 -inline -all $lut [get_attribute [get_lib_cell -o $cell] full_name]]
-#@ 						if {$search_lut < 0} {
-#@ 							
-#@ 							set priority_leakage_list [compute_priority_leakage $cell]
-#@ 
-#@ 							set priority_area_list [compute_priority_area_dyn $cell]
-#@ 
-#@ 							set priority_leakage [lindex $priority_leakage_list 0]
-#@ 							set priority_area [lindex $priority_area_list 0]
-#@ 
-#@ 							# {cell_lvt, cell_hvt, priotity_hvt}
-#@ 							# {cell_lvt, cell_low_size, priorty_area}
-#@ 
-#@ 							set x1 [list [get_attribute [get_lib_cell -o $cell] full_name] [lindex $priority_leakage_list 1]  [lindex $priority_leakage_list 0]]
-#@ 							set x2 [list [get_attribute [get_lib_cell -o $cell] full_name] [lindex $priority_area_list 1]  0]
-#@ 
-#@ 							set lut [lappend lut $x1]
-#@ 							set lut [lappend lut $x2]
-#@ 
-#@ 							set search_lut [list $x1 $x2]
-#@ 
-#@ 							#puts "lut: $lut"
-#@ 							# gets stdin
-#@ 						}
-#@ 
-#@ 
-#@ 						#puts "result search: $search_lut"
-#@ 						# gets stdin
-#@ 						set priority_leakage [lindex $search_lut 0 2]
-#@ 						set priority_area [lindex $search_lut 1 2]
-#@ 
-#@ 
-#@ 						if {$priority_leakage > 0} {
-#@ 							set priority [lappend priority [list $timing_point $priority_leakage]]
-#@ 						}
-#@ 
-#@ 						if {$priority_area > 0} {
-#@ 							set priority_areadyn [lappend priority_areadyn [list $timing_point $priority_area]]
-#@ 						}
-#@ 					
-#@ 
-#@ 
-#@ 					# compute_priority_area_dyn $cell
-#@ 				}
-#@ 				
-#@ 			}
-#@ 
-#@ 			incr count
-#@ 
-#@ 			if {$count >= 1} {
-#@ 				
-#@ 				#puts $priority
-#@ 				# gets stdin
-#@ 
-#@ 				set priority [lsort -index 1 -decreasing -real $priority]
-#@ 				set priority_areadyn [lsort -index 1 -decreasing -real $priority_areadyn]
-#@ 				#puts $priority
-#@ 				
-#@ 				set must_end 0
-#@ 
-#@ 					puts "ALL PRIO FINISHED1 [llength $priority]"
-#@ 					puts "ALL PRIO FINISHED2 [llength $priority_areadyn]"
-#@ 					#gets stdin
-#@ 				while {1} {
-#@ 
-#@ 					set first_prio_leak -1
-#@ 					set first_prio_area -1
-#@ 
-#@ 					if {[llength $priority]} {
-#@ 						set first_prio_leak [lindex $priority 0]
-#@ 					}
-#@ 
-#@ 					if {[llength $priority_areadyn]} {
-#@ 						set first_prio_area [lindex $priority_areadyn 0]
-#@ 					}
-#@ 
-#@ 					if {$first_prio_leak == -1 && $first_prio_area == -1 } {
-#@ 						break
-#@ 					}
-#@ 
-#@ 					if {[lindex $first_prio_leak 1] >= [lindex $first_prio_area 1]} {
-#@ 						set cell [ get_cell -of_object [get_attribute [lindex $first_prio_leak 0] object] ]
-#@ 					} else {
-#@ 						set cell [ get_cell -of_object [get_attribute [lindex $first_prio_area 0] object] ]
-#@ 					}
-#@ 
-#@ 					set curr_cell_lib_name  [get_attribute [get_lib_cell -o $cell] full_name]
-#@ 					
-#@ 
-#@ 					set curr_cell_lib [get_lib_cell -o $cell]
-#@ 					if {[lindex $first_prio_leak 1] >= [lindex $first_prio_area 1]} {
-#@ 						# substitution leak based
-#@ 						# removed first element of priority
-#@ 						# replace
-#@ 
-#@ 						if {[get_attribute $curr_cell_lib threshold_voltage_group] != "HVT"} {
-#@ 							set_cell_HVT $cell
-#@ 							set end 0
-#@ 						}
-#@ 							set priority [ lrange $priority 1 end ]
-#@ 						#puts "ALL PRIO FINISHED"
-#@ 						#gets stdin
-#@ 					} else {
-#@ 						set rpc [get_cell_lower_size $cell]
-#@ 						if {$rpc != [get_attribute $curr_cell_lib full_name]} {
-#@ 							size_cell $cell $rpc 
-#@ 							set end 0
-#@ 						}
-#@ 							set priority_areadyn [ lrange $priority_areadyn 1 end ]
-#@ 						#puts "ALL PRIO FINISHED2 [llength $priority_areadyn]"
-#@ 						#gets stdin
-#@ 					}
-#@ 
-#@ 
-#@ 					if {[is_ok_slack $allowed_slack] == 0} {
-#@ 						#puts $lut
-#@ 						#puts "STOPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPEEEEEERFECT"
-#@ 						set end 1
-#@ 						size_cell $cell $curr_cell_lib_name
-#@ 
-#@ 					}
-#@ 
-#@ 
-#@ 				} 
-#@ 
-#@ 				# foreach pair $priority {
-#@ 
-#@ 				# 	set cell [ get_cell -of_object [get_attribute [lindex $pair 0] object] ]
-#@ 				# 	set curr_cell_lib_name  [get_attribute [get_lib_cell -o $cell] full_name]
-#@ 
-#@ 				# 	set_cell_HVT $cell
-#@ 
-#@ 				# 	if {[is_ok_slack $allowed_slack] == 0} {
-#@ 				# 		puts "STOPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPEEEEEERFECT"
-#@ 
-#@ 				# 		size_cell $cell $curr_cell_lib_name
-#@ 
-#@ 				# 		set must_end 1
-#@ 				# 		break
-#@ 				# 	}
-#@ 
-#@ 				# }
-#@ 				
-#@ 				set count 0
-#@ 				# gets stdin
-#@ 			}
-#@ 
-#@ 		}
-#@ 
-#@ 
-#@ 		#puts "LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOP"
-#@ 		# gets stdin
-#@ 	}
-#@ 
-#@ 
-#@ }
 #@ 
 #@ proc dualVth {args} {
 #@ 	parse_proc_arguments -args $args results
@@ -1714,7 +1466,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ 	#################################
 #@ 	print_slacks
 #@ 	#gets stdin
-#@ 	start3 $allowed_slack
+#@ 	start $allowed_slack
 #@ 	print_slacks
 #@ 	
 #@ 	#gets stdin
@@ -1837,6 +1589,4 @@ source ./tcl_scripts/evaluate.tcl
 #@ }
 #@ # -- End source ./tcl_scripts/evaluate.tcl
 
-report_threshold_voltage_group
-gexit
 exit

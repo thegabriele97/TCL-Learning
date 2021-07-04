@@ -1,0 +1,11 @@
+Suppressed Messages Summary:
+Id          Severity      Occurrences   Suppressed
+-------------------------------------------------------------------------------
+CMD-041     Information             2            2
+Total 1 type of message is suppressed
+Maximum memory usage for this session: 816.16 MB
+CPU usage for this session: 2 seconds 
+Elapsed time for this session: 2 seconds
+Diagnostics summary: 7 errors, 4 warnings, 1 informational
+
+Thank you for using pt_shell!
