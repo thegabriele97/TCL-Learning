@@ -395,7 +395,7 @@ proc start {allowed_slack} {
 			break
 		}
 
-		if {[expr {[clock millisec] - $start_time}] > 45000} {
+		if {[expr {[clock millisec] - $start_time}] > 450000} {
 			break
 		}
 	}
@@ -426,10 +426,6 @@ proc start {allowed_slack} {
 
 	}
 }
-
-
-## Arrivo subito 
-
 
 proc dualVth {args} {
 	parse_proc_arguments -args $args results

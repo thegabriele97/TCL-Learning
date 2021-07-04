@@ -1,6 +1,6 @@
 #@ # 
 #@ # Running pt_shell Version O-2018.06-SP4 for linux64 -- Nov 30, 2018
-#@ # Date:   Sun Jul  4 14:37:01 2021
+#@ # Date:   Sun Jul  4 16:33:08 2021
 #@ # Run by: s281589@worksynthesis
 #@ 
 
@@ -878,7 +878,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ # set blockName "c1908"
 #@ set blockName "c5315"
 #@ # set blockName "c432"
-#@ set allowed_slack -0.2
+#@ set allowed_slack -0.5
 #@ source ./tcl_scripts/pt_analysis.tcl
 #@ # -- Starting source ./tcl_scripts/pt_analysis.tcl
 
@@ -1145,14 +1145,6 @@ source ./tcl_scripts/evaluate.tcl
 #@ 
 #@ }
 #@ 
-#@ proc is_ok_slack_broken {allowed_slack} {
-#@ 	if {[get_attribute [get_timing_paths] slack] < [ expr { $allowed_slack - 1 } ] } {
-#@ 		return 0
-#@ 	}
-#@ 
-#@ 	return 1
-#@ }
-#@ 
 #@ proc is_ok_slack {allowed_slack} {
 #@ 	if {[get_attribute [get_timing_paths] slack] < $allowed_slack} {
 #@ 		return 0
@@ -1311,7 +1303,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ 		# }
 #@ 		set priority [lappend priority [concat [list $cell [get_attribute [get_lib_cell -o $cell] full_name]] [compute_priority_leakage $cell]]]
 #@ 
-#@ 		if {[expr {[clock millisec] - $start_time}] > 24000} {
+#@ 		if {[expr {[clock millisec] - $start_time}] > 230000} {
 #@ 			set finished 1
 #@ 			break
 #@ 		}
@@ -1329,13 +1321,13 @@ source ./tcl_scripts/evaluate.tcl
 #@ 		set_cell_HVT $cell
 #@ 		puts -nonewline "[get_attribute [get_timing_paths] slack] -> "
 #@ 
-#@ 		if {[is_ok_slack_broken $allowed_slack] == 0} {
+#@ 		if {[is_ok_slack $allowed_slack] == 0} {
 #@ 			size_cell $cell $curr_cell_lib_name
 #@ 			puts -nonewline "[get_attribute [get_timing_paths] slack]"
 #@ 		}
 #@ 
 #@ 		puts ""
-#@ 		if {[expr {[clock millisec] - $start_time}] > 360000} { 
+#@ 		if {[expr {[clock millisec] - $start_time}] > 350000} { 
 #@ 			break
 #@ 		}
 #@ 	}
@@ -1343,7 +1335,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ 	if {$finished == 1} {
 #@ 		foreach_in_collection cell [get_cell] {
 #@ 
-#@ 			if {[expr {[clock millisec] - $start_time}] > 360000} {
+#@ 			if {[expr {[clock millisec] - $start_time}] > 350000} {
 #@ 				break
 #@ 			}
 #@ 
@@ -1354,7 +1346,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ 				set_cell_HVT $cell
 #@ 				puts -nonewline "[get_attribute [get_timing_paths] slack] -> "
 #@ 
-#@ 				if {[is_ok_slack_broken $allowed_slack] == 0} {
+#@ 				if {[is_ok_slack $allowed_slack] == 0} {
 #@ 					size_cell $cell $curr_cell_lib_name
 #@ 					puts -nonewline "[get_attribute [get_timing_paths] slack]"
 #@ 				}
@@ -1375,7 +1367,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ 			set priority_area [lappend priority_area [concat [list $cell] $result ]]
 #@ 		}
 #@ 
-#@ 		if {[expr {[clock millisec] - $start_time}] > 42000} {
+#@ 		if {[expr {[clock millisec] - $start_time}] > 410000} {
 #@ 			break
 #@ 		}
 #@ 	}
@@ -1403,7 +1395,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ 				size_cell $cell $new_cell_name
 #@ 				puts -nonewline "[get_attribute [get_timing_paths] slack] -> "
 #@ 
-#@ 				if {[is_ok_slack_broken $allowed_slack] == 0} {
+#@ 				if {[is_ok_slack $allowed_slack] == 0} {
 #@ 					size_cell $cell $curr_cell_lib_name
 #@ 					puts -nonewline "[get_attribute [get_timing_paths] slack]"
 #@ 					set marked_cells [lreplace $marked_cells $i $i [list [lindex $marked_cells 0] 1]]
@@ -1421,7 +1413,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ 			break
 #@ 		}
 #@ 
-#@ 		if {[expr {[clock millisec] - $start_time}] > 45000} {
+#@ 		if {[expr {[clock millisec] - $start_time}] > 440000} {
 #@ 			break
 #@ 		}
 #@ 	}
@@ -1452,10 +1444,6 @@ source ./tcl_scripts/evaluate.tcl
 #@ 
 #@ 	}
 #@ }
-#@ 
-#@ 
-#@ ## Arrivo subito 
-#@ 
 #@ 
 #@ proc dualVth {args} {
 #@ 	parse_proc_arguments -args $args results
