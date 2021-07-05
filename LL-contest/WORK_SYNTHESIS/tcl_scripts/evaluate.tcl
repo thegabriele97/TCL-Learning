@@ -89,7 +89,7 @@ if { $empty == 1 } {
     set pleak_ratio [ expr { $initial_leakage / $final_leakage } ]
     set pdyn_ratio [ expr { $initial_dynamic / $final_dynamic } ]
     set area_ratio [ expr { $initial_area / $final_area } ]
-    set points [ expr { ($area_ratio + $pleak_ratio + $pdyn_ratio) * ( 1 - ($time/(900 * 1000))) } ]
+    set points [ expr { ($area_ratio + $pleak_ratio + $pdyn_ratio) * ( 1 - ($time/double((900 * 1000)))) } ]
 
     # Summary
     puts ""

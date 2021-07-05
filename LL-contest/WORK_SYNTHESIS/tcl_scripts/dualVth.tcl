@@ -208,6 +208,15 @@ proc compute_priority_area_dyn {cell} {
 	return [list [expr {($cell_actual_area*$cell_actual_dynpower - $cell_new_area*$cell_new_dynpower) / $denominator}] $new_cell_name]
 }
 
+proc compute_priority_area_dummy {cell} {
+
+	set curr_cell_lib_name  [get_attribute [get_lib_cell -o $cell] full_name]
+	set cell_actual_area [get_attribute $cell area]
+	set cell_actual_dynpower [get_attribute $cell dynamic_power]
+
+	return [list [expr {($cell_actual_area*$cell_actual_dynpower)}] $curr_cell_lib_name]
+}
+
 
 proc compute_priority {cell} {
 
@@ -270,22 +279,29 @@ proc compute_priority {cell} {
 proc start {allowed_slack} {
 
 
+	set dummy_priority {}
 	set priority {}
 	set priority_area {}
 	set marked_cells {}
 
+	foreach_in_collection cell [get_cell] {
+		set dummy_priority [lappend dummy_prio [list $cell [get_attribute $cell leakage_power]]]
+	}
+
 	set finished 0
 	set start_time [clock millisec]
-	foreach_in_collection cell [get_cell] {
+	foreach dummy_prio [lsort -index 1 -decreasing -real $dummy_priority] {
+		set cell [lindex $dummy_prio 0]
 		# set priority_total [compute_priority $cell]
 		# set priority [lappend priority [concat [list $cell] [lindex $priority_total 0]]]
 		# if {[lindex $priority_total 1 0] > 0} {
 		# 	set priority_area [lappend priority [concat [list $cell] [lindex $priority_total 1]]]
 		# 	set marked_cells [lappend marked_cells [list $marked_cells 0]]
 		# }
-		set priority [lappend priority [concat [list $cell [get_attribute [get_lib_cell -o $cell] full_name]] [compute_priority_leakage $cell]]]
+		# set priority [lappend priority [concat [list $cell [get_attribute [get_lib_cell -o $cell] full_name]] [compute_priority_leakage $cell]]]
+		set priority [lappend priority [concat [list $cell [get_attribute [get_lib_cell -o $cell] full_name]] [lindex $dummy_prio 1]]]
 
-		if {[expr {[clock millisec] - $start_time}] > 240000} {
+		if {[expr {[clock millisec] - $start_time}] > 60000} {
 			set finished 1
 			break
 		}
@@ -305,21 +321,22 @@ proc start {allowed_slack} {
 
 		if {[is_ok_slack $allowed_slack] == 0} {
 			size_cell $cell $curr_cell_lib_name
+			update_timing -full
 			puts -nonewline "[get_attribute [get_timing_paths] slack]"
 		}
 
 		puts ""
-		if {[expr {[clock millisec] - $start_time}] > 360000} { 
-			break
-		}
+		# if {[expr {[clock millisec] - $start_time}] > 75000} { 
+		# 	break
+		# }
 	}
 
 	if {$finished == 1} {
 		foreach_in_collection cell [get_cell] {
 
-			if {[expr {[clock millisec] - $start_time}] > 360000} {
-				break
-			}
+			# if {[expr {[clock millisec] - $start_time}] > 90000} {
+			# 	break
+			# }
 
 			set curr_cell_lib_name [get_attribute [get_lib_cell -o $cell] full_name]
 			if {[lsearch -index 1 $priority $curr_cell_lib_name] == -1} {
@@ -330,6 +347,7 @@ proc start {allowed_slack} {
 
 				if {[is_ok_slack $allowed_slack] == 0} {
 					size_cell $cell $curr_cell_lib_name
+					update_timing -full
 					puts -nonewline "[get_attribute [get_timing_paths] slack]"
 				}
 
@@ -343,15 +361,15 @@ proc start {allowed_slack} {
 	puts "slack [is_ok_slack $allowed_slack]"
 
 	foreach_in_collection cell [get_cell] {
-		set result [compute_priority_area_dyn $cell]
+		set result [compute_priority_area_dummy $cell]
 		if {[lindex $result 0] > 0} {
 			set marked_cells [lappend marked_cells [list $marked_cells 0]]
 			set priority_area [lappend priority_area [concat [list $cell] $result ]]
 		}
 
-		if {[expr {[clock millisec] - $start_time}] > 420000} {
-			break
-		}
+		# if {[expr {[clock millisec] - $start_time}] > 100000} {
+		# 	break
+		# }
 	}
 
 	set priority_area [lsort -index 1 -decreasing -real $priority_area]
@@ -375,10 +393,13 @@ proc start {allowed_slack} {
 			
 				puts -nonewline "slack [get_attribute [get_timing_paths] slack] -> "
 				size_cell $cell $new_cell_name
+				update_timing -full
 				puts -nonewline "[get_attribute [get_timing_paths] slack] -> "
 
 				if {[is_ok_slack $allowed_slack] == 0} {
 					size_cell $cell $curr_cell_lib_name
+					update_timing -full
+
 					puts -nonewline "[get_attribute [get_timing_paths] slack]"
 					set marked_cells [lreplace $marked_cells $i $i [list [lindex $marked_cells 0] 1]]
 				}
@@ -395,7 +416,7 @@ proc start {allowed_slack} {
 			break
 		}
 
-		if {[expr {[clock millisec] - $start_time}] > 450000} {
+		if {[expr {[clock millisec] - $start_time}] > 180000} {
 			break
 		}
 	}
@@ -412,6 +433,7 @@ proc start {allowed_slack} {
 				if {$obj_type == "pin"} {
 					set cell [ get_cell -of_object [get_attribute $timing_point object] ]
 					set_cell_LVT $cell	
+					update_timing -full
 				}
 
 				if {[is_ok_slack $allowed_slack] == 1} {

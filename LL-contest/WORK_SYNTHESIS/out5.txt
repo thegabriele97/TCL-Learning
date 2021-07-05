@@ -1,0 +1,1098 @@
+
+                                 PrimeTime (R)
+
+               Version O-2018.06-SP4 for linux64 - Nov 30, 2018 
+
+                    Copyright (c) 1988 - 2018 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+            or distribution of this software is strictly prohibited.
+Information: Checked out license 'PrimePower' (PT-019)
+Loading verilog file '/space/s281589/labs/LL-contest/WORK_SYNTHESIS/saved/c5315/synthesis/c5315_postsyn.v'
+Loading db file '/space/s281589/labs/LL-contest/WORK_SYNTHESIS/tech/STcmos65/CORE65LPLVT_nom_1.20V_25C.db'
+Loading db file '/space/s281589/labs/LL-contest/WORK_SYNTHESIS/tech/STcmos65/CORE65LPHVT_nom_1.20V_25C.db'
+Linking design c5315...
+Information: 801 (92.49%) library cells are unused in library CORE65LPLVT..... (LNK-045)
+Information: 866 (100.00%) library cells are unused in library CORE65LPHVT..... (LNK-045)
+Information: total 1667 library cells are unused (LNK-046)
+
+Reading SDC version 1.3...
+Warning: Creating virtual clock named 'clk' with no sources. (UITE-121)
+Warning: Legacy rail_connection library specifications will no longer be supported in PrimePower starting 2018.06 release. (PWR-604)
+Set attribute 'default_threshold_voltage_group' on 'CORE65LPLVT'
+Set attribute 'default_threshold_voltage_group' on 'CORE65LPHVT'
+0.003467
+0.009536
+0.016015
+0.023799
+0.023799
+0.047297
+0.047297
+0.052604
+0.052604
+0.090240
+0.101328
+0.124754
+0.130374
+0.142226
+0.146788
+0.147718
+0.163090
+0.183638
+0.187599
+0.189737
+0.201504
+0.211811
+0.212741
+0.220650
+0.224411
+0.227896
+0.245160
+0.266283
+0.271992
+0.277212
+0.278193
+0.311003
+0.318017
+0.331890
+0.350649
+0.359233
+0.360163
+0.364082
+0.420918
+0.424151
+0.435939
+0.436869
+0.457553
+0.462230
+0.465693
+0.480037
+0.500917
+0.504314
+0.523546
+0.523546
+0.539076
+0.545527
+0.548562
+0.548562
+0.553502
+0.553502
+0.562856
+0.576061
+0.580815
+0.604274
+0.617739
+0.618113
+0.623007
+0.639014
+0.639014
+0.666082
+0.666906
+0.680891
+0.681265
+0.696913
+0.722372
+0.768287
+0.784609
+0.804926
+0.816169
+0.827381
+0.878169
+0.895195
+0.922152
+1.050557
+1.066678
+1.066678
+1.084039
+1.163556
+1.163556
+1.163556
+1.163556
+1.170758
+1.170758
+1.206449
+1.279485
+1.318918
+1.326524
+1.340626
+1.340626
+1.342281
+1.405905
+1.410497
+1.410497
+1.410497
+1.410497
+1.410497
+1.412875
+1.412875
+1.412875
+1.416545
+1.419356
+1.420077
+1.420077
+1.422334
+1.422334
+1.422893
+1.424193
+1.427311
+1.428896
+1.430367
+1.431530
+1.431636
+1.431651
+1.431683
+1.431714
+1.431714
+1.431868
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+Information: Running switching activity propagation with 4 threads!
+{_sel1104 CORE65LPLVT/HS65_LL_BFX62 4.66130734217e-07 CORE65LPHVT/HS65_LH_BFX62} {_sel1103 CORE65LPLVT/HS65_LL_IVX40 2.82942823637e-07 CORE65LPHVT/HS65_LH_IVX40} {_sel1618 CORE65LPLVT/HS65_LL_AOI112X26 2.5727067766e-07 CORE65LPHVT/HS65_LH_AOI112X26} {_sel1101 CORE65LPLVT/HS65_LL_BFX27 2.03104095075e-07 CORE65LPHVT/HS65_LH_BFX27} {_sel1096 CORE65LPLVT/HS65_LL_BFX27 1.96579991248e-07 CORE65LPHVT/HS65_LH_BFX27} {_sel1266 CORE65LPLVT/HS65_LL_NOR2AX25 1.96400178373e-07 CORE65LPHVT/HS65_LH_NOR2AX25} {_sel1530 CORE65LPLVT/HS65_LL_XNOR2X18 1.95925986315e-07 CORE65LPHVT/HS65_LH_XNOR2X18} {_sel1487 CORE65LPLVT/HS65_LL_IVX27 1.90641119846e-07 CORE65LPHVT/HS65_LH_IVX27} {_sel1288 CORE65LPLVT/HS65_LL_IVX27 1.88620041081e-07 CORE65LPHVT/HS65_LH_IVX27} {_sel1463 CORE65LPLVT/HS65_LL_IVX27 1.76374809044e-07 CORE65LPHVT/HS65_LH_IVX27} {_sel1159 CORE65LPLVT/HS65_LL_IVX27 1.5291449421e-07 CORE65LPHVT/HS65_LH_IVX27} {_sel1519 CORE65LPLVT/HS65_LL_IVX27 1.47052313754e-07 CORE65LPHVT/HS65_LH_IVX27} {_sel1431 CORE65LPLVT/HS65_LL_IVX27 1.46551416136e-07 CORE65LPHVT/HS65_LH_IVX27} {_sel1098 CORE65LPLVT/HS65_LL_BFX18 1.43646010607e-07 CORE65LPHVT/HS65_LH_BFX18} {_sel1555 CORE65LPLVT/HS65_LL_MX41X14 1.18512431765e-07 CORE65LPHVT/HS65_LH_MX41X14} {_sel1590 CORE65LPLVT/HS65_LL_MX41X14 1.18442146191e-07 CORE65LPHVT/HS65_LH_MX41X14} {_sel1587 CORE65LPLVT/HS65_LL_MX41X14 1.15249244816e-07 CORE65LPHVT/HS65_LH_MX41X14} {_sel1556 CORE65LPLVT/HS65_LL_MX41X14 1.12135839726e-07 CORE65LPHVT/HS65_LH_MX41X14} {_sel1497 CORE65LPLVT/HS65_LL_MX41X14 1.11952976794e-07 CORE65LPHVT/HS65_LH_MX41X14} {_sel1565 CORE65LPLVT/HS65_LL_MX41X14 1.11845831618e-07 CORE65LPHVT/HS65_LH_MX41X14} {_sel1498 CORE65LPLVT/HS65_LL_MX41X14 1.11800939441e-07 CORE65LPHVT/HS65_LH_MX41X14} {_sel1616 CORE65LPLVT/HS65_LL_MX41X14 1.09766198135e-07 CORE65LPHVT/HS65_LH_MX41X14} {_sel1614 CORE65LPLVT/HS65_LL_MX41X14 1.06434166861e-07 CORE65LPHVT/HS65_LH_MX41X14} {_sel1586 CORE65LPLVT/HS65_LL_MX41X14 1.06357663633e-07 CORE65LPHVT/HS65_LH_MX41X14} {_sel1564 CORE65LPLVT/HS65_LL_MX41X14 1.01890772769e-07 CORE65LPHVT/HS65_LH_MX41X14} {_sel1585 CORE65LPLVT/HS65_LL_MX41X14 1.01844520356e-07 CORE65LPHVT/HS65_LH_MX41X14} {_sel1167 CORE65LPLVT/HS65_LL_AND2X18 1.0161251609e-07 CORE65LPHVT/HS65_LH_AND2X18} {_sel1367 CORE65LPLVT/HS65_LL_XOR3X18 1.01160438949e-07 CORE65LPHVT/HS65_LH_XOR3X18} {_sel1336 CORE65LPLVT/HS65_LL_XOR3X18 1.00068990566e-07 CORE65LPHVT/HS65_LH_XOR3X18} {_sel1394 CORE65LPLVT/HS65_LL_XOR3X18 8.70628763606e-08 CORE65LPHVT/HS65_LH_XOR3X18} {_sel1160 CORE65LPLVT/HS65_LL_AND2ABX18 8.15836778145e-08 CORE65LPHVT/HS65_LH_AND2ABX18} {_sel1228 CORE65LPLVT/HS65_LL_AND2ABX18 7.95615757773e-08 CORE65LPHVT/HS65_LH_AND2ABX18} {_sel1264 CORE65LPLVT/HS65_LL_AND2ABX18 7.95326238218e-08 CORE65LPHVT/HS65_LH_AND2ABX18} {_sel1226 CORE65LPLVT/HS65_LL_AND2ABX18 7.94934617664e-08 CORE65LPHVT/HS65_LH_AND2ABX18} {_sel1227 CORE65LPLVT/HS65_LL_AND2ABX18 7.94624730378e-08 CORE65LPHVT/HS65_LH_AND2ABX18} {_sel1548 CORE65LPLVT/HS65_LL_MX41X7 7.26099542879e-08 CORE65LPHVT/HS65_LH_MX41X7} {_sel1436 CORE65LPLVT/HS65_LL_MX41X7 7.24538714015e-08 CORE65LPHVT/HS65_LH_MX41X7} {_sel1402 CORE65LPLVT/HS65_LL_MX41X7 7.24021230638e-08 CORE65LPHVT/HS65_LH_MX41X7} {_sel1541 CORE65LPLVT/HS65_LL_MX41X7 7.03201615995e-08 CORE65LPHVT/HS65_LH_MX41X7} {_sel1546 CORE65LPLVT/HS65_LL_MX41X7 6.87001855496e-08 CORE65LPHVT/HS65_LH_MX41X7} {_sel1437 CORE65LPLVT/HS65_LL_MX41X7 6.70909978958e-08 CORE65LPHVT/HS65_LH_MX41X7} {_sel1403 CORE65LPLVT/HS65_LL_MX41X7 6.70446493469e-08 CORE65LPHVT/HS65_LH_MX41X7} {_sel1551 CORE65LPLVT/HS65_LL_MX41X7 6.17079059158e-08 CORE65LPHVT/HS65_LH_MX41X7} {_sel1545 CORE65LPLVT/HS65_LL_MX41X7 6.16673364268e-08 CORE65LPHVT/HS65_LH_MX41X7} {_sel1591 CORE65LPLVT/HS65_LL_AND3ABCX18 5.95846156816e-08 CORE65LPHVT/HS65_LH_AND3ABCX18} {_sel1543 CORE65LPLVT/HS65_LL_MX41X7 5.91237858485e-08 CORE65LPHVT/HS65_LH_MX41X7} {_sel1490 CORE65LPLVT/HS65_LL_MX41X7 5.90712839659e-08 CORE65LPHVT/HS65_LH_MX41X7} {_sel1491 CORE65LPLVT/HS65_LL_MX41X7 5.90660916306e-08 CORE65LPHVT/HS65_LH_MX41X7} {_sel1438 CORE65LPLVT/HS65_LL_MX41X7 5.90622463388e-08 CORE65LPHVT/HS65_LH_MX41X7} {_sel1544 CORE65LPLVT/HS65_LL_MX41X7 5.90616505824e-08 CORE65LPHVT/HS65_LH_MX41X7} {_sel1550 CORE65LPLVT/HS65_LL_MX41X7 5.90611092926e-08 CORE65LPHVT/HS65_LH_MX41X7} {_sel1475 CORE65LPLVT/HS65_LL_AND3ABCX18 5.81931714865e-08 CORE65LPHVT/HS65_LH_AND3ABCX18} {_sel1368 CORE65LPLVT/HS65_LL_AND3ABCX18 5.73661990252e-08 CORE65LPHVT/HS65_LH_AND3ABCX18} {_sel1566 CORE65LPLVT/HS65_LL_AND3ABCX18 5.53476883358e-08 CORE65LPHVT/HS65_LH_AND3ABCX18}
+slack 0.003467 -> 0.003467 -> 
+slack 0.003467 -> 0.003467 -> 
+slack 0.003467 -> -0.045903 -> 
+slack -0.045903 -> -0.045903 -> 
+slack -0.045903 -> -0.045903 -> 
+slack -0.045903 -> -0.045903 -> 
+slack -0.045903 -> -0.042970 -> 
+slack -0.042970 -> -0.042970 -> 
+slack -0.042970 -> -0.042970 -> 
+slack -0.042970 -> -0.042970 -> 
+slack -0.042970 -> -0.042970 -> 
+slack -0.042970 -> -0.042970 -> 
+slack -0.042970 -> -0.042970 -> 
+slack -0.042970 -> -0.042970 -> 
+slack -0.042970 -> -0.042970 -> 
+slack -0.042970 -> -0.061097 -> 
+slack -0.061097 -> -0.059816 -> 
+slack -0.059816 -> -0.059816 -> 
+slack -0.059816 -> -0.059816 -> 
+slack -0.059816 -> -0.059816 -> 
+slack -0.059816 -> -0.059816 -> 
+slack -0.059816 -> -0.083624 -> 
+slack -0.083624 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+slack -0.080976 -> -0.080976 -> 
+# slack -0.080976 -> -0.080976 -> 
+# slack -0.080976 -> -0.080976 -> 
+# slack -0.080976 -> -0.080976 -> 
+# slack -0.080976 -> -0.126239 -> 
+# slack -0.126239 -> -0.126239 -> 
+# slack -0.126239 -> -0.126239 -> 
+# slack -0.126239 -> -0.126239 -> 
+# slack -0.126239 -> -0.126239 -> 
+# slack -0.126239 -> -0.126239 -> 
+# slack -0.126239 -> -0.126239 -> 
+# slack -0.126239 -> -0.126239 -> 
+# slack -0.126239 -> -0.126239 -> 
+# slack -0.126239 -> -0.126239 -> 
+# slack -0.126239 -> -0.126239 -> 
+# slack -0.126239 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.133295 -> 
+# slack -0.133295 -> -0.134689 -> 
+# slack -0.134689 -> -0.193265 -> 
+# slack -0.193265 -> -0.193265 -> 
+# slack -0.193265 -> -0.193265 -> 
+# slack -0.193265 -> -0.192721 -> 
+# slack -0.192721 -> -0.192177 -> 
+# slack -0.192177 -> -0.191633 -> 
+# slack -0.191633 -> -0.191088 -> 
+# slack -0.191088 -> -0.190544 -> 
+# slack -0.190544 -> -0.190544 -> 
+# slack -0.190544 -> -0.190000 -> 
+# slack -0.190000 -> -0.189456 -> 
+# slack -0.189456 -> -0.189456 -> 
+# slack -0.189456 -> -0.189456 -> 
+# slack -0.189456 -> -0.188911 -> 
+# slack -0.188911 -> -0.188911 -> 
+# slack -0.188911 -> -0.188911 -> 
+# slack -0.188911 -> -0.188911 -> 
+# slack -0.188911 -> -0.188911 -> 
+# slack -0.188911 -> -0.188911 -> 
+# slack -0.188911 -> -0.188911 -> 
+# slack -0.188911 -> -0.188911 -> 
+# slack -0.188911 -> -0.188911 -> 
+# slack -0.188911 -> -0.188911 -> 
+# slack -0.188911 -> -0.188911 -> 
+# slack -0.188911 -> -0.188911 -> 
+# slack -0.188911 -> -0.223385 -> 
+# slack -0.223385 -> -0.223385 -> 
+# slack -0.223385 -> -0.223385 -> 
+# slack -0.223385 -> -0.223385 -> 
+# slack -0.223385 -> -0.223385 -> 
+# slack -0.223385 -> -0.223385 -> 
+# slack -0.223385 -> -0.223385 -> 
+# slack -0.223385 -> -0.223385 -> 
+# slack -0.223385 -> -0.223385 -> 
+# slack -0.223385 -> -0.222740 -> 
+# slack -0.222740 -> -0.222740 -> 
+# slack -0.222740 -> -0.282841 -> 
+# slack -0.282841 -> -0.282841 -> 
+# slack -0.282841 -> -0.282841 -> 
+# slack -0.282841 -> -0.282841 -> 
+# slack -0.282841 -> -0.282841 -> 
+# slack -0.282841 -> -0.282841 -> 
+# slack -0.282841 -> -0.282841 -> 
+# slack -0.282841 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282787 -> 
+# slack -0.282787 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282738 -> 
+# slack -0.282738 -> -0.282544 -> 
+# slack -0.282544 -> -0.282544 -> 
+# slack -0.282544 -> -0.282544 -> 
+# slack -0.282544 -> -0.282544 -> 
+# slack -0.282544 -> -0.282544 -> 
+# slack -0.282544 -> -0.282544 -> 
+# slack -0.282544 -> -0.282544 -> 
+# slack -0.282544 -> -0.282544 -> 
+# slack -0.282544 -> -0.282584 -> 
+# slack -0.282584 -> -0.282584 -> 
+# slack -0.282584 -> -0.283334 -> 
+# slack -0.283334 -> -0.283334 -> 
+# slack -0.283334 -> -0.283334 -> 
+# slack -0.283334 -> -0.283724 -> 
+# slack -0.283724 -> -0.283724 -> 
+# slack -0.283724 -> -0.283724 -> 
+# slack -0.283724 -> -0.286056 -> 
+# slack -0.286056 -> -0.286056 -> 
+# slack -0.286056 -> -0.286056 -> 
+# slack -0.286056 -> -0.286056 -> 
+# slack -0.286056 -> -0.286056 -> 
+# slack -0.286056 -> -0.286056 -> 
+# slack -0.286056 -> -0.286056 -> 
+# slack -0.286056 -> -0.286056 -> 
+# slack -0.286056 -> -0.286056 -> 
+# slack -0.286056 -> -0.286056 -> 
+# slack -0.286056 -> -0.286056 -> 
+# slack -0.286056 -> -0.286026 -> 
+# slack -0.286026 -> -0.286026 -> 
+# slack -0.286026 -> -0.286026 -> 
+# slack -0.286026 -> -0.286026 -> 
+# slack -0.286026 -> -0.286026 -> 
+# slack -0.286026 -> -0.286026 -> 
+# slack -0.286026 -> -0.286026 -> 
+# slack -0.286026 -> -0.425700 -> 
+# slack -0.425700 -> -0.425700 -> 
+# slack -0.425700 -> -0.425700 -> 
+# slack -0.425700 -> -0.425700 -> 
+# slack -0.425700 -> -0.425700 -> 
+# slack -0.425700 -> -0.425700 -> 
+# slack -0.425700 -> -0.425700 -> 
+# slack -0.425700 -> -0.425700 -> 
+# slack -0.425700 -> -0.425700 -> 
+# slack -0.425700 -> -0.425700 -> 
+# slack -0.425700 -> -0.425700 -> 
+# slack -0.425700 -> -0.425700 -> 
+# slack -0.425700 -> -0.425700 -> 
+# slack -0.425700 -> -0.425700 -> 
+# slack -0.425700 -> -0.425700 -> 
+# slack -0.425700 -> -0.425700 -> 
+# slack -0.425700 -> -0.425761 -> 
+# slack -0.425761 -> -0.425761 -> 
+# slack -0.425761 -> -0.425761 -> 
+# slack -0.425761 -> -0.425761 -> 
+# slack -0.425761 -> -0.425761 -> 
+# slack -0.425761 -> -0.425761 -> 
+# slack -0.425761 -> -0.425761 -> 
+# slack -0.425761 -> -0.425761 -> 
+# slack -0.425761 -> -0.425761 -> 
+# slack -0.425761 -> -0.425761 -> 
+# slack -0.425761 -> -0.425761 -> 
+# slack -0.425761 -> -0.423799 -> 
+# slack -0.423799 -> -0.421275 -> 
+# slack -0.421275 -> -0.421275 -> 
+# slack -0.421275 -> -0.421275 -> 
+# slack -0.421275 -> -0.421275 -> 
+# slack -0.421275 -> -0.421275 -> 
+# slack -0.421275 -> -0.421275 -> 
+# slack -0.421275 -> -0.419333 -> 
+# slack -0.419333 -> -0.419333 -> 
+# slack -0.419333 -> -0.419333 -> 
+# slack -0.419333 -> -0.419333 -> 
+# slack -0.419333 -> -0.419333 -> 
+# slack -0.419333 -> -0.419333 -> 
+# slack -0.419333 -> -0.419333 -> 
+# slack -0.419333 -> -0.419333 -> 
+# slack -0.419333 -> -0.419333 -> 
+# slack -0.419333 -> -0.419333 -> 
+# slack -0.419333 -> -0.419333 -> 
+# slack -0.419333 -> -0.419333 -> 
+# slack -0.419333 -> -0.419333 -> 
+# slack -0.419333 -> -0.419333 -> 
+# slack -0.419333 -> -0.419333 -> 
+# slack -0.419333 -> -0.423141 -> 
+# slack -0.423141 -> -0.434084 -> 
+# slack -0.434084 -> -0.434084 -> 
+# slack -0.434084 -> -0.434084 -> 
+# slack -0.434084 -> -0.434084 -> 
+# slack -0.434084 -> -0.434084 -> 
+# slack -0.434084 -> -0.434084 -> 
+# slack -0.434084 -> -0.434084 -> 
+# slack -0.434084 -> -0.434084 -> 
+# slack -0.434084 -> -0.448752 -> 
+# slack -0.448752 -> -0.448752 -> 
+# slack -0.448752 -> -0.448752 -> 
+# slack -0.448752 -> -0.448752 -> 
+# slack -0.448752 -> -0.448730 -> 
+# slack -0.448730 -> -0.448730 -> 
+# slack -0.448730 -> -0.448609 -> 
+# slack -0.448609 -> -0.448609 -> 
+# slack -0.448609 -> -0.448609 -> 
+# slack -0.448609 -> -0.445402 -> 
+# slack -0.445402 -> -0.445402 -> 
+# slack -0.445402 -> -0.445402 -> 
+# slack -0.445402 -> -0.445402 -> 
+# slack -0.445402 -> -0.445402 -> 
+# slack -0.445402 -> -0.445402 -> 
+# slack -0.445402 -> -0.445402 -> 
+# slack -0.445402 -> -0.445402 -> 
+# slack -0.445402 -> -0.445384 -> 
+# slack -0.445384 -> -0.443562 -> 
+# slack -0.443562 -> -0.443562 -> 
+# slack -0.443562 -> -0.443562 -> 
+# slack -0.443562 -> -0.443562 -> 
+# slack -0.443562 -> -0.443562 -> 
+# slack -0.443562 -> -0.443562 -> 
+# slack -0.443562 -> -0.445286 -> 
+# slack -0.445286 -> -0.445286 -> 
+# slack -0.445286 -> -0.445286 -> 
+# slack -0.445286 -> -0.445286 -> 
+# slack -0.445286 -> -0.445286 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.445286 -> -0.534721 -> -0.445238
+# slack -0.445238 -> -0.446670 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.446670 -> -0.519852 -> -0.446670
+# slack -0.446670 -> -0.469443 -> 
+# slack -0.469443 -> -0.469443 -> 
+# slack -0.469443 -> -0.469443 -> 
+# slack -0.469443 -> -0.469443 -> 
+# slack -0.469443 -> -0.469443 -> 
+# slack -0.469443 -> -0.469443 -> 
+# slack -0.469443 -> -0.469443 -> 
+# slack -0.469443 -> -0.469399 -> 
+# slack -0.469399 -> -0.469399 -> 
+# slack -0.469399 -> -0.469399 -> 
+# slack -0.469399 -> -0.469399 -> 
+# slack -0.469399 -> -0.469399 -> 
+# slack -0.469399 -> -0.469399 -> 
+# slack -0.469399 -> -0.469399 -> 
+# slack -0.469399 -> -0.469399 -> 
+# slack -0.469399 -> -0.469399 -> 
+# slack -0.469399 -> -0.469399 -> 
+# slack -0.469399 -> -0.469399 -> 
+# slack -0.469399 -> -0.469399 -> 
+# slack -0.469399 -> -0.469399 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.469399 -> -0.503400 -> -0.469330
+# slack -0.469330 -> -0.469330 -> 
+# slack -0.469330 -> -0.469330 -> 
+# slack -0.469330 -> -0.469330 -> 
+# slack -0.469330 -> -0.469330 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.469330 -> -0.529842 -> -0.469330
+# slack -0.469330 -> -0.488342 -> 
+# slack -0.488342 -> -0.488342 -> 
+# slack -0.488342 -> -0.488342 -> 
+# slack -0.488342 -> -0.487306 -> 
+# slack -0.487306 -> -0.487306 -> 
+# slack -0.487306 -> -0.487306 -> 
+# slack -0.487306 -> -0.487306 -> 
+# slack -0.487306 -> -0.487306 -> 
+# slack -0.487306 -> -0.487306 -> 
+# slack -0.487306 -> -0.487306 -> 
+# slack -0.487306 -> -0.487306 -> 
+# slack -0.487306 -> -0.487306 -> 
+# slack -0.487306 -> -0.487306 -> 
+# slack -0.487306 -> -0.487306 -> 
+# slack -0.487306 -> -0.487306 -> 
+# slack -0.487306 -> -0.487306 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.487306 -> -0.529755 -> -0.487248
+# slack -0.487248 -> -0.487248 -> 
+# slack -0.487248 -> -0.487248 -> 
+# slack -0.487248 -> -0.487248 -> 
+# slack -0.487248 -> -0.487248 -> 
+# slack -0.487248 -> -0.487248 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.487248 -> -0.514075 -> -0.487248
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.487248 -> -0.529013 -> -0.487248
+# slack -0.487248 -> -0.487248 -> 
+# slack -0.487248 -> -0.487248 -> 
+# slack -0.487248 -> -0.487248 -> 
+# slack -0.487248 -> -0.487248 -> 
+# slack -0.487248 -> -0.485613 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.485613 -> -0.567189 -> -0.485591
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.485591 -> -0.549472 -> -0.485591
+# slack -0.485591 -> -0.485591 -> 
+# slack -0.485591 -> -0.485591 -> 
+# slack -0.485591 -> -0.485591 -> 
+# slack -0.485591 -> -0.485591 -> 
+# slack -0.485591 -> -0.485591 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.485591 -> -0.553104 -> -0.485552
+# slack -0.485552 -> -0.484610 -> 
+# slack -0.484610 -> -0.484610 -> 
+# slack -0.484610 -> -0.484610 -> 
+# slack -0.484610 -> -0.490586 -> 
+# slack -0.490586 -> -0.490586 -> 
+# slack -0.490586 -> -0.490586 -> 
+# slack -0.490586 -> -0.490586 -> 
+# slack -0.490586 -> -0.490586 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.490586 -> -0.577253 -> -0.490576
+# slack -0.490576 -> -0.490576 -> 
+# slack -0.490576 -> -0.490576 -> 
+# slack -0.490576 -> -0.490970 -> 
+# slack -0.490970 -> -0.490970 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.490970 -> -0.520069 -> -0.490935
+# slack -0.490935 -> -0.497306 -> 
+# slack -0.497306 -> -0.497306 -> 
+# slack -0.497306 -> -0.497306 -> 
+# slack -0.497306 -> -0.497306 -> 
+# slack -0.497306 -> -0.497306 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.497306 -> -0.560890 -> -0.497306
+# slack -0.497306 -> -0.497306 -> 
+# slack -0.497306 -> -0.497306 -> 
+# slack -0.497306 -> -0.497306 -> 
+# slack -0.497306 -> -0.497306 -> 
+# slack -0.497306 -> -0.497306 -> 
+# slack -0.497306 -> -0.496261 -> 
+# slack -0.496261 -> -0.494833 -> 
+# slack -0.494833 -> -0.494833 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494833 -> -0.556043 -> -0.494833
+# slack -0.494833 -> -0.494833 -> 
+# slack -0.494833 -> -0.494833 -> 
+# slack -0.494833 -> -0.494833 -> 
+# slack -0.494833 -> -0.494833 -> 
+# slack -0.494833 -> -0.494833 -> 
+# slack -0.494833 -> -0.494833 -> 
+# slack -0.494833 -> -0.494833 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494833 -> -0.551882 -> -0.494833
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494833 -> -0.547778 -> -0.494833
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494833 -> -0.521013 -> -0.494833
+# slack -0.494833 -> -0.494833 -> 
+# slack -0.494833 -> -0.494833 -> 
+# slack -0.494833 -> -0.494833 -> 
+# slack -0.494833 -> -0.494833 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494833 -> -0.568279 -> -0.494833
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494833 -> -0.543700 -> -0.494833
+# slack -0.494833 -> -0.494833 -> 
+# slack -0.494833 -> -0.494833 -> 
+# slack -0.494833 -> -0.494833 -> 
+# slack -0.494833 -> -0.494833 -> 
+# slack -0.494833 -> -0.494833 -> 
+# slack -0.494833 -> -0.494833 -> 
+# slack -0.494833 -> -0.494833 -> 
+# slack -0.494833 -> -0.494833 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494833 -> -0.592837 -> -0.494805
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494805 -> -0.559831 -> -0.494805
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494805 -> -0.591364 -> -0.494805
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494805 -> -0.533656 -> -0.494805
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494805 -> -0.543344 -> -0.494805
+# slack -0.494805 -> -0.494805 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494805 -> -0.540148 -> -0.494805
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+# slack -0.494805 -> -0.494805 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494805 -> -0.585117 -> -0.494780
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494780 -> -0.502514 -> -0.494780
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494780 -> -0.551963 -> -0.494780
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494780 -> -0.545669 -> -0.494780
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494780 -> -0.506012 -> -0.494780
+# slack -0.494780 -> -0.494780 -> 
+# slack -0.494780 -> -0.494780 -> 
+# slack -0.494780 -> -0.494780 -> 
+# slack -0.494780 -> -0.494780 -> 
+# slack -0.494780 -> -0.494780 -> 
+# slack -0.494780 -> -0.494780 -> 
+# slack -0.494780 -> -0.494780 -> 
+# slack -0.494780 -> -0.494780 -> 
+# slack -0.494780 -> -0.494780 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494780 -> -0.514798 -> -0.494780
+# slack -0.494780 -> -0.494780 -> 
+# slack -0.494780 -> -0.494780 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494780 -> -0.527795 -> -0.494770
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494770 -> -0.534593 -> -0.494770
+# slack -0.494770 -> -0.494770 -> 
+# slack -0.494770 -> -0.494770 -> 
+# slack -0.494770 -> -0.494770 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494770 -> -0.539664 -> -0.494770
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494770 -> -0.553592 -> -0.494770
+# slack -0.494770 -> -0.494770 -> 
+# slack -0.494770 -> -0.494770 -> 
+# slack -0.494770 -> -0.494770 -> 
+# slack -0.494770 -> -0.494770 -> 
+# slack -0.494770 -> -0.494770 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494770 -> -0.563944 -> -0.494758
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.573445 -> -0.494758
+# slack -0.494758 -> -0.494758 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.514280 -> -0.494758
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.527224 -> -0.494758
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.530663 -> -0.494758
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.548635 -> -0.494758
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.624686 -> -0.494758
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.603446 -> -0.494758
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.552937 -> -0.494758
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.633957 -> -0.494758
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.615037 -> -0.494758
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.535400 -> -0.494758
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.551361 -> -0.494758
+# slack -0.494758 -> -0.494758 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.555478 -> -0.494758
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.518557 -> -0.494758
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.598528 -> -0.494758
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.617504 -> -0.494758
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.621589 -> -0.494758
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.515345 -> -0.494758
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.579334 -> -0.494758
+# slack -0.494758 -> -0.494758 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.505538 -> -0.494758
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.526747 -> -0.494758
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.517725 -> -0.494758
+# slack -0.494758 -> -0.494758 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.507726 -> -0.494758
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.503368 -> -0.494758
+# slack -0.494758 -> -0.494758 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.616080 -> -0.494758
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.504349 -> -0.494758
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494758 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494758 -> -0.616822 -> -0.494758
+# slack -0.494758 -> -0.494758 -> 
+# slack -0.494758 -> -0.494164 -> 
+# slack -0.494164 -> -0.494164 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494164 -> -0.523028 -> -0.494140
+# slack -0.494140 -> -0.494140 -> 
+# slack -0.494140 -> -0.494140 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494140 -> -0.513649 -> -0.494140
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494140 -> -0.532375 -> -0.494140
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494140 -> -0.502111 -> -0.494140
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.494140 -> -0.502068 -> -0.494140
+# slack -0.494140 -> -0.494140 -> 
+# slack -0.494140 -> -0.494140 -> 
+# slack -0.494140 -> -0.499357 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.499357 -> -0.504216 -> -0.499357
+# slack -0.499357 -> -0.499357 -> 
+# slack -0.499357 -> -0.499357 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.499357 -> -0.580190 -> -0.499357
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.499357 -> -0.557347 -> -0.499357
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.499357 -> -0.552786 -> -0.499357
+# slack -0.499357 -> -0.499357 -> 
+# slack -0.499357 -> -0.499357 -> 
+# slack -0.499357 -> -0.499357 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.499357 -> -0.543895 -> -0.499357
+# slack -0.499357 -> -0.499357 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.499357 -> -0.501335 -> -0.499357
+# slack -0.499357 -> -0.499357 -> 
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.499357 -> -0.507394 -> -0.499357
+Information: Abandoning fast timing updates. Forced full update. (PTE-018)
+# slack -0.499357 -> -0.505222 -> -0.499357
+# slack -0.499357 -> -0.499508 -> 
+Error: Nothing matched for -of_objects collection (SEL-005)
+slack 1
+Information: Running switching activity propagation with 4 threads!
+{_sel6985 7.32677013502e-06 CORE65LPHVT/HS65_LH_BFX13}
+CORE65LPHVT/HS65_LH_BFX9 -> CORE65LPHVT/HS65_LH_BFX13
+slack -0.499508 -> -0.499508 -> 
+Final cell -> CORE65LPHVT/HS65_LH_BFX9
+LOOP 1: slack 1
+-0.499508
+-0.499357
+-0.492881
+-0.491134
+-0.491134
+-0.488513
+-0.484985
+-0.483509
+-0.482715
+-0.479033
+-0.478594
+-0.476544
+-0.475336
+-0.466932
+-0.464735
+-0.462911
+-0.462911
+-0.462756
+-0.462701
+-0.460864
+-0.460864
+-0.459213
+-0.458737
+-0.458437
+-0.450520
+-0.428339
+-0.421782
+-0.407461
+-0.406340
+-0.392827
+-0.389790
+-0.388487
+-0.378356
+-0.375806
+-0.374666
+-0.363994
+-0.361947
+-0.359696
+-0.353983
+-0.346030
+-0.335093
+-0.322373
+-0.306023
+-0.281669
+-0.277188
+-0.275231
+-0.271218
+-0.257885
+-0.254780
+-0.252903
+-0.175996
+-0.158358
+-0.158358
+-0.135337
+-0.127240
+-0.123130
+-0.111490
+-0.110921
+-0.100641
+-0.065095
+-0.065095
+-0.049321
+-0.047972
+-0.032176
+-0.031875
+-0.031875
+-0.031606
+-0.023730
+-0.021465
+-0.021465
+0.094763
+0.145770
+0.163347
+0.172562
+0.271587
+0.274644
+0.329794
+0.361348
+0.402219
+0.648761
+0.687567
+0.687567
+0.720524
+0.872793
+0.872793
+0.872793
+0.872793
+0.878622
+0.878622
+0.948410
+1.080806
+1.087574
+1.087574
+1.146861
+1.174713
+1.195133
+1.309952
+1.348590
+1.349398
+1.352016
+1.352016
+1.352016
+1.352016
+1.352016
+1.362568
+1.362568
+1.366378
+1.366378
+1.367604
+1.368964
+1.368964
+1.368964
+1.370047
+1.378647
+1.382500
+1.385238
+1.388744
+1.388893
+1.388902
+1.388995
+1.389071
+1.389071
+1.389246
+
+
+------------------------
+RESULTS
+
+TIME:   113957 ms
+P LEAK: 1.388e-06/1.645e-07 	-> 8.4376899696
+P DYN:  0.0007149/0.0006889 	-> 1.03774132675
+AREA:   2081.04/2080.0 		-> 1.0005
+
+POINTS:  9.14948051554
+
+------------------------
+pt_shell> 
+Information: Interrupting current command. (INT-2)
+Information: One more interrupt will exit process. (INT-3)
+Information: Process terminated by interrupt. (INT-4)
+
+Timing updates: 745 (668 implicit, 77 explicit) (668 incremental, 77 full, 0 logical)
+Noise updates: 0 (0 implicit, 0 explicit) (0 incremental, 0 full)
+Maximum memory usage for this session: 1179.28 MB
+CPU usage for this session: 282 seconds 
+Elapsed time for this session: 165 seconds
