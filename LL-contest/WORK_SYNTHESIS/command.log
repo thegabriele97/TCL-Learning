@@ -1,7 +1,7 @@
 #@ # 
 #@ # Running dc_shell Version O-2018.06-SP4 for linux64 -- Nov 27, 2018
-#@ # Date:   Thu Jul  1 23:40:41 2021
-#@ # Run by: s281389@worksynthesis
+#@ # Date:   Sun Jul  4 11:33:12 2021
+#@ # Run by: s281589@worksynthesis
 #@ 
 
 source /tools/synopsys_18/syn/O-2018.06-SP4/admin/setup/.synopsys_dc.setup
@@ -6674,7 +6674,6 @@ source tcl_scripts/synthesis.tcl
 #@ # -- Starting source ./tcl_scripts/power_features.tcl
 
 #@ set_attribute [find library CORE65LPLVT] default_threshold_voltage_group LVT -type string
-#@ #set_attribute [find library CORE65LPHVT] default_threshold_voltage_group HVT -type string
 #@ # -- End source ./tcl_scripts/power_features.tcl
 
 #@ 
@@ -6703,7 +6702,7 @@ source tcl_scripts/synthesis.tcl
 #@ ######################################################################
 #@ 
 #@ # DEFINE CIRCUITS and WORK DIRS
-#@ set blockName "c1908"
+#@ set blockName "aes_cipher_top"
 #@ set active_design $blockName
 #@ 
 #@ # DEFINE WORK DIRS
@@ -6747,39 +6746,40 @@ source tcl_scripts/synthesis.tcl
 #@ ##
 #@ ######################################################################
 #@ source "./rtl/${blockName}/sdc/${blockName}.sdc"
-#@ # -- Starting source ./rtl/c1908/sdc/c1908.sdc
+#@ # -- Starting source ./rtl/aes_cipher_top/sdc/aes_cipher_top.sdc
 
 #@ set sdc_version 1.3
 #@ 
 #@ set clockName "clk"
-#@ set clockPeriod "1.3"
-#@ 
-#@ create_clock -name clk -period $clockPeriod
+#@ set rstName "rst"
+#@ set clockPeriod "5.0"
 #@ 
 #@ ;# Set-up Clock
-#@ set_clock_uncertainty [format %.4f [expr $clockPeriod*0.05]]  $clockName
+#@ create_clock -period $clockPeriod $clockName
+#@ set_clock_uncertainty 0.05 $clockName
+#@ set_clock_transition 0.05 $clockName
+#@ set_clock_latency 0.05 $clockName
+#@ set_dont_touch_network $clockName
+#@ set_ideal_network $clockName
+#@ set_dont_touch_network $rstName
+#@ set_ideal_network $rstName
 #@ 
 #@ ;# fix hold constraints
-#@ set_min_delay 0.10 -from [all_inputs] -to [all_outputs]
+#@ set_min_delay 0.20 -from [all_inputs] -to [all_outputs]
 #@ 
 #@ ;# Set-up IOs
-#@ set STM_minStrength_buf_LVT "HS65_LL_BFX7"
-#@ #set STM_minStrength_buf_SVT "HS65_LS_BFX7"
-#@ #set STM_minStrength_buf_HVT "HS65_LH_BFX7"
+#@ set_driving_cell -library "CORE65LPSVT_wc_1.10V_125C.db:CORE65LPSVT" -lib_cell "HS65_LS_BFX7" [all_inputs]
 #@ 
-#@ set_driving_cell -library "CORE65LPLVT_nom_1.20V_25C.db:CORE65LPLVT" -lib_cell $STM_minStrength_buf_LVT [all_inputs]
-#@ #set_driving_cell -library "CORE65LPSVT_nom_1.20V_25C.db:CORE65LPSVT" -lib_cell $STM_minStrength_buf_SVT [all_inputs]
-#@ #set_driving_cell -library "CORE65LPHVT_nom_1.20V_25C.db:CORE65LPHVT" -lib_cell $STM_minStrength_buf_HVT [all_inputs]
-#@ 
-#@ set_input_delay  [format %.4f [expr $clockPeriod*0.10]] -clock $clockName [all_inputs]
-#@ set_output_delay [format %.4f [expr $clockPeriod*0.10]] -clock $clockName [all_outputs]
+#@ set_input_delay 0.25 -clock $clockName [all_inputs]
+#@ set_output_delay 0.15 -clock $clockName [all_outputs]
+#@ set_input_delay 0 -clock clk clk
 #@ 
 #@ set max_transition_time 0.1
 #@ set_max_transition $max_transition_time [all_outputs]
 #@ 
 #@ ;# Set area constraint
 #@ set_max_area 0
-#@ # -- End source ./rtl/c1908/sdc/c1908.sdc
+#@ # -- End source ./rtl/aes_cipher_top/sdc/aes_cipher_top.sdc
 
 #@ source "./scripts/power_features.tcl"
 #@ 
@@ -6816,3 +6816,5 @@ source tcl_scripts/synthesis.tcl
 #@ # -- End source tcl_scripts/synthesis.tcl
 
 report_threshold_voltage_group
+report_timing
+exit

@@ -1,15 +1,17 @@
 set blockName "c1908"
-set allowed_slack -0.5
-
+# set blockName "c5315"
+# set blockName "c432"
+set allowed_slack -3.00
 source ./tcl_scripts/pt_analysis.tcl
 source ./tcl_scripts/dualVth.tcl
 
 proc check_slack {allowed_slack} {
-    set path_list [get_timing_paths -slack_greater_than -100 -slack_lesser_than $allowed_slack]
+    set path_list [get_timing_paths -slack_lesser_than $allowed_slack]
     set empty 1
     foreach_in_collection elem $path_list {
         puts $elem
         set empty 0
+        break
     }
     return $empty
 }
@@ -25,23 +27,23 @@ proc get_area {} {
 
 proc get_leakage {} {
     # Cell Leakage Power   = 4.150e-07   ( 0.09%)
-    report_power > "/tmp/power.rpt"
-    set fp [open "/tmp/power.rpt" r]
+    report_power > "power.rpt"
+    set fp [open "power.rpt" r]
     set pwr_report [read $fp]
     close $fp
     if { [ regexp {Cell Leakage Power[ ]*=[ ]*([0-9\.\-e]+)} $pwr_report all_matches value ] } {
         return $value
     } else {
         puts "ERROR on Cell Internal Power"
-        exit > "/tmp/void"
+        exit > "void"
     }
 }
 
 proc get_dynamic {} {
     #   Net Switching Power  = 3.195e-04   (66.70%)
     #   Cell Internal Power  = 1.591e-04   (33.21%
-    report_power > "/tmp/power.rpt"
-    set fp [open "/tmp/power.rpt" r]
+    report_power > "power.rpt"
+    set fp [open "power.rpt" r]
     set pwr_report [read $fp]
     close $fp
 
@@ -52,14 +54,14 @@ proc get_dynamic {} {
     } else {
         puts "not found"
         puts "ERROR on Cell Internal Power"
-        exit > "/tmp/void"
+        exit > "void"
     }
 
     if { [ regexp {Cell Internal Power[ ]*=[ ]*([0-9\.\-e]+)} $pwr_report all_matches value ] } {
         set sum [ expr { $sum + $value } ]
     } else {
         puts "ERROR on Cell Internal Power"
-        exit > "/tmp/void"
+        exit > "void"
     }
     return $sum
 }
@@ -87,7 +89,7 @@ if { $empty == 1 } {
     set pleak_ratio [ expr { $initial_leakage / $final_leakage } ]
     set pdyn_ratio [ expr { $initial_dynamic / $final_dynamic } ]
     set area_ratio [ expr { $initial_area / $final_area } ]
-    set points [ expr { ($area_ratio + $pleak_ratio + $pdyn_ratio) * ( 1 - ($time/(900 * 1000))) } ]
+    set points [ expr { ($area_ratio + $pleak_ratio + $pdyn_ratio) * ( 1 - ($time/double((900 * 1000)))) } ]
 
     # Summary
     puts ""
@@ -95,6 +97,7 @@ if { $empty == 1 } {
     puts "------------------------"
     puts "RESULTS"
     puts ""
+    puts "SLACK:  $allowed_slack"
     puts "TIME:   $time ms"
     puts "P LEAK: $initial_leakage\/$final_leakage \t-> $pleak_ratio"
     puts "P DYN:  $initial_dynamic\/$final_dynamic \t-> $pdyn_ratio"
@@ -111,4 +114,3 @@ if { $empty == 1 } {
     puts ""
     puts "------------------------"
 }
-exit > "/tmp/void"
