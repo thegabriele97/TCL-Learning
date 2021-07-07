@@ -1,11 +1,7 @@
 /////////////////////////////////////////////////////////////
 // Created by: Synopsys DC Expert(TM) in wire load mode
 // Version   : O-2018.06-SP4
-<<<<<<< HEAD
-// Date      : Thu Jul  1 23:42:04 2021
-=======
 // Date      : Thu Jul  1 23:57:02 2021
->>>>>>> origin/LLContest-NEW
 /////////////////////////////////////////////////////////////
 
 
