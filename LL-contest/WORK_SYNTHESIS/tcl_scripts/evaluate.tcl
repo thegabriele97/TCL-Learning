@@ -1,7 +1,7 @@
-# set blockName "c1908"
-set blockName "c5315"
+set blockName "c1908"
+# set blockName "c5315"
 # set blockName "c432"
-set allowed_slack -0.5
+set allowed_slack -3.00
 source ./tcl_scripts/pt_analysis.tcl
 source ./tcl_scripts/dualVth.tcl
 
@@ -97,6 +97,7 @@ if { $empty == 1 } {
     puts "------------------------"
     puts "RESULTS"
     puts ""
+    puts "SLACK:  $allowed_slack"
     puts "TIME:   $time ms"
     puts "P LEAK: $initial_leakage\/$final_leakage \t-> $pleak_ratio"
     puts "P DYN:  $initial_dynamic\/$final_dynamic \t-> $pdyn_ratio"
