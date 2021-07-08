@@ -1,7 +1,7 @@
-set blockName "c1908"
-# set blockName "c5315"
+# set blockName "c1908"
+set blockName "c5315"
 # set blockName "c432"
-set allowed_slack -3.00
+set allowed_slack -4.05
 source ./tcl_scripts/pt_analysis.tcl
 source ./tcl_scripts/dualVth.tcl
 
