@@ -1,6 +1,6 @@
 #@ # 
 #@ # Running pt_shell Version O-2018.06-SP4 for linux64 -- Nov 30, 2018
-#@ # Date:   Thu Jul  8 12:33:37 2021
+#@ # Date:   Fri Jul  9 11:02:18 2021
 #@ # Run by: s290136@worksynthesis
 #@ 
 
@@ -877,7 +877,7 @@ source ./tcl_scripts/evaluate.tcl
 
 #@ # set blockName "c1908"
 #@ set blockName "c5315"
-#@ # set blockName "c432"
+#@ #set blockName "c432"
 #@ set allowed_slack -4.05
 #@ source ./tcl_scripts/pt_analysis.tcl
 #@ # -- Starting source ./tcl_scripts/pt_analysis.tcl
@@ -938,6 +938,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ suppress_message PTE-139
 #@ suppress_message LNK-041
 #@ suppress_message NED-045
+#@ suppress_message PTE-018
 #@ ######################################################################
 #@ ##
 #@ ## READ DESIGN
@@ -1024,14 +1025,14 @@ source ./tcl_scripts/evaluate.tcl
 #@     return $res
 #@ }
 #@ 
-#@ proc print_slacks {} {
+#@ # proc print_slacks {} {
 #@ 
-#@ 	set path_list [get_timing_paths -slack_greater_than -10 -max_paths 2000000]
-#@ 	foreach_in_collection path $path_list {
-#@ 		puts "[get_attribute $path slack]"
-#@ 	}
+#@ # 	set path_list [get_timing_paths -slack_greater_than -10 -max_paths 2000000]
+#@ # 	foreach_in_collection path $path_list {
+#@ # 		puts "[get_attribute $path slack]"
+#@ # 	}
 #@ 
-#@ }
+#@ # }
 #@ 
 #@ proc set_cell_HVT {cell} {
 #@ 	set type HVT
@@ -1333,18 +1334,18 @@ source ./tcl_scripts/evaluate.tcl
 #@ 		set cell [lindex $prio 0]
 #@ 		set curr_cell_lib_name  [get_attribute [get_lib_cell -o $cell] full_name]
 #@ 		
-#@ 		puts -nonewline "slack [get_attribute [get_timing_paths] slack] -> "
+#@ 		# puts -nonewline "slack [get_attribute [get_timing_paths] slack] -> "
 #@ 		set_cell_HVT $cell
 #@ 		update_timing -full
-#@ 		puts -nonewline "[get_attribute [get_timing_paths] slack] -> "
+#@ 		# puts -nonewline "[get_attribute [get_timing_paths] slack] -> "
 #@ 
 #@ 		if {[is_ok_slack $allowed_slack] == 0} {
 #@ 			size_cell $cell $curr_cell_lib_name
 #@ 			update_timing -full
-#@ 			puts -nonewline "[get_attribute [get_timing_paths] slack]"
+#@ 			# puts -nonewline "[get_attribute [get_timing_paths] slack]"
 #@ 		}
 #@ 
-#@ 		puts ""
+#@ 		# puts ""
 #@ 		# if {[expr {[clock millisec] - $start_time}] > 75000} { 
 #@ 		# 	break
 #@ 		# }
@@ -1360,22 +1361,22 @@ source ./tcl_scripts/evaluate.tcl
 #@ 			set curr_cell_lib_name [get_attribute [get_lib_cell -o $cell] full_name]
 #@ 			if {[lsearch -index 1 $priority $curr_cell_lib_name] == -1} {
 #@ 
-#@ 				puts -nonewline "# slack [get_attribute [get_timing_paths] slack] -> "
+#@ 				# puts -nonewline "# slack [get_attribute [get_timing_paths] slack] -> "
 #@ 				set_cell_HVT $cell
-#@ 				puts -nonewline "[get_attribute [get_timing_paths] slack] -> "
+#@ 				# puts -nonewline "[get_attribute [get_timing_paths] slack] -> "
 #@ 
 #@ 				if {[is_ok_slack $allowed_slack] == 0} {
 #@ 					size_cell $cell $curr_cell_lib_name
 #@ 					update_timing -full
-#@ 					puts -nonewline "[get_attribute [get_timing_paths] slack]"
+#@ 					# puts -nonewline "[get_attribute [get_timing_paths] slack]"
 #@ 				}
 #@ 
-#@ 				puts ""
+#@ 				# puts ""
 #@ 			}
 #@ 		}
 #@ 	}
 #@ 	
-#@ 	puts "slack [is_ok_slack $allowed_slack]"
+#@ 	# puts "slack [is_ok_slack $allowed_slack]"
 #@ 
 #@ 	foreach_in_collection cell [get_cell] {
 #@ 		set result [compute_priority_area_dummy $cell]
@@ -1426,7 +1427,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ 			}
 #@ 		}
 #@ 
-#@ 		puts "LOOP $found: slack [is_ok_slack $allowed_slack]"
+#@ 		# puts "LOOP $found: slack [is_ok_slack $allowed_slack]"
 #@ 		#gets stdin
 #@ 
 #@ 		if {$found == 0} {
@@ -1440,7 +1441,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ 
 #@ 
 #@ 	while {[is_ok_slack $allowed_slack] == 0} {
-#@ 		puts "RESTORING SLACK...."
+#@ 		# puts "RESTORING SLACK...."
 #@ 		set worst_path [get_timing_paths]
 #@ 		set cells []
 #@ 
@@ -1453,7 +1454,7 @@ source ./tcl_scripts/evaluate.tcl
 #@ 			}
 #@ 		}
 #@ 
-#@ 		puts $cells
+#@ 		# puts $cells
 #@ 		foreach cell $cells {
 #@ 			set_cell_LVT $cell	
 #@ 			update_timing -full
@@ -1474,10 +1475,10 @@ source ./tcl_scripts/evaluate.tcl
 #@ 	#################################
 #@ 	### INSERT YOUR COMMANDS HERE ###
 #@ 	#################################
-#@ 	print_slacks
+#@ 	# print_slacks
 #@ 	#gets stdin
 #@ 	start $allowed_slack
-#@ 	print_slacks
+#@ 	# print_slacks
 #@ 	
 #@ 	#gets stdin
 #@ 
