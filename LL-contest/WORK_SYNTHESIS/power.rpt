@@ -2,7 +2,7 @@
 Report : Averaged Power
 Design : c5315
 Version: O-2018.06-SP4
-Date   : Thu Jul  8 12:36:48 2021
+Date   : Fri Jul  9 11:05:09 2021
 ****************************************
 
 
@@ -17,16 +17,16 @@ Power Group             Power     Power      Power      Power   (     %)  Attrs
 --------------------------------------------------------------------------------
 clock_network              0.0000    0.0000    0.0000    0.0000 ( 0.00%)  i
 register                   0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
-combinational           1.167e-04 5.290e-04 5.602e-09 6.458e-04 (100.00%) 
+combinational           1.079e-04 5.214e-04 4.998e-09 6.293e-04 (100.00%) 
 sequential                 0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
 memory                     0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
 io_pad                     0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
 black_box                  0.0000    0.0000    0.0000    0.0000 ( 0.00%)  
 
-  Net Switching Power  = 5.290e-04   (81.92%)
-  Cell Internal Power  = 1.167e-04   (18.08%)
-  Cell Leakage Power   = 5.602e-09   ( 0.00%)
+  Net Switching Power  = 5.214e-04   (82.86%)
+  Cell Internal Power  = 1.079e-04   (17.14%)
+  Cell Leakage Power   = 4.998e-09   ( 0.00%)
                          ---------
-Total Power            = 6.458e-04  (100.00%)
+Total Power            = 6.293e-04  (100.00%)
 
 1

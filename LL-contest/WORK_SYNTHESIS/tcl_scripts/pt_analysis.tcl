@@ -37,6 +37,7 @@ suppress_message SEL-002
 suppress_message PTE-139
 suppress_message LNK-041
 suppress_message NED-045
+suppress_message PTE-018
 ######################################################################
 ##
 ## READ DESIGN

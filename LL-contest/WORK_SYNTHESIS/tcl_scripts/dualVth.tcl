@@ -6,14 +6,14 @@ proc max args {
     return $res
 }
 
-proc print_slacks {} {
+# proc print_slacks {} {
 
-	set path_list [get_timing_paths -slack_greater_than -10 -max_paths 2000000]
-	foreach_in_collection path $path_list {
-		puts "[get_attribute $path slack]"
-	}
+# 	set path_list [get_timing_paths -slack_greater_than -10 -max_paths 2000000]
+# 	foreach_in_collection path $path_list {
+# 		puts "[get_attribute $path slack]"
+# 	}
 
-}
+# }
 
 proc set_cell_HVT {cell} {
 	set type HVT
@@ -315,18 +315,18 @@ proc start {allowed_slack} {
 		set cell [lindex $prio 0]
 		set curr_cell_lib_name  [get_attribute [get_lib_cell -o $cell] full_name]
 		
-		puts -nonewline "slack [get_attribute [get_timing_paths] slack] -> "
+		# puts -nonewline "slack [get_attribute [get_timing_paths] slack] -> "
 		set_cell_HVT $cell
 		update_timing -full
-		puts -nonewline "[get_attribute [get_timing_paths] slack] -> "
+		# puts -nonewline "[get_attribute [get_timing_paths] slack] -> "
 
 		if {[is_ok_slack $allowed_slack] == 0} {
 			size_cell $cell $curr_cell_lib_name
 			update_timing -full
-			puts -nonewline "[get_attribute [get_timing_paths] slack]"
+			# puts -nonewline "[get_attribute [get_timing_paths] slack]"
 		}
 
-		puts ""
+		# puts ""
 		# if {[expr {[clock millisec] - $start_time}] > 75000} { 
 		# 	break
 		# }
@@ -342,22 +342,22 @@ proc start {allowed_slack} {
 			set curr_cell_lib_name [get_attribute [get_lib_cell -o $cell] full_name]
 			if {[lsearch -index 1 $priority $curr_cell_lib_name] == -1} {
 
-				puts -nonewline "# slack [get_attribute [get_timing_paths] slack] -> "
+				# puts -nonewline "# slack [get_attribute [get_timing_paths] slack] -> "
 				set_cell_HVT $cell
-				puts -nonewline "[get_attribute [get_timing_paths] slack] -> "
+				# puts -nonewline "[get_attribute [get_timing_paths] slack] -> "
 
 				if {[is_ok_slack $allowed_slack] == 0} {
 					size_cell $cell $curr_cell_lib_name
 					update_timing -full
-					puts -nonewline "[get_attribute [get_timing_paths] slack]"
+					# puts -nonewline "[get_attribute [get_timing_paths] slack]"
 				}
 
-				puts ""
+				# puts ""
 			}
 		}
 	}
 	
-	puts "slack [is_ok_slack $allowed_slack]"
+	# puts "slack [is_ok_slack $allowed_slack]"
 
 	foreach_in_collection cell [get_cell] {
 		set result [compute_priority_area_dummy $cell]
@@ -408,7 +408,7 @@ proc start {allowed_slack} {
 			}
 		}
 
-		puts "LOOP $found: slack [is_ok_slack $allowed_slack]"
+		# puts "LOOP $found: slack [is_ok_slack $allowed_slack]"
 		#gets stdin
 
 		if {$found == 0} {
@@ -422,7 +422,7 @@ proc start {allowed_slack} {
 
 
 	while {[is_ok_slack $allowed_slack] == 0} {
-		puts "RESTORING SLACK...."
+		# puts "RESTORING SLACK...."
 		set worst_path [get_timing_paths]
 		set cells []
 
@@ -435,7 +435,7 @@ proc start {allowed_slack} {
 			}
 		}
 
-		puts $cells
+		# puts $cells
 		foreach cell $cells {
 			set_cell_LVT $cell	
 			update_timing -full
@@ -456,10 +456,10 @@ proc dualVth {args} {
 	#################################
 	### INSERT YOUR COMMANDS HERE ###
 	#################################
-	print_slacks
+	# print_slacks
 	#gets stdin
 	start $allowed_slack
-	print_slacks
+	# print_slacks
 	
 	#gets stdin
 
